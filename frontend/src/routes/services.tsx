@@ -5,6 +5,70 @@ import ProductPageDemo from "@/components/ui/product-detail-demo";
 import SaasDashboardMockup from "@/components/ui/saas-dashboard";
 import DigitalMarketingMockup from "@/components/ui/digital-marketing-mockup";
 
+
+const SpectraButton = ({ children, href }: { children: React.ReactNode, href?: string }) => {
+  const Component = href ? 'a' : 'button';
+  return (
+    <Component href={href} className="relative inline-flex group w-fit">
+      <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-purple-400 to-orange-500 rounded-full blur-[10px] opacity-40 group-hover:opacity-70 transition-opacity duration-500"></div>
+      <div className="relative flex items-center bg-gradient-to-r from-blue-500 via-purple-400 to-orange-500 p-[1.5px] rounded-full w-full shadow-sm">
+        <div className="relative flex items-center justify-between w-full bg-white rounded-full px-6 py-3 overflow-hidden">
+          
+          {/* Subtle Wavy Background Pattern */}
+          <div className="absolute inset-0 opacity-[0.5] pointer-events-none">
+            <svg width="100%" height="100%" viewBox="0 0 400 100" preserveAspectRatio="none">
+               <path d="M0,50 Q100,0 200,50 T400,50 M0,60 Q100,20 200,60 T400,60 M0,40 Q100,-10 200,40 T400,40 M0,70 Q100,30 200,70 T400,70" stroke="url(#wave-grad)" fill="none" strokeWidth="0.5" />
+               <defs>
+                 <linearGradient id="wave-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#3b82f6" />
+                    <stop offset="50%" stopColor="#a855f7" />
+                    <stop offset="100%" stopColor="#f97316" />
+                 </linearGradient>
+               </defs>
+            </svg>
+          </div>
+
+          <span className="relative z-10 text-gray-900 font-bold tracking-widest text-xs sm:text-sm mr-4 uppercase">
+            {children}
+          </span>
+          <div className="relative z-10 w-9 h-9 rounded-full border border-gray-100 flex items-center justify-center text-gray-900 bg-white shadow-[0_2px_10px_rgba(0,0,0,0.08)] group-hover:scale-105 transition-transform shrink-0">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M7 17L17 7M17 7H7M17 7V17" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </Component>
+  );
+};
+
+const SpectraIcon = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className="relative shrink-0">
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-500 via-purple-400 to-orange-500 rounded-full blur-[8px] opacity-40"></div>
+      <div className="relative bg-gradient-to-br from-blue-500 via-purple-400 to-orange-500 p-[1.5px] rounded-full shadow-sm">
+        <div className="relative w-12 h-12 md:w-14 md:h-14 rounded-full bg-white flex items-center justify-center text-gray-900 overflow-hidden">
+          {/* Subtle Wavy Background Pattern */}
+          <div className="absolute inset-0 opacity-[0.5] pointer-events-none">
+            <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
+               <path d="M0,50 Q25,20 50,50 T100,50 M0,60 Q25,30 50,60 T100,60" stroke="url(#icon-wave-grad)" fill="none" strokeWidth="0.5" />
+               <defs>
+                 <linearGradient id="icon-wave-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#3b82f6" />
+                    <stop offset="100%" stopColor="#f97316" />
+                 </linearGradient>
+               </defs>
+            </svg>
+          </div>
+          <div className="relative z-10">
+            {children}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export const Route = createFileRoute("/services")({
   head: () => ({
     meta: [
@@ -78,10 +142,7 @@ function Services() {
             </p>
 
             <div className="flex flex-wrap gap-4 items-center mb-16">
-              <a href="/contact" className="bg-black text-white px-8 py-4 rounded-full font-bold text-sm md:text-base hover:bg-gray-800 transition-colors shadow-xl flex items-center gap-2 group">
-                OUR SERVICES 
-                <span className="bg-white text-black rounded-full w-6 h-6 flex items-center justify-center transform group-hover:translate-x-1 transition-transform">↗</span>
-              </a>
+              <SpectraButton href="/contact">OUR SERVICES</SpectraButton>
               <a href="/portfolio" className="text-black px-6 py-4 rounded-full font-bold text-sm md:text-base hover:bg-black/5 transition-colors flex items-center gap-2 group">
                 VIEW WORK
                 <span className="border border-black rounded-full w-6 h-6 flex items-center justify-center transform group-hover:translate-x-1 transition-transform">↗</span>
@@ -244,9 +305,7 @@ function Services() {
             <div className="space-y-6 mb-12">
               {/* Feature 1 */}
               <div className="flex gap-4 items-start">
-                <div className="w-14 h-14 bg-black rounded-2xl flex items-center justify-center text-white shrink-0 shadow-md">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
-                </div>
+                <SpectraIcon><svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg></SpectraIcon>
                 <div className="pt-1">
                   <h4 className="font-bold text-gray-900 mb-1">Custom Websites</h4>
                   <p className="text-sm text-gray-600 leading-snug">Tailored websites built to match your brand and business goals.</p>
@@ -255,9 +314,7 @@ function Services() {
               
               {/* Feature 2 */}
               <div className="flex gap-4 items-start">
-                <div className="w-14 h-14 bg-black rounded-2xl flex items-center justify-center text-white shrink-0 shadow-md">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                </div>
+                <SpectraIcon><svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></SpectraIcon>
                 <div className="pt-1">
                   <h4 className="font-bold text-gray-900 mb-1">High Performance</h4>
                   <p className="text-sm text-gray-600 leading-snug">Optimized for speed, SEO, and flawless performance across all devices.</p>
@@ -266,9 +323,7 @@ function Services() {
 
               {/* Feature 3 */}
               <div className="flex gap-4 items-start">
-                <div className="w-14 h-14 bg-black rounded-2xl flex items-center justify-center text-white shrink-0 shadow-md">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                </div>
+                <SpectraIcon><svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg></SpectraIcon>
                 <div className="pt-1">
                   <h4 className="font-bold text-gray-900 mb-1">Responsive Design</h4>
                   <p className="text-sm text-gray-600 leading-snug">Pixel-perfect designs that adapt beautifully to every screen size.</p>
@@ -277,9 +332,7 @@ function Services() {
 
               {/* Feature 4 */}
               <div className="flex gap-4 items-start">
-                <div className="w-14 h-14 bg-black rounded-2xl flex items-center justify-center text-white shrink-0 shadow-md">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-                </div>
+                <SpectraIcon><svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg></SpectraIcon>
                 <div className="pt-1">
                   <h4 className="font-bold text-gray-900 mb-1">Secure & Scalable</h4>
                   <p className="text-sm text-gray-600 leading-snug">Clean, secure code with scalable architecture to grow with your business.</p>
@@ -288,10 +341,7 @@ function Services() {
             </div>
 
             <div className="flex flex-wrap gap-6 items-center">
-              <a href="/contact" className="bg-black text-white px-8 py-4 rounded-full font-bold text-xs md:text-sm hover:bg-gray-800 transition-colors shadow-lg flex items-center gap-2 group">
-                LET'S BUILD YOUR WEBSITE 
-                <span className="border border-white/30 rounded-full w-5 h-5 flex items-center justify-center transform group-hover:translate-x-1 transition-transform">↗</span>
-              </a>
+              <SpectraButton href="/contact">LET'S BUILD YOUR WEBSITE</SpectraButton>
               <a href="/portfolio" className="text-black font-bold text-xs md:text-sm hover:underline flex items-center gap-2 uppercase tracking-wide">
                 VIEW OUR WORK →
               </a>
@@ -425,9 +475,7 @@ function Services() {
             </div>
 
             <div className="flex flex-wrap gap-6 items-center mb-12">
-              <a href="/contact" className="bg-[#d5ff00] text-black px-8 py-4 rounded-full font-bold text-xs md:text-sm hover:bg-[#bce000] transition-colors shadow-lg flex items-center gap-2 group">
-                LET&apos;S BUILD YOUR APP →
-              </a>
+              <SpectraButton href="/contact">LET&apos;S BUILD YOUR APP</SpectraButton>
               <a href="/portfolio" className="text-white font-bold text-xs md:text-sm hover:text-[#d5ff00] transition-colors flex items-center gap-2 uppercase tracking-wide">
                 EXPLORE OUR WORK →
               </a>
@@ -485,9 +533,7 @@ function Services() {
             <div className="space-y-6 mb-12">
               {/* Feature 1 */}
               <div className="flex gap-4 items-start">
-                <div className="w-14 h-14 bg-gray-50 rounded-2xl flex items-center justify-center text-black shrink-0 border border-gray-200">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
-                </div>
+                <SpectraIcon><svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg></SpectraIcon>
                 <div className="pt-1">
                   <h4 className="font-bold text-gray-900 mb-1">Custom Online Stores</h4>
                   <p className="text-sm text-gray-600 leading-snug">Beautiful, flexible storefronts built around your products, brand, and business goals.</p>
@@ -496,9 +542,7 @@ function Services() {
               
               {/* Feature 2 */}
               <div className="flex gap-4 items-start">
-                <div className="w-14 h-14 bg-gray-50 rounded-2xl flex items-center justify-center text-black shrink-0 border border-gray-200">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                </div>
+                <SpectraIcon><svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></SpectraIcon>
                 <div className="pt-1">
                   <h4 className="font-bold text-gray-900 mb-1">Conversion-Focused UX</h4>
                   <p className="text-sm text-gray-600 leading-snug">Smooth product discovery, smart navigation, and frictionless checkout experiences.</p>
@@ -507,9 +551,7 @@ function Services() {
 
               {/* Feature 3 */}
               <div className="flex gap-4 items-start">
-                <div className="w-14 h-14 bg-gray-50 rounded-2xl flex items-center justify-center text-black shrink-0 border border-gray-200">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                </div>
+                <SpectraIcon><svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg></SpectraIcon>
                 <div className="pt-1">
                   <h4 className="font-bold text-gray-900 mb-1">Secure Payments</h4>
                   <p className="text-sm text-gray-600 leading-snug">Reliable payment integration with secure, seamless transactions across devices.</p>
@@ -518,9 +560,7 @@ function Services() {
 
               {/* Feature 4 */}
               <div className="flex gap-4 items-start">
-                <div className="w-14 h-14 bg-gray-50 rounded-2xl flex items-center justify-center text-black shrink-0 border border-gray-200">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                </div>
+                <SpectraIcon><svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg></SpectraIcon>
                 <div className="pt-1">
                   <h4 className="font-bold text-gray-900 mb-1">Powerful Store Management</h4>
                   <p className="text-sm text-gray-600 leading-snug">Easy product, order, customer, and inventory management — all in one place.</p>
@@ -529,9 +569,7 @@ function Services() {
             </div>
 
             <div className="flex flex-wrap gap-6 items-center mb-12">
-              <a href="/contact" className="bg-black text-white px-8 py-4 rounded-full font-bold text-xs md:text-sm hover:bg-gray-800 transition-colors shadow-lg flex items-center gap-2 group">
-                LET&apos;S BUILD YOUR STORE →
-              </a>
+              <SpectraButton href="/contact">LET&apos;S BUILD YOUR STORE</SpectraButton>
               <a href="/portfolio" className="text-gray-900 font-bold text-xs md:text-sm hover:text-black transition-colors flex items-center gap-2 uppercase tracking-wide">
                 VIEW E-COMMERCE WORK →
               </a>
@@ -614,9 +652,7 @@ function Services() {
             </div>
 
             <div className="flex flex-wrap gap-6 items-center mb-12">
-              <a href="/contact" className="bg-black text-white px-6 py-3 rounded-full font-bold text-xs md:text-sm hover:bg-gray-800 transition-colors shadow-[0_0_20px_rgba(213,255,0,0.2)] border border-gray-800 flex items-center gap-2 group">
-                LET&apos;S BUILD YOUR SAAS <span className="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center text-[10px] group-hover:border-white transition-colors">↗</span>
-              </a>
+              <SpectraButton href="/contact">LET&apos;S BUILD YOUR SAAS</SpectraButton>
               <a href="/portfolio" className="text-white font-bold text-xs md:text-sm hover:text-[#d5ff00] transition-colors flex items-center gap-2 uppercase tracking-wide">
                 VIEW OUR WORK →
               </a>
@@ -670,9 +706,7 @@ function Services() {
             <div className="space-y-6 mb-12">
               {/* Feature 1: SEO */}
               <div className="flex gap-4 items-center group cursor-pointer">
-                <div className="w-12 h-12 bg-white border border-gray-200 shadow-sm rounded-2xl flex items-center justify-center text-indigo-600 shrink-0 group-hover:border-indigo-500 group-hover:text-indigo-500 transition-colors">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                </div>
+                <SpectraIcon><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></SpectraIcon>
                 <div className="flex-1 pt-0.5">
                   <h4 className="font-bold text-gray-900 mb-0.5">SEO (Search Engine Optimization)</h4>
                   <p className="text-xs text-gray-500 leading-snug">Improve rankings, increase organic traffic, and grow your visibility.</p>
@@ -684,9 +718,7 @@ function Services() {
               
               {/* Feature 2: Social Media */}
               <div className="flex gap-4 items-center group cursor-pointer">
-                <div className="w-12 h-12 bg-white border border-gray-200 shadow-sm rounded-2xl flex items-center justify-center text-indigo-600 shrink-0 group-hover:border-indigo-500 group-hover:text-indigo-500 transition-colors">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"></path></svg>
-                </div>
+                <SpectraIcon><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"></path></svg></SpectraIcon>
                 <div className="flex-1 pt-0.5">
                   <h4 className="font-bold text-gray-900 mb-0.5">Social Media Marketing</h4>
                   <p className="text-xs text-gray-500 leading-snug">Build your brand, engage your audience, and grow across all major platforms.</p>
@@ -698,9 +730,7 @@ function Services() {
 
               {/* Feature 3: Google Ads */}
               <div className="flex gap-4 items-center group cursor-pointer">
-                <div className="w-12 h-12 bg-white border border-gray-200 shadow-sm rounded-2xl flex items-center justify-center text-indigo-600 shrink-0 group-hover:border-indigo-500 group-hover:text-indigo-500 transition-colors">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143z"></path></svg>
-                </div>
+                <SpectraIcon><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143z"></path></svg></SpectraIcon>
                 <div className="flex-1 pt-0.5">
                   <h4 className="font-bold text-gray-900 mb-0.5">Google Ads</h4>
                   <p className="text-xs text-gray-500 leading-snug">Reach high-intent customers and get the best ROI with smart ad campaigns.</p>
@@ -712,9 +742,7 @@ function Services() {
 
               {/* Feature 4: Meta Ads */}
               <div className="flex gap-4 items-center group cursor-pointer">
-                <div className="w-12 h-12 bg-white border border-gray-200 shadow-sm rounded-2xl flex items-center justify-center text-indigo-600 shrink-0 group-hover:border-indigo-500 group-hover:text-indigo-500 transition-colors">
-                  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18.66 6h-3.32C13.25 6 12 7.25 12 9.34v.5c0 2.09-1.25 3.34-3.34 3.34H5.34C3.25 13.18 2 14.43 2 16.52v.5C2 19.11 3.25 20.36 5.34 20.36h3.32c2.09 0 3.34-1.25 3.34-3.34v-.5c0-2.09 1.25-3.34 3.34-3.34h3.32c2.09 0 3.34-1.25 3.34-3.34v-.5C22 7.25 20.75 6 18.66 6z"></path></svg>
-                </div>
+                <SpectraIcon><svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18.66 6h-3.32C13.25 6 12 7.25 12 9.34v.5c0 2.09-1.25 3.34-3.34 3.34H5.34C3.25 13.18 2 14.43 2 16.52v.5C2 19.11 3.25 20.36 5.34 20.36h3.32c2.09 0 3.34-1.25 3.34-3.34v-.5c0-2.09 1.25-3.34 3.34-3.34h3.32c2.09 0 3.34-1.25 3.34-3.34v-.5C22 7.25 20.75 6 18.66 6z"></path></svg></SpectraIcon>
                 <div className="flex-1 pt-0.5">
                   <h4 className="font-bold text-gray-900 mb-0.5">Meta Ads (Facebook & Instagram)</h4>
                   <p className="text-xs text-gray-500 leading-snug">Target the right audience and drive more leads and sales with creative ads.</p>
@@ -726,9 +754,7 @@ function Services() {
               
               {/* Feature 5: Video Editing */}
               <div className="flex gap-4 items-center group cursor-pointer">
-                <div className="w-12 h-12 bg-white border border-gray-200 shadow-sm rounded-2xl flex items-center justify-center text-indigo-600 shrink-0 group-hover:border-indigo-500 group-hover:text-indigo-500 transition-colors">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"></path></svg>
-                </div>
+                <SpectraIcon><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"></path></svg></SpectraIcon>
                 <div className="flex-1 pt-0.5">
                   <h4 className="font-bold text-gray-900 mb-0.5">Video Editing</h4>
                   <p className="text-xs text-gray-500 leading-snug">Engaging videos that tell your story, boost engagement, and drive results.</p>
@@ -740,9 +766,7 @@ function Services() {
             </div>
 
             <div className="flex flex-wrap gap-4 items-center mb-12">
-              <a href="/contact" className="bg-indigo-600 text-white px-6 py-3.5 rounded-lg font-bold text-xs hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-600/30 flex items-center gap-2 group">
-                LET&apos;S GROW YOUR BRAND <span className="w-5 h-5 rounded-full border border-indigo-400 flex items-center justify-center text-[10px] group-hover:border-white transition-colors">↗</span>
-              </a>
+              <SpectraButton href="/contact">LET&apos;S GROW YOUR BRAND</SpectraButton>
               <a href="/portfolio" className="bg-white border border-indigo-200 text-indigo-600 px-6 py-3.5 rounded-lg font-bold text-xs hover:bg-indigo-50 transition-colors flex items-center gap-2 group">
                 VIEW OUR WORK <span className="w-5 h-5 rounded-full border border-indigo-200 flex items-center justify-center text-[10px] group-hover:border-indigo-400 transition-colors">↗</span>
               </a>

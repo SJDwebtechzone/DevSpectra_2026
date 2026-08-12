@@ -5,8 +5,8 @@ import { FaFacebook, FaInstagram, FaYoutube, FaGoogle } from 'react-icons/fa';
 
 export default function DigitalMarketingMockup() {
   return (
-    <div className="relative w-full h-full min-h-[600px] flex items-center justify-center p-4">
-      <div className="relative w-full max-w-[900px] aspect-[16/10] perspective-[1500px]">
+    <div className="relative w-full h-full min-h-[450px] flex items-center justify-center p-4">
+      <div className="relative w-full max-w-[600px] aspect-[16/10] perspective-[1500px]">
         
         {/* Complete Laptop Assembly */}
         <motion.div 
@@ -163,7 +163,7 @@ export default function DigitalMarketingMockup() {
           whileInView={{ opacity: 1, y: 0, z: 120 }}
           transition={{ duration: 0.6, delay: 0.2, type: "spring" }}
           viewport={{ once: true }}
-          className="absolute top-4 left-32 bg-white rounded-2xl shadow-xl p-4 z-20 flex flex-col items-center gap-2"
+          className="absolute -top-16 left-8 md:left-24 bg-white rounded-2xl shadow-xl p-4 z-20 flex flex-col items-center gap-2"
           style={{ transform: 'translateZ(120px)' }}
         >
           <div className="w-10 h-10 flex items-center justify-center">
@@ -178,7 +178,7 @@ export default function DigitalMarketingMockup() {
           whileInView={{ opacity: 1, scale: 1, z: 100 }}
           transition={{ duration: 0.7, delay: 0.4 }}
           viewport={{ once: true }}
-          className="absolute -top-6 right-1/3 bg-white rounded-2xl shadow-xl p-4 z-20 w-36"
+          className="absolute -top-24 right-[35%] md:right-[40%] bg-white rounded-2xl shadow-xl p-4 z-20 w-36"
           style={{ transform: 'translateZ(100px)' }}
         >
           <div className="text-[10px] text-gray-500 font-bold mb-1">Conversions</div>
@@ -195,7 +195,7 @@ export default function DigitalMarketingMockup() {
           whileInView={{ opacity: 1, x: 0, z: 140 }}
           transition={{ duration: 0.6, delay: 0.3 }}
           viewport={{ once: true }}
-          className="absolute top-10 right-16 bg-white rounded-2xl shadow-xl p-4 px-6 z-20 flex items-center gap-3"
+          className="absolute -top-10 right-4 md:right-16 bg-white rounded-2xl shadow-xl p-4 px-6 z-20 flex items-center gap-3"
           style={{ transform: 'translateZ(140px)' }}
         >
           <FaFacebook className="w-6 h-6 text-[#1877F2]" />
