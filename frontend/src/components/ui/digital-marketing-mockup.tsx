@@ -208,11 +208,11 @@ export default function DigitalMarketingMockup() {
           whileInView={{ opacity: 1, x: 0, z: 150 }}
           transition={{ duration: 0.7, delay: 0.5, type: "spring" }}
           viewport={{ once: true }}
-          className="absolute top-1/2 left-0 -translate-y-1/2 bg-white rounded-2xl shadow-xl p-4 z-20"
+          className="absolute top-1/2 left-0 -translate-y-1/2 bg-white rounded-xl shadow-xl p-3 z-20"
           style={{ transform: 'translateZ(150px)' }}
         >
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] flex items-center justify-center text-white">
-            <FaInstagram className="w-6 h-6" />
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] flex items-center justify-center text-white">
+            <FaInstagram className="w-5 h-5" />
           </div>
         </motion.div>
 
@@ -222,10 +222,10 @@ export default function DigitalMarketingMockup() {
           whileInView={{ opacity: 1, x: 0, z: 150 }}
           transition={{ duration: 0.7, delay: 0.6, type: "spring" }}
           viewport={{ once: true }}
-          className="absolute top-[60%] right-0 -translate-y-1/2 bg-white rounded-2xl shadow-xl p-4 z-20"
+          className="absolute top-[60%] right-0 -translate-y-1/2 bg-white rounded-xl shadow-xl p-3 z-20"
           style={{ transform: 'translateZ(150px)' }}
         >
-          <FaFacebook className="w-10 h-10 text-[#1877F2]" />
+          <FaFacebook className="w-8 h-8 text-[#1877F2]" />
         </motion.div>
 
         {/* YouTube */}
@@ -234,10 +234,10 @@ export default function DigitalMarketingMockup() {
           whileInView={{ opacity: 1, y: 0, z: 180 }}
           transition={{ duration: 0.6, delay: 0.8, type: "spring" }}
           viewport={{ once: true }}
-          className="absolute bottom-6 left-1/4 bg-white rounded-2xl shadow-xl p-4 z-30"
+          className="absolute bottom-6 left-1/4 bg-white rounded-xl shadow-xl p-3 z-30"
           style={{ transform: 'translateZ(180px)' }}
         >
-          <FaYoutube className="w-12 h-8 text-[#FF0000]" />
+          <FaYoutube className="w-9 h-6 text-[#FF0000]" />
         </motion.div>
 
         {/* Total Reach Bar Chart Card */}

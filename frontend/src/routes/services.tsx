@@ -47,7 +47,19 @@ const SpectraIcon = ({ children }: { children: React.ReactNode }) => {
     <div className="relative shrink-0">
       <div className="absolute inset-0 bg-gradient-to-br from-blue-500 via-purple-400 to-orange-500 rounded-full blur-[8px] opacity-40"></div>
       <div className="relative bg-gradient-to-br from-blue-500 via-purple-400 to-orange-500 p-[1.5px] rounded-full shadow-sm">
-        <div className="relative w-12 h-12 md:w-14 md:h-14 rounded-full bg-white flex items-center justify-center text-gray-900 overflow-hidden">
+        <div className="relative w-12 h-12 md:w-14 md:h-14 rounded-full bg-white flex items-center justify-center overflow-hidden">
+          
+          {/* SVG Definitions for Gradients */}
+          <svg width="0" height="0" className="absolute">
+            <defs>
+              <linearGradient id="icon-stroke-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                 <stop offset="0%" stopColor="#3b82f6" />
+                 <stop offset="50%" stopColor="#a855f7" />
+                 <stop offset="100%" stopColor="#f97316" />
+              </linearGradient>
+            </defs>
+          </svg>
+
           {/* Subtle Wavy Background Pattern */}
           <div className="absolute inset-0 opacity-[0.5] pointer-events-none">
             <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
@@ -60,7 +72,9 @@ const SpectraIcon = ({ children }: { children: React.ReactNode }) => {
                </defs>
             </svg>
           </div>
-          <div className="relative z-10">
+          
+          {/* Inner Icon wrapper that forces the SVG stroke to use the gradient */}
+          <div className="relative z-10 text-transparent [&_svg]:!stroke-[url(#icon-stroke-grad)]">
             {children}
           </div>
         </div>
@@ -281,6 +295,40 @@ function Services() {
           }
         `}</style>
         
+        {/* Premium Spectra Glowing String Waves */}
+        <div className="absolute inset-0 z-0 opacity-70 pointer-events-none flex items-center justify-center mix-blend-screen overflow-hidden">
+          <svg width="100%" height="100%" viewBox="0 0 1440 800" preserveAspectRatio="none" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full min-w-[1440px] h-[120%]">
+            <g strokeWidth="2.5" fill="none" opacity="0.8">
+              <path d="M-100,500 C300,700 800,200 1500,400" stroke="url(#premium-grad-1)" style={{ filter: 'drop-shadow(0px 0px 15px rgba(59,130,246,0.5))' }} />
+              <path d="M-100,550 C400,300 700,800 1500,450" stroke="url(#premium-grad-2)" style={{ filter: 'drop-shadow(0px 0px 15px rgba(249,115,22,0.5))' }} />
+              <path d="M-100,450 C200,600 900,100 1500,550" stroke="url(#premium-grad-3)" style={{ filter: 'drop-shadow(0px 0px 15px rgba(168,85,247,0.5))' }} />
+              
+              <path d="M-100,480 C350,650 750,250 1500,420" stroke="url(#premium-grad-1)" strokeWidth="1" opacity="0.5" />
+              <path d="M-100,520 C450,350 650,750 1500,480" stroke="url(#premium-grad-2)" strokeWidth="1" opacity="0.5" />
+            </g>
+            <defs>
+              <linearGradient id="premium-grad-1" x1="0%" y1="0%" x2="100%" y2="0%">
+                 <stop offset="0%" stopColor="#3b82f6" />
+                 <stop offset="50%" stopColor="#a855f7" />
+                 <stop offset="100%" stopColor="#f97316" />
+              </linearGradient>
+              <linearGradient id="premium-grad-2" x1="0%" y1="0%" x2="100%" y2="0%">
+                 <stop offset="0%" stopColor="#f97316" />
+                 <stop offset="50%" stopColor="#ec4899" />
+                 <stop offset="100%" stopColor="#3b82f6" />
+              </linearGradient>
+              <linearGradient id="premium-grad-3" x1="0%" y1="0%" x2="100%" y2="0%">
+                 <stop offset="0%" stopColor="#a855f7" />
+                 <stop offset="50%" stopColor="#3b82f6" />
+                 <stop offset="100%" stopColor="#f97316" />
+              </linearGradient>
+            </defs>
+          </svg>
+          {/* Subtle glow orbs behind the waves */}
+          <div className="absolute top-1/3 left-1/4 w-[30rem] h-[30rem] bg-blue-600/15 rounded-full blur-[100px]"></div>
+          <div className="absolute bottom-1/3 right-1/4 w-[30rem] h-[30rem] bg-orange-600/15 rounded-full blur-[100px]"></div>
+        </div>
+
         <div className="container-page flex flex-col lg:flex-row items-center gap-16 relative z-10">
           {/* Left Content */}
           <div className="flex-1 w-full lg:max-w-xl relative z-20">
@@ -431,9 +479,7 @@ function Services() {
             <div className="space-y-6 mb-12">
               {/* Feature 1 */}
               <div className="flex gap-4 items-start">
-                <div className="w-14 h-14 bg-gray-900 rounded-2xl flex items-center justify-center text-[#d5ff00] shrink-0 border border-gray-800">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                </div>
+                <SpectraIcon><svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg></SpectraIcon>
                 <div className="pt-1">
                   <h4 className="font-bold text-white mb-1">Custom Mobile Apps</h4>
                   <p className="text-sm text-gray-400 leading-snug">Tailored Android and iOS applications built around your business and users.</p>
@@ -442,9 +488,7 @@ function Services() {
               
               {/* Feature 2 */}
               <div className="flex gap-4 items-start">
-                <div className="w-14 h-14 bg-gray-900 rounded-2xl flex items-center justify-center text-[#d5ff00] shrink-0 border border-gray-800">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                </div>
+                <SpectraIcon><svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></SpectraIcon>
                 <div className="pt-1">
                   <h4 className="font-bold text-white mb-1">Smooth User Experience</h4>
                   <p className="text-sm text-gray-400 leading-snug">Clean, intuitive interfaces designed to make every interaction feel effortless.</p>
@@ -453,9 +497,7 @@ function Services() {
 
               {/* Feature 3 */}
               <div className="flex gap-4 items-start">
-                <div className="w-14 h-14 bg-gray-900 rounded-2xl flex items-center justify-center text-[#d5ff00] shrink-0 border border-gray-800">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                </div>
+                <SpectraIcon><svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></SpectraIcon>
                 <div className="pt-1">
                   <h4 className="font-bold text-white mb-1">Powerful Performance</h4>
                   <p className="text-sm text-gray-400 leading-snug">Fast, reliable apps optimized for real-world devices and demanding users.</p>
@@ -464,9 +506,7 @@ function Services() {
 
               {/* Feature 4 */}
               <div className="flex gap-4 items-start">
-                <div className="w-14 h-14 bg-gray-900 rounded-2xl flex items-center justify-center text-[#d5ff00] shrink-0 border border-gray-800">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"></path></svg>
-                </div>
+                <SpectraIcon><svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"></path></svg></SpectraIcon>
                 <div className="pt-1">
                   <h4 className="font-bold text-white mb-1">Scalable Architecture</h4>
                   <p className="text-sm text-gray-400 leading-snug">Secure and flexible technology that grows with your business.</p>
@@ -608,9 +648,7 @@ function Services() {
             <div className="space-y-6 mb-12">
               {/* Feature 1 */}
               <div className="flex gap-4 items-start">
-                <div className="w-12 h-12 bg-black rounded-xl flex items-center justify-center text-[#d5ff00] shrink-0 border border-gray-800">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"></path></svg>
-                </div>
+                <SpectraIcon><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"></path></svg></SpectraIcon>
                 <div className="pt-0.5">
                   <h4 className="font-bold text-white mb-1">Custom SaaS Development</h4>
                   <p className="text-sm text-gray-400 leading-snug">End-to-end SaaS solutions tailored to your product vision and users.</p>
@@ -619,9 +657,7 @@ function Services() {
               
               {/* Feature 2 */}
               <div className="flex gap-4 items-start">
-                <div className="w-12 h-12 bg-black rounded-xl flex items-center justify-center text-[#d5ff00] shrink-0 border border-gray-800">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
-                </div>
+                <SpectraIcon><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg></SpectraIcon>
                 <div className="pt-0.5">
                   <h4 className="font-bold text-white mb-1">Scalable & Secure Architecture</h4>
                   <p className="text-sm text-gray-400 leading-snug">Cloud-native, robust, and future-ready systems built for growth.</p>
@@ -630,9 +666,7 @@ function Services() {
 
               {/* Feature 3 */}
               <div className="flex gap-4 items-start">
-                <div className="w-12 h-12 bg-black rounded-xl flex items-center justify-center text-[#d5ff00] shrink-0 border border-gray-800">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                </div>
+                <SpectraIcon><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg></SpectraIcon>
                 <div className="pt-0.5">
                   <h4 className="font-bold text-white mb-1">Smart & Intuitive UX</h4>
                   <p className="text-sm text-gray-400 leading-snug">Interfaces that simplify complexity and deliver delightful user experiences.</p>
@@ -641,9 +675,7 @@ function Services() {
 
               {/* Feature 4 */}
               <div className="flex gap-4 items-start">
-                <div className="w-12 h-12 bg-black rounded-xl flex items-center justify-center text-[#d5ff00] shrink-0 border border-gray-800">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-                </div>
+                <SpectraIcon><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg></SpectraIcon>
                 <div className="pt-0.5">
                   <h4 className="font-bold text-white mb-1">Analytics That Drive Growth</h4>
                   <p className="text-sm text-gray-400 leading-snug">Real-time insights and dashboards to help you make better decisions, faster.</p>

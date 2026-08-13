@@ -44,7 +44,7 @@ export function Nav({ ctaLabel = "Get Free Consultation", ctaTo = "/contact", cl
       >
         <div className="container-page">
           <div
-            className={`glass flex items-center justify-between rounded-full px-4 py-2 transition-all duration-300 md:px-5 md:py-2.5 ${
+            className={`bg-[#02081f]/90 backdrop-blur-md border border-blue-900/50 shadow-lg flex items-center justify-between rounded-full px-4 py-2 transition-all duration-300 md:px-5 md:py-2.5 ${
               scrolled ? "shadow-[var(--shadow-soft)]" : ""
             } ${className}`}
           >
@@ -57,11 +57,11 @@ export function Nav({ ctaLabel = "Get Free Consultation", ctaTo = "/contact", cl
                 <Link
                   key={l.to}
                   to={l.to}
-                  className="rounded-full px-3 py-1.5 text-[13.5px] font-medium text-[color-mix(in_oklab,var(--color-page-fg)_78%,transparent)] transition-colors hover:text-[var(--color-page-fg)]"
+                  className="rounded-full px-3 py-1.5 text-[13.5px] font-medium text-white/80 transition-colors hover:text-white"
                   activeOptions={{ exact: l.to === "/" }}
                   activeProps={{
                     className:
-                      "!text-[var(--color-page-fg)] bg-[color-mix(in_oklab,var(--color-page-fg)_7%,transparent)]",
+                      "!text-white bg-white/15",
                   }}
                 >
                   {l.label}
@@ -76,7 +76,7 @@ export function Nav({ ctaLabel = "Get Free Consultation", ctaTo = "/contact", cl
               <button
                 type="button"
                 onClick={() => setOpen((v) => !v)}
-                className="btn-pill btn-ghost !h-10 !w-10 !p-0 lg:hidden"
+                className="btn-pill btn-ghost !h-10 !w-10 !p-0 lg:hidden text-white"
                 aria-label={open ? "Close menu" : "Open menu"}
                 aria-expanded={open}
               >

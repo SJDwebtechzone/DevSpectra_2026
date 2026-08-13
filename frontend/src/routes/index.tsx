@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageShell } from "@/components/site/PageShell";
+import HeroSection from "@/components/HeroSection";
 import { useState, useEffect } from "react";
 
 export const Route = createFileRoute("/")({
@@ -53,60 +54,23 @@ function Home() {
 
   return (
     <PageShell mode="home">
-      <section className="section-y">
-        <div className="container-page">
-          <span
-            className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-medium"
-            style={{ borderColor: "var(--color-page-border)", color: "var(--color-page-muted)" }}
-          >
-            <span
-              className="h-1.5 w-1.5 rounded-full"
-              style={{ background: "var(--color-page-accent)" }}
-            />
-            New — AI engineering practice now live
-          </span>
-
-          <h1 className="display-1 mt-6 max-w-5xl">
-            Software that feels{" "}
-            <span
-              className="bg-clip-text text-transparent"
-              style={{
-                backgroundImage:
-                  "linear-gradient(135deg, var(--color-page-accent), var(--color-page-accent-2))",
-              }}
-            >
-              inevitable.
-            </span>
-          </h1>
-
-          <p className="lead mt-6 max-w-2xl">
-            DevSpectra is a boutique engineering studio building websites, mobile apps, AI and cloud
-            products for teams that care about craft.
+      <HeroSection />
+      
+      {/* Intro Statement Section */}
+      <section className="py-24 md:py-32 bg-white relative z-10 border-b border-gray-100">
+        <div className="container-page max-w-5xl mx-auto text-center px-6">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter text-gray-950 mb-8 leading-[1.1]">
+            Digital experiences, <br className="hidden md:block" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500">built for what’s next.</span>
+          </h2>
+          <p className="text-lg md:text-xl lg:text-[1.35rem] text-gray-600 leading-relaxed font-medium max-w-4xl mx-auto">
+            We design and develop modern digital products — from high-performance websites and web applications to mobile experiences and growth-focused solutions — helping ambitious businesses turn ideas into products that perform, scale, and stand out.
           </p>
+        </div>
+      </section>
 
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link to="/contact" className="btn-pill btn-accent">
-              Get Free Consultation
-            </Link>
-            <Link to="/portfolio" className="btn-pill btn-ghost">
-              View Portfolio
-            </Link>
-          </div>
-
-          <div className="mt-10 flex flex-wrap gap-2">
-            {["React", "Next.js", "Node", "AWS", "Flutter", "PostgreSQL"].map((t) => (
-              <span
-                key={t}
-                className="rounded-full border px-3 py-1 text-xs"
-                style={{
-                  borderColor: "var(--color-page-border)",
-                  color: "var(--color-page-muted)",
-                }}
-              >
-                {t}
-              </span>
-            ))}
-          </div>
+      <section className="section-y bg-white">
+        <div className="container-page">
 
           {/* Google Reviews Section */}
           <div className="mt-32 pt-16 border-t" style={{ borderColor: "var(--color-page-border)" }}>
