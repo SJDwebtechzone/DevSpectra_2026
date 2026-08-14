@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { IridescentWaveBackground } from './ui/iridescent-wave-background';
 
 const SpectraButton = ({ children, href }) => {
   const Component = href ? 'a' : 'button';
@@ -49,17 +50,29 @@ export default function HeroSection() {
 
   return (
     <section className="relative w-full overflow-hidden bg-[#fafcff] -mt-24 pt-36 pb-16 lg:pt-40 lg:pb-24">
-      {/* Background Dots/Patterns (Portfolio Style) */}
+      {/* Background Noise Texture */}
       <div 
-        className="absolute top-0 left-0 bottom-0 w-[60%] z-0 opacity-40 pointer-events-none" 
+        className="absolute top-0 left-0 bottom-0 w-[60%] z-0 pointer-events-none" 
         style={{ 
-          backgroundImage: "radial-gradient(circle, #9ca3af 1.5px, transparent 1.5px)",
-          backgroundSize: "24px 24px",
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.3'/%3E%3C/svg%3E")`,
+          backgroundRepeat: 'repeat',
           maskImage: "linear-gradient(to right, black 40%, transparent 100%)",
           WebkitMaskImage: "linear-gradient(to right, black 40%, transparent 100%)",
         }}
       ></div>
-      <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-bl from-blue-50/80 via-purple-50/40 to-transparent blur-3xl z-0 pointer-events-none"></div>
+      <div className="absolute top-0 right-0 w-1/2 h-full z-0 pointer-events-none"
+        style={{
+          maskImage: "linear-gradient(to left, black 80%, transparent 100%)",
+          WebkitMaskImage: "linear-gradient(to left, black 80%, transparent 100%)",
+        }}
+      >
+        <IridescentWaveBackground 
+          showText={false} 
+          speed={0.35} 
+          intensity={1.2} 
+          className="absolute inset-0 w-full h-full"
+        />
+      </div>
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
         <div className="flex flex-col lg:flex-row items-start gap-16">
@@ -162,29 +175,7 @@ export default function HeroSection() {
           {/* Right Column: 3D Illustration via CSS/Framer */}
           <div className="w-full lg:w-[45%] h-[350px] sm:h-[450px] lg:h-[600px] relative flex justify-center items-start mt-8 lg:mt-20">
             
-            {/* Spectra Wave Background Effect Behind Laptop */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-[500px] z-0 flex items-center justify-center pointer-events-none opacity-80">
-               {/* Primary Wave Blob */}
-               <motion.div 
-                 animate={{ 
-                   scale: [1, 1.1, 1], 
-                   rotate: [0, 90, 180, 270, 360],
-                   borderRadius: ["40% 60% 70% 30% / 40% 50% 60% 50%", "60% 40% 30% 70% / 60% 30% 70% 40%", "40% 60% 70% 30% / 40% 50% 60% 50%"]
-                 }}
-                 transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
-                 className="absolute w-[80%] aspect-square bg-gradient-to-tr from-blue-600/30 via-purple-600/30 to-transparent blur-[40px] mix-blend-multiply"
-               />
-               {/* Secondary Wave Blob */}
-               <motion.div 
-                 animate={{ 
-                   scale: [1.1, 1, 1.1], 
-                   rotate: [360, 270, 180, 90, 0],
-                   borderRadius: ["60% 40% 30% 70% / 60% 30% 70% 40%", "40% 60% 70% 30% / 40% 50% 60% 50%", "60% 40% 30% 70% / 60% 30% 70% 40%"]
-                 }}
-                 transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
-                 className="absolute w-[70%] aspect-square bg-gradient-to-bl from-orange-500/30 via-pink-500/30 to-transparent blur-[40px] mix-blend-multiply"
-               />
-            </div>
+
             
             {/* Animated Device Mockup Switcher */}
             <AnimatePresence mode="wait">
@@ -209,7 +200,7 @@ export default function HeroSection() {
                     <div className="flex-1 bg-[#050505] rounded-sm md:rounded-md overflow-hidden relative border border-white/5 shadow-inner">
                        {/* Abstract Wave Representation Inside Screen */}
                        <div className="absolute inset-0 opacity-60 z-20" style={{
-                         background: 'radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%), linear-gradient(135deg, rgba(59,130,246,0.1) 0%, rgba(168,85,247,0.1) 50%, rgba(236,72,153,0.1) 100%)'
+                         background: 'radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%), linear-gradient(135deg, rgba(59,130,246,0.1) 0%, rgba(236,72,153,0.1) 100%)'
                        }}></div>
                        
                        {/* Simulated wave shape */}
@@ -219,7 +210,6 @@ export default function HeroSection() {
                            <defs>
                              <linearGradient id="grad1-dark-lap" x1="0%" y1="0%" x2="100%" y2="100%">
                                <stop offset="0%" style={{stopColor:'#3b82f6', stopOpacity:0.8}} />
-                               <stop offset="50%" style={{stopColor:'#a855f7', stopOpacity:0.8}} />
                                <stop offset="100%" style={{stopColor:'#ec4899', stopOpacity:0.8}} />
                              </linearGradient>
                            </defs>
@@ -250,7 +240,7 @@ export default function HeroSection() {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -20, scale: 0.9, transition: { duration: 0.4 } }}
                   transition={{ duration: 0.9, ease: "easeOut" }}
-                  className="absolute w-[200px] md:w-[240px] h-[400px] md:h-[480px] z-20 flex flex-col items-center"
+                  className="absolute w-[200px] md:w-[240px] h-[450px] md:h-[560px] -mt-6 md:-mt-10 z-20 flex flex-col items-center"
                 >
                   {/* Mobile Body */}
                   <div className="w-full h-full rounded-[44px] md:rounded-[52px] border-[10px] md:border-[14px] border-[#111] overflow-hidden relative shadow-[0_20px_50px_-10px_rgba(0,0,0,0.5)] bg-black ring-1 ring-white/10">
@@ -272,7 +262,7 @@ export default function HeroSection() {
                     {/* Screen Content - Matching Spectra Wave */}
                     <div className="absolute inset-0 overflow-hidden bg-[#050505]">
                        <div className="absolute inset-0 opacity-60 z-20" style={{
-                         background: 'radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%), linear-gradient(180deg, rgba(59,130,246,0.15) 0%, rgba(168,85,247,0.15) 50%, rgba(236,72,153,0.15) 100%)'
+                         background: 'radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%), linear-gradient(180deg, rgba(59,130,246,0.15) 0%, rgba(236,72,153,0.15) 100%)'
                        }}></div>
                        
                        <div className="absolute inset-0 z-10 opacity-90">
@@ -281,7 +271,6 @@ export default function HeroSection() {
                            <defs>
                              <linearGradient id="grad1-dark-mob" x1="0%" y1="0%" x2="100%" y2="100%">
                                <stop offset="0%" style={{stopColor:'#3b82f6', stopOpacity:0.8}} />
-                               <stop offset="50%" style={{stopColor:'#a855f7', stopOpacity:0.8}} />
                                <stop offset="100%" style={{stopColor:'#ec4899', stopOpacity:0.8}} />
                              </linearGradient>
                            </defs>
