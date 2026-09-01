@@ -4,6 +4,7 @@ import PhoneMockupBasic from "@/components/ui/phone-mockups-1";
 import ProductPageDemo from "@/components/ui/product-detail-demo";
 import SaasDashboardMockup from "@/components/ui/saas-dashboard";
 import DigitalMarketingMockup from "@/components/ui/digital-marketing-mockup";
+import { ServicesCards } from "@/components/ServicesCards";
 
 
 const SpectraButton = ({ children, href }: { children: React.ReactNode, href?: string }) => {
@@ -276,8 +277,10 @@ function Services() {
         </div>
       </section>
 
+      <ServicesCards />
+
       {/* Web Development Section */}
-      <section className="bg-white py-24 relative overflow-hidden text-black border-t border-gray-100">
+      <section id="web-development" className="bg-white py-24 relative overflow-hidden text-black border-t border-gray-100">
         <style>{`
           @keyframes scroll-up {
             0% { transform: translateY(0); }
@@ -448,7 +451,7 @@ function Services() {
       </section>
 
       {/* Mobile Application Section */}
-      <section className="bg-[#02081f] py-24 relative overflow-hidden text-white border-t border-gray-900">
+      <section id="mobile-application" className="bg-[#02081f] py-24 relative overflow-hidden text-white border-t border-gray-900">
         <style>{`
           @keyframes carousel {
             0%, 20% { transform: translateX(0%); }
@@ -537,7 +540,7 @@ function Services() {
       </section>
 
       {/* E-Commerce Section */}
-      <section className="bg-white py-24 relative overflow-hidden text-black border-t border-gray-100">
+      <section id="e-commerce" className="bg-white py-24 relative overflow-hidden text-black border-t border-gray-100">
         <div className="container-page flex flex-col lg:flex-row items-center gap-16 relative z-10">
           
           {/* Mobile-only Header */}
@@ -624,7 +627,7 @@ function Services() {
       </section>
 
       {/* SaaS Product Section */}
-      <section className="bg-slate-950 py-24 relative overflow-hidden text-white border-t border-gray-900">
+      <section id="saas-products" className="bg-slate-950 py-24 relative overflow-hidden text-white border-t border-gray-900">
         <div className="container-page flex flex-col lg:flex-row items-center gap-16 relative z-10">
           
           {/* Left Content */}
@@ -707,7 +710,7 @@ function Services() {
       </section>
 
       {/* Digital Marketing Section */}
-      <section className="bg-white py-24 relative overflow-hidden text-gray-900 border-t border-gray-100">
+      <section id="digital-marketing" className="bg-white py-24 relative overflow-hidden text-gray-900 border-t border-gray-100">
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] pointer-events-none"></div>
         {/* Subtle dot pattern background */}
         <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:20px_20px] opacity-50"></div>

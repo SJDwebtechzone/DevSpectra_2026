@@ -37,27 +37,21 @@ export function Nav({ ctaLabel = "Get Free Consultation", ctaTo = "/contact", cl
 
   return (
     <>
-      <header
-        className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-          scrolled ? "py-2" : "py-3"
-        }`}
-      >
+      <header className={`absolute inset-x-0 top-0 z-50 py-3 ${className}`}>
         <div className="container-page">
           <div
-            className={`bg-[#02081f]/90 backdrop-blur-md border border-blue-900/50 shadow-lg flex items-center justify-between rounded-full px-4 py-2 transition-all duration-300 md:px-5 md:py-2.5 ${
-              scrolled ? "shadow-[var(--shadow-soft)]" : ""
-            } ${className}`}
+            className={`bg-[#02081f]/90 backdrop-blur-md border border-blue-900/50 flex items-center justify-between rounded-full px-4 py-2 md:px-5 md:py-2.5 shadow-lg ${className}`}
           >
             <Link to="/" className="flex items-center gap-2 pl-1" aria-label="DevSpectra home">
               <img src="/devspectra.png" alt="DevSpectra" className="h-10 w-auto object-contain" />
             </Link>
 
-            <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary">
+            <nav className="hidden items-center gap-2 lg:flex" aria-label="Primary">
               {links.map((l) => (
                 <Link
                   key={l.to}
                   to={l.to}
-                  className="rounded-full px-3 py-1.5 text-[13.5px] font-medium text-white/80 transition-colors hover:text-white"
+                  className="rounded-full px-4 py-2 text-[15px] font-medium text-white/80 transition-colors hover:text-white"
                   activeOptions={{ exact: l.to === "/" }}
                   activeProps={{
                     className:

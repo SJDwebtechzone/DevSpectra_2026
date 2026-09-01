@@ -60,16 +60,16 @@ export default function HeroSection() {
           WebkitMaskImage: "linear-gradient(to right, black 40%, transparent 100%)",
         }}
       ></div>
-      <div className="absolute top-0 right-0 w-1/2 h-full z-0 pointer-events-none"
+      <div className="absolute inset-0 w-full h-full z-0 pointer-events-none opacity-80"
         style={{
-          maskImage: "linear-gradient(to left, black 80%, transparent 100%)",
-          WebkitMaskImage: "linear-gradient(to left, black 80%, transparent 100%)",
+          maskImage: "radial-gradient(circle at center, black 40%, transparent 100%)",
+          WebkitMaskImage: "radial-gradient(circle at center, black 40%, transparent 100%)",
         }}
       >
         <IridescentWaveBackground 
           showText={false} 
           speed={0.35} 
-          intensity={1.2} 
+          intensity={1.2}
           className="absolute inset-0 w-full h-full"
         />
       </div>
@@ -173,7 +173,7 @@ export default function HeroSection() {
           </div>
 
           {/* Right Column: 3D Illustration via CSS/Framer */}
-          <div className="w-full lg:w-[45%] h-[350px] sm:h-[450px] lg:h-[600px] relative flex justify-center items-start mt-8 lg:mt-20">
+          <div className="w-full lg:w-[45%] h-[420px] sm:h-[500px] lg:h-[600px] relative flex justify-center items-start mt-8 lg:mt-20">
             
 
             
@@ -240,7 +240,7 @@ export default function HeroSection() {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -20, scale: 0.9, transition: { duration: 0.4 } }}
                   transition={{ duration: 0.9, ease: "easeOut" }}
-                  className="absolute w-[200px] md:w-[240px] h-[450px] md:h-[560px] -mt-6 md:-mt-10 z-20 flex flex-col items-center"
+                  className="absolute w-[200px] md:w-[240px] h-[400px] md:h-[480px] -mt-16 md:-mt-24 z-20 flex flex-col items-center"
                 >
                   {/* Mobile Body */}
                   <div className="w-full h-full rounded-[44px] md:rounded-[52px] border-[10px] md:border-[14px] border-[#111] overflow-hidden relative shadow-[0_20px_50px_-10px_rgba(0,0,0,0.5)] bg-black ring-1 ring-white/10">
@@ -301,7 +301,7 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.6, ease: "easeOut" }}
-          className="w-full -mt-4 lg:-mt-12 bg-white/80 backdrop-blur-md border border-white rounded-3xl p-6 lg:p-8 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] flex flex-col md:flex-row items-center justify-between gap-6 md:gap-0 relative z-30"
+          className="w-full mt-4 lg:mt-0 bg-white/80 backdrop-blur-md border border-white rounded-3xl p-6 lg:p-8 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] flex flex-col md:flex-row items-center justify-between gap-6 md:gap-0 relative z-30"
         >
           {/* Stat 1 */}
           <div className="flex items-center gap-4">

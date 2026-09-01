@@ -1,118 +1,76 @@
 import { Link } from "@tanstack/react-router";
 
-const nav = [
-  { to: "/services", label: "Services" },
-  { to: "/portfolio", label: "Portfolio" },
-  { to: "/blog", label: "Blog" },
-  { to: "/careers", label: "Careers" },
-  { to: "/contact", label: "Contact" },
-] as const;
-
 export function Footer() {
   return (
-    <footer className="mt-24 border-t" style={{ borderColor: "var(--color-page-border)" }}>
-      <div className="container-page py-16">
-        <div className="grid gap-12 md:grid-cols-4">
-          <div className="md:col-span-1">
-            <Link to="/" className="flex items-center gap-2" aria-label="DevSpectra home">
-              <img
-                src="/devspectra.png"
-                alt="DevSpectra"
-                className="h-10 w-auto object-contain grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
-              />
-            </Link>
-            <p className="lead mt-4 !text-sm max-w-xs">
-              A boutique engineering studio building software that feels inevitable.
+    <footer className="relative bg-[#02081f] pt-24 pb-8 overflow-hidden">
+      
+      {/* Decorative Noise */}
+      <div className="absolute inset-0 pointer-events-none opacity-5 mix-blend-overlay" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')" }}></div>
+
+      <div className="container-page max-w-[1600px] mx-auto px-6 md:px-12 relative z-10">
+        
+        {/* Top Links Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16 mb-40 text-[15px] leading-loose">
+          
+          {/* Brand Column */}
+          <div className="flex flex-col text-white items-start">
+            <img src="/devspectra.png" alt="DevSpectra" className="h-20 w-auto object-contain mb-6 -ml-2" />
+            <p className="text-base leading-relaxed text-gray-300 font-medium max-w-sm text-justify">
+              Devspectra is a full-service digital agency specializing in cutting-edge web development, mobile applications, and scalable software solutions.
             </p>
-            <div className="mt-5 flex gap-2">
-              {["Tw", "Li", "Gh", "Dr"].map((s) => (
-                <a
-                  key={s}
-                  href="#"
-                  aria-label={s}
-                  className="grid h-9 w-9 place-items-center rounded-full border text-xs"
-                  style={{ borderColor: "var(--color-page-border)" }}
-                >
-                  {s}
-                </a>
-              ))}
-            </div>
           </div>
 
-          <div>
-            <h4
-              className="mb-4 text-xs font-semibold uppercase tracking-wider"
-              style={{ color: "var(--color-page-muted)" }}
-            >
-              Navigation
-            </h4>
-            <ul className="space-y-2.5 text-sm">
-              {nav.map((l) => (
-                <li key={l.to}>
-                  <Link to={l.to} className="hover:opacity-70 transition-opacity">
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          {/* Column 1 */}
+          <div className="flex flex-col text-gray-300 font-semibold">
+            <span className="mb-2 text-gray-500 font-mono text-sm md:text-base tracking-widest uppercase">SERVICES</span>
+            <Link to="/services#web-development" className="hover:text-white transition-colors">Web Development</Link>
+            <Link to="/services#mobile-application" className="hover:text-white transition-colors">App Development</Link>
+            <Link to="/services#e-commerce" className="hover:text-white transition-colors">E-Commerce</Link>
+            <Link to="/services#saas-products" className="hover:text-white transition-colors">SaaS Products</Link>
+            <Link to="/services#digital-marketing" className="hover:text-white transition-colors">Digital Marketing</Link>
           </div>
 
-          <div>
-            <h4
-              className="mb-4 text-xs font-semibold uppercase tracking-wider"
-              style={{ color: "var(--color-page-muted)" }}
-            >
-              Contact
-            </h4>
-            <ul className="space-y-2.5 text-sm" style={{ color: "var(--color-page-muted)" }}>
-              <li>hello@devspectra.com</li>
-              <li>+1 (555) 123-4567</li>
-              <li>New York · Lisbon · Bangalore</li>
-            </ul>
+          {/* Column 2 */}
+          <div className="flex flex-col text-gray-300 font-semibold">
+            <span className="mb-2 text-gray-500 font-mono text-sm md:text-base tracking-widest uppercase">COMPANY</span>
+            <Link to="/" className="hover:text-white transition-colors">Home</Link>
+            <Link to="/services" className="hover:text-white transition-colors">Services</Link>
+            <Link to="/portfolio" className="hover:text-white transition-colors">Portfolio</Link>
+            <Link to="/blog" className="hover:text-white transition-colors">Blogs</Link>
+            <Link to="/careers" className="hover:text-white transition-colors">Careers</Link>
+            <Link to="/contact" className="hover:text-white transition-colors">Contact</Link>
           </div>
 
-          <div>
-            <h4
-              className="mb-4 text-xs font-semibold uppercase tracking-wider"
-              style={{ color: "var(--color-page-muted)" }}
-            >
-              Newsletter
-            </h4>
-            <form className="flex gap-2" onSubmit={(e) => e.preventDefault()}>
-              <input
-                type="email"
-                required
-                placeholder="you@company.com"
-                aria-label="Email address"
-                className="min-w-0 flex-1 rounded-full border bg-transparent px-4 py-2 text-sm outline-none focus:ring-2"
-                style={{
-                  borderColor: "var(--color-page-border)",
-                  //@ts-ignore
-                  "--tw-ring-color": "var(--color-page-accent)",
-                }}
-              />
-              <button type="submit" className="btn-pill btn-primary !h-10">
-                Join
-              </button>
-            </form>
+          {/* Column 3 */}
+          <div className="flex flex-col text-gray-300 font-semibold">
+            <span className="mb-2 text-gray-500 font-mono text-sm md:text-base tracking-widest uppercase">FOLLOW US</span>
+            <a href="#" className="hover:text-white transition-colors">LinkedIn</a>
+            <a href="#" className="hover:text-white transition-colors">X</a>
+            <a href="#" className="hover:text-white transition-colors">Instagram</a>
+            <a href="#" className="hover:text-white transition-colors">YouTube</a>
           </div>
         </div>
 
-        <div
-          className="mt-14 flex flex-col items-start justify-between gap-3 border-t pt-6 text-xs md:flex-row md:items-center"
-          style={{ borderColor: "var(--color-page-border)", color: "var(--color-page-muted)" }}
-        >
-          <p>© 2026 DevSpectra. All rights reserved.</p>
-          <div className="flex gap-5">
-            <a href="#" className="hover:opacity-70">
-              Terms
-            </a>
-            <a href="#" className="hover:opacity-70">
-              Privacy
-            </a>
-          </div>
+        {/* Bottom Small Bar */}
+        <div className="flex flex-col md:flex-row justify-center items-center gap-6 mb-8 font-mono text-xs md:text-sm tracking-[0.1em] text-gray-500 uppercase text-center w-full">
+          <p>© 2026 DEVSPECTRA INC. ALL RIGHTS RESERVED.</p>
         </div>
+
       </div>
+
+      {/* Massive Text Banner */}
+      <div className="w-full relative z-10 flex justify-center -mb-[5%] overflow-hidden pointer-events-none">
+        <h1 
+          className="text-[16vw] font-black leading-[0.75] tracking-[-0.04em] uppercase text-transparent bg-clip-text" 
+          style={{ 
+            transform: "scaleY(1.1)",
+            backgroundImage: "linear-gradient(to right, #7928CA, #0070F3, #00DFD8, #10B981, #F5A623, #FF4B4B)"
+          }}
+        >
+          DEVSPECTRA
+        </h1>
+      </div>
+
     </footer>
   );
 }
