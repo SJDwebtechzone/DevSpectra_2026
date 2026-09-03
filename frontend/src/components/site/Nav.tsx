@@ -37,10 +37,20 @@ export function Nav({ ctaLabel = "Get Free Consultation", ctaTo = "/contact", cl
 
   return (
     <>
-      <header className={`absolute inset-x-0 top-0 z-50 py-3 ${className}`}>
+      <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${scrolled ? "py-2" : "py-3"} ${className}`}
+        style={{
+          WebkitBackdropFilter: scrolled ? "blur(20px)" : "none",
+          backdropFilter: scrolled ? "blur(20px)" : "none",
+          backgroundColor: scrolled ? "rgba(255, 255, 255, 0.5)" : "transparent",
+        }}
+      >
         <div className="container-page">
           <div
-            className={`bg-[#02081f]/90 backdrop-blur-md border border-blue-900/50 flex items-center justify-between rounded-full px-4 py-2 md:px-5 md:py-2.5 shadow-lg ${className}`}
+            className={`flex items-center justify-between rounded-full px-4 py-2 md:px-5 md:py-2.5 shadow-lg transition-all duration-300 border ${
+              scrolled
+                ? "bg-[#02081f]/95 backdrop-blur-xl border-blue-900/60 shadow-xl shadow-black/20"
+                : "bg-[#02081f]/80 backdrop-blur-md border-blue-900/40"
+            } ${className}`}
           >
             <Link to="/" className="flex items-center gap-2 pl-1" aria-label="DevSpectra home">
               <img src="/devspectra.png" alt="DevSpectra" className="h-10 w-auto object-contain" />

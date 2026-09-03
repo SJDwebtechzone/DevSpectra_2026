@@ -5,7 +5,7 @@ import { ServicesCards } from "@/components/ServicesCards";
 import { OngoingProjects } from "@/components/OngoingProjects";
 import { WhyChooseUs } from "@/components/WhyChooseUs";
 import { FAQ } from "@/components/FAQ";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -61,7 +61,52 @@ function Home() {
     ]
   };
   const loading = false;
+  const scrollRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    let animationFrameId: number;
+    const scrollContainer = scrollRef.current;
+    let isHovered = false;
+    let floatScrollLeft = 0;
+
+    if (!scrollContainer) return;
+
+    floatScrollLeft = scrollContainer.scrollLeft;
+
+    const scrollStep = () => {
+      if (!isHovered) {
+        floatScrollLeft += 0.5; // Auto-scroll speed
+        scrollContainer.scrollLeft = floatScrollLeft;
+
+        // Reset to start when reaching the end of the scroll width
+        if (scrollContainer.scrollLeft >= (scrollContainer.scrollWidth - scrollContainer.clientWidth - 5)) {
+            scrollContainer.scrollLeft = 0;
+            floatScrollLeft = 0;
+        }
+      } else {
+        floatScrollLeft = scrollContainer.scrollLeft;
+      }
+      animationFrameId = requestAnimationFrame(scrollStep);
+    };
+
+    animationFrameId = requestAnimationFrame(scrollStep);
+
+    const handleHover = () => (isHovered = true);
+    const handleLeave = () => (isHovered = false);
+
+    scrollContainer.addEventListener("mouseenter", handleHover);
+    scrollContainer.addEventListener("mouseleave", handleLeave);
+    scrollContainer.addEventListener("touchstart", handleHover, { passive: true });
+    scrollContainer.addEventListener("touchend", handleLeave);
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      scrollContainer.removeEventListener("mouseenter", handleHover);
+      scrollContainer.removeEventListener("mouseleave", handleLeave);
+      scrollContainer.removeEventListener("touchstart", handleHover);
+      scrollContainer.removeEventListener("touchend", handleLeave);
+    };
+  }, []);
   const averageRating = reviewsData.averageRating;
   const totalReviews = reviewsData.totalReviews;
   const reviews = reviewsData.reviews;
@@ -82,8 +127,8 @@ function Home() {
                 DIGITAL EXPERIENCES, <br />
                 <span className="font-serif italic font-normal tracking-normal text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500">built for what’s next.</span>
               </h2>
-              <p className="text-lg md:text-xl lg:text-[1.35rem] text-gray-600 leading-relaxed font-medium max-w-2xl">
-                We design and develop modern digital products — from high-performance websites and web applications to mobile experiences and growth-focused solutions — helping ambitious businesses turn ideas into products that perform, scale, and stand out.
+              <p className="text-lg md:text-xl lg:text-[1.35rem] text-gray-600 leading-relaxed font-medium max-w-2xl text-justify">
+                We design and develop modern digital products, from high-performance websites and web applications to mobile experiences and growth-focused solutions, helping ambitious businesses turn ideas into products that perform, scale, and stand out.
               </p>
             </div>
           </div>
@@ -100,19 +145,6 @@ function Home() {
 
           {/* Google Reviews Section */}
           <div className="pt-8 border-t" style={{ borderColor: "var(--color-page-border)" }}>
-            <style>{`
-              @keyframes marquee {
-                0% { transform: translateX(0%); }
-                100% { transform: translateX(-50%); }
-              }
-              .animate-marquee {
-                animation: marquee 30s linear infinite;
-                width: max-content;
-              }
-              .animate-marquee:hover {
-                animation-play-state: paused;
-              }
-            `}</style>
             <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-center">
               {/* Summary Block (Fixed) */}
               <div className="w-full lg:w-[280px] shrink-0 flex flex-col justify-center py-4">
@@ -174,10 +206,14 @@ function Home() {
               </div>
 
               {/* Auto Scrolling Reviews Area */}
-              <div className="w-full flex-1 overflow-hidden relative -mx-6 px-6 lg:mx-0 lg:px-0 py-4">
-                <div className="flex gap-6 animate-marquee pl-6 lg:pl-0">
+              <div 
+                ref={scrollRef}
+                className="w-full flex-1 overflow-x-auto overflow-y-hidden relative -mx-6 px-6 lg:mx-0 lg:px-0 py-4 scrollbar-hide"
+                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+              >
+                <div className="flex gap-6 w-max pl-6 lg:pl-0">
                   {/* Duplicate array for seamless infinite scroll */}
-                  {[...reviews, ...reviews, ...reviews].map((review: any, i: number) => (
+                  {[...reviews, ...reviews, ...reviews, ...reviews].map((review: any, i: number) => (
                     <div
                       key={i}
                       className="shrink-0 w-[300px] sm:w-[350px] p-8 rounded-[2rem] border shadow-[0_4px_20px_rgb(0,0,0,0.03)] flex flex-col"

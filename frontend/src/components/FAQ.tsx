@@ -35,7 +35,7 @@ export function FAQ() {
         <div className="flex-1 lg:max-w-md mt-4">
           
           {/* Heading */}
-          <h2 className="text-4xl md:text-[2.75rem] font-black text-gray-900 leading-[1.1] mb-6 tracking-tight uppercase">
+          <h2 className="text-4xl md:text-[2.75rem] font-black text-[#4A3628] leading-[1.1] mb-6 tracking-tight uppercase">
             Frequently asked <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500">
               questions
@@ -43,8 +43,8 @@ export function FAQ() {
           </h2>
           
           {/* Description */}
-          <p className="text-lg md:text-xl text-gray-600 leading-relaxed font-medium max-w-lg">
-            Got questions about our process, timelines, or technical capabilities? We've compiled the most common inquiries to help you understand exactly how we work.
+          <p className="text-lg md:text-xl text-gray-600 leading-relaxed font-medium max-w-lg text-justify">
+            Have questions about our work? Here are the most common things clients ask before getting started with us.
           </p>
         </div>
 
@@ -84,7 +84,7 @@ export function FAQ() {
                     isOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
                   }`}
                 >
-                  <p className="px-6 pb-6 text-[15px] text-gray-500 leading-relaxed font-medium">
+                  <p className="px-6 pb-6 text-[15px] text-gray-500 leading-relaxed font-medium text-justify">
                     {faq.answer}
                   </p>
                 </div>

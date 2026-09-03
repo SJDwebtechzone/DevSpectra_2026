@@ -35,13 +35,15 @@ const reasons = [
 
 export function WhyChooseUs() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
+    if (isHovered) return;
     const interval = setInterval(() => {
       setActiveIndex((current) => (current + 1) % reasons.length);
     }, 3000);
     return () => clearInterval(interval);
-  }, []);
+  }, [isHovered]);
 
   return (
     <section className="py-24 bg-white relative border-b border-gray-100 overflow-hidden">
@@ -51,15 +53,19 @@ export function WhyChooseUs() {
       <div className="container-page max-w-7xl mx-auto px-6 relative z-10">
 
         {/* Header Section */}
-        <div className="flex items-center gap-6 mb-20 lg:mb-28">
-          <h2 className="text-4xl md:text-5xl font-black text-[#4A3628] leading-[1.1] tracking-tight uppercase bg-white px-2 py-1">
+        <div className="flex items-center gap-6 mb-16 lg:mb-20">
+          <h2 className="text-4xl md:text-5xl font-black text-[#4A3628] leading-[1.1] tracking-tight uppercase bg-white pr-4 py-1">
             Why DEVSPECTRA
           </h2>
-          <div className="h-[2px] flex-1 bg-gray-100"></div>
+          <div className="h-[2px] flex-1 bg-gray-200"></div>
         </div>
 
         {/* Numbered Columns Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-10 lg:gap-6 lg:items-end">
+        <div
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6 lg:gap-4 lg:items-end min-h-[400px]"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
           {reasons.map((reason, idx) => {
             const isActive = activeIndex === idx;
 
@@ -67,61 +73,57 @@ export function WhyChooseUs() {
               <div
                 key={reason.title}
                 onMouseEnter={() => setActiveIndex(idx)}
-                className={`relative rounded-[28px] cursor-default transition-all duration-500 ease-out ${
+                className={`relative rounded-[28px] cursor-pointer transition-all duration-500 ease-out overflow-hidden border h-[360px] lg:h-[400px] ${
                   isActive
-                    ? "h-[400px] lg:h-[440px] lg:-mt-14 z-20 shadow-2xl overflow-hidden text-white"
-                    : "h-auto lg:h-[260px] z-10"
+                    ? "z-20 shadow-2xl border-transparent"
+                    : "z-10 bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50"
                 }`}
               >
-                {isActive && (
-                  <>
-                    <img
-                      src={reason.img}
-                      alt={reason.title}
-                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/10" />
-                  </>
-                )}
+                {/* Background Image with Opacity Transition */}
+                <div
+                  className="absolute inset-0 transition-opacity duration-700 ease-in-out"
+                  style={{ opacity: isActive ? 1 : 0 }}
+                >
+                  <img
+                    src={reason.img}
+                    alt={reason.title}
+                    className={`absolute inset-0 w-full h-full object-cover transition-transform duration-1000 ${
+                      isActive ? "scale-100" : "scale-110"
+                    }`}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10" />
+                </div>
 
-                <div className={`relative z-10 flex flex-col h-full ${isActive ? "p-6 justify-end" : "p-1 justify-between"}`}>
-                  {/* Massive Number */}
+                <div className={`relative z-10 flex flex-col h-full transition-all duration-500 p-6 ${isActive ? "justify-end" : "justify-between"}`}>
+                  {/* Number */}
                   <span
-                    className={`font-black leading-none tracking-tighter ${
+                    className={`font-black leading-none tracking-tighter transition-colors duration-500 ${
                       isActive
                         ? "text-5xl md:text-6xl text-white mb-4"
-                        : "text-6xl md:text-7xl text-gray-200 mb-6 transition-colors duration-500 group-hover:text-gray-300"
+                        : "text-5xl md:text-6xl text-gray-200 mb-2"
                     }`}
                   >
                     0{idx + 1}
                   </span>
 
                   {/* Dotted separator (active only) */}
-                  {isActive && (
-                    <div className="flex flex-col gap-1.5 mb-4">
-                      {[0, 1, 2, 3].map((d) => (
-                        <span key={d} className="w-1 h-1 rounded-full bg-white/60"></span>
-                      ))}
-                    </div>
-                  )}
+                  <div 
+                    className={`flex flex-col gap-1.5 mb-4 transition-all duration-500 overflow-hidden ${
+                      isActive ? "h-6 opacity-100" : "h-0 opacity-0"
+                    }`}
+                  >
+                    {[0, 1, 2, 3].map((d) => (
+                      <span key={d} className="w-1 h-1 rounded-full bg-white/60"></span>
+                    ))}
+                  </div>
 
                   <div>
-                    <h3 className={`font-bold mb-3 ${isActive ? "text-2xl text-white" : "text-lg md:text-xl text-gray-900"}`}>
+                    <h3 className={`font-bold mb-3 transition-colors duration-500 ${isActive ? "text-2xl text-white" : "text-lg md:text-xl text-gray-900"}`}>
                       {reason.title}
                     </h3>
-                    <p className={`leading-relaxed mb-6 ${isActive ? "text-sm text-white/80 max-w-[240px]" : "text-sm text-gray-500 max-w-[220px]"}`}>
+                    <p className={`leading-relaxed mb-6 transition-colors duration-500 ${isActive ? "text-sm text-white/90" : "text-sm text-gray-500"}`}>
                       {reason.description}
                     </p>
-                    <button
-                      type="button"
-                      className={`inline-flex items-center rounded-full border px-5 py-2 text-xs font-medium transition-colors ${
-                        isActive
-                          ? "border-white/70 text-white hover:bg-white hover:text-gray-900"
-                          : "border-gray-300 text-gray-700 hover:border-gray-900 hover:text-gray-900"
-                      }`}
-                    >
-                      Learn More
-                    </button>
                   </div>
                 </div>
               </div>
@@ -133,4 +135,5 @@ export function WhyChooseUs() {
     </section>
   );
 }
+
 
