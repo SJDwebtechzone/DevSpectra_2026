@@ -341,7 +341,7 @@ function Contact() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="LinkedIn"
-                      className="w-12 h-12 bg-white/70 text-[#0077B5] backdrop-blur-xl border border-white/90 shadow-[0_4px_12px_rgba(0,0,0,0.05),inset_0_2px_8px_rgba(255,255,255,0.8)] flex items-center justify-center rounded-full hover:bg-white hover:scale-110 hover:shadow-lg transition-all"
+                      className="w-12 h-12 bg-white/70 text-[#0077B5] backdrop-blur-xl border border-white/90 shadow-[0_4px_12px_rgba(0,0,0,0.05),inset_0_2px_8px_rgba(255,255,255,0.8)] flex items-center justify-center rounded-full hover:bg-[#0077B5] hover:text-white hover:scale-110 hover:shadow-[0_4px_15px_rgba(0,119,181,0.4)] transition-all"
                     >
                       <Linkedin className="w-5 h-5" />
                     </a>
@@ -352,7 +352,7 @@ function Contact() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="Facebook"
-                      className="w-12 h-12 bg-white/70 text-[#1877F2] backdrop-blur-xl border border-white/90 shadow-[0_4px_12px_rgba(0,0,0,0.05),inset_0_2px_8px_rgba(255,255,255,0.8)] flex items-center justify-center rounded-full hover:bg-white hover:scale-110 hover:shadow-lg transition-all"
+                      className="w-12 h-12 bg-white/70 text-[#1877F2] backdrop-blur-xl border border-white/90 shadow-[0_4px_12px_rgba(0,0,0,0.05),inset_0_2px_8px_rgba(255,255,255,0.8)] flex items-center justify-center rounded-full hover:bg-[#1877F2] hover:text-white hover:scale-110 hover:shadow-[0_4px_15px_rgba(24,119,242,0.4)] transition-all"
                     >
                       <Facebook className="w-5 h-5" />
                     </a>
@@ -363,7 +363,7 @@ function Contact() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="Instagram"
-                      className="w-12 h-12 bg-white/70 text-[#E4405F] backdrop-blur-xl border border-white/90 shadow-[0_4px_12px_rgba(0,0,0,0.05),inset_0_2px_8px_rgba(255,255,255,0.8)] flex items-center justify-center rounded-full hover:bg-white hover:scale-110 hover:shadow-lg transition-all"
+                      className="w-12 h-12 bg-white/70 text-[#E4405F] backdrop-blur-xl border border-white/90 shadow-[0_4px_12px_rgba(0,0,0,0.05),inset_0_2px_8px_rgba(255,255,255,0.8)] flex items-center justify-center rounded-full hover:bg-[#E4405F] hover:text-white hover:scale-110 hover:shadow-[0_4px_15px_rgba(228,64,95,0.4)] transition-all"
                     >
                       <Instagram className="w-5 h-5" />
                     </a>
@@ -374,7 +374,7 @@ function Contact() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="YouTube"
-                      className="w-12 h-12 bg-white/70 text-[#FF0000] backdrop-blur-xl border border-white/90 shadow-[0_4px_12px_rgba(0,0,0,0.05),inset_0_2px_8px_rgba(255,255,255,0.8)] flex items-center justify-center rounded-full hover:bg-white hover:scale-110 hover:shadow-lg transition-all"
+                      className="w-12 h-12 bg-white/70 text-[#FF0000] backdrop-blur-xl border border-white/90 shadow-[0_4px_12px_rgba(0,0,0,0.05),inset_0_2px_8px_rgba(255,255,255,0.8)] flex items-center justify-center rounded-full hover:bg-[#FF0000] hover:text-white hover:scale-110 hover:shadow-[0_4px_15px_rgba(255,0,0,0.4)] transition-all"
                     >
                       <Youtube className="w-5 h-5" />
                     </a>
@@ -385,12 +385,23 @@ function Contact() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="Justdial"
-                      className="w-12 h-12 bg-white/70 backdrop-blur-xl border border-white/90 shadow-[0_4px_12px_rgba(0,0,0,0.05),inset_0_2px_8px_rgba(255,255,255,0.8)] flex items-center justify-center rounded-full hover:bg-white hover:scale-110 hover:shadow-lg transition-all"
+                      className="w-12 h-12 bg-white/70 text-[#F26522] backdrop-blur-xl border border-white/90 shadow-[0_4px_12px_rgba(0,0,0,0.05),inset_0_2px_8px_rgba(255,255,255,0.8)] flex items-center justify-center rounded-full hover:bg-[#F26522] hover:text-white hover:scale-110 hover:shadow-[0_4px_15px_rgba(242,101,34,0.4)] transition-all"
                     >
-                      <svg viewBox="0 0 24 24" className="w-6 h-6 rounded-md shadow-sm" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="24" height="24" rx="6" fill="#0076D7" />
-                        <text x="4" y="16.5" fill="#FFFFFF" fontSize="12" fontWeight="900" fontFamily="system-ui, sans-serif">J</text>
-                        <text x="11.5" y="16.5" fill="#FF8A00" fontSize="12" fontWeight="900" fontFamily="system-ui, sans-serif">d</text>
+                      <svg
+                        viewBox="0 0 24 24"
+                        className="w-5 h-5 fill-current"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        {/* j dot */}
+                        <circle cx="6.8" cy="5.2" r="1.8" />
+                        {/* j body */}
+                        <path d="M5.3 8.8h3v6.6c0 1.4-1.1 2.6-2.5 2.6H4.4v-2.4h1.1c.4 0 .8-.4.8-.8V8.8z" />
+                        {/* d body */}
+                        <path
+                          fillRule="evenodd"
+                          clipRule="evenodd"
+                          d="M16.4 4.5h2.8V18h-2.6v-1.3c-.8.9-1.9 1.5-3.3 1.5-2.9 0-5.1-2.2-5.1-5.1s2.2-5.1 5.1-5.1c1.4 0 2.5.6 3.3 1.5V4.5zm-2.8 6.4c-1.5 0-2.7 1.1-2.7 2.6s1.2 2.6 2.7 2.6 2.7-1.1 2.7-2.6-1.2-2.6-2.7-2.6z"
+                        />
                       </svg>
                     </a>
                   </div>
