@@ -4,7 +4,6 @@ import PhoneMockupBasic from "@/components/ui/phone-mockups-1";
 import ProductPageDemo from "@/components/ui/product-detail-demo";
 import SaasDashboardMockup from "@/components/ui/saas-dashboard";
 import DigitalMarketingMockup from "@/components/ui/digital-marketing-mockup";
-import { ServicesCards } from "@/components/ServicesCards";
 
 
 const SpectraButton = ({ children, href }: { children: React.ReactNode, href?: string }) => {
@@ -276,8 +275,6 @@ function Services() {
           
         </div>
       </section>
-
-      <ServicesCards />
 
       {/* Web Development Section */}
       <section id="web-development" className="bg-white py-24 relative overflow-hidden text-black border-t border-gray-100">

@@ -301,63 +301,63 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.6, ease: "easeOut" }}
-          className="w-full mt-4 lg:mt-0 bg-white/80 backdrop-blur-md border border-white rounded-3xl p-6 lg:p-8 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] flex flex-col md:flex-row items-center justify-between gap-6 md:gap-0 relative z-30"
+          className="w-full mt-4 lg:mt-0 bg-white/80 backdrop-blur-md border border-white rounded-2xl sm:rounded-3xl p-3 sm:p-6 lg:p-8 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] flex flex-row items-center justify-between gap-1 sm:gap-4 relative z-30"
         >
           {/* Stat 1 */}
-          <div className="flex items-center gap-4">
-            <div className="w-10 lg:w-12 h-10 lg:h-12 rounded-full p-[1.5px] bg-gradient-to-r from-blue-500 via-purple-500 to-orange-500 shrink-0 shadow-sm">
+          <div className="flex flex-col sm:flex-row items-center sm:items-center gap-1.5 sm:gap-4 text-center sm:text-left flex-1 justify-center">
+            <div className="w-8 sm:w-10 lg:w-12 h-8 sm:h-10 lg:h-12 rounded-full p-[1.5px] bg-gradient-to-r from-blue-500 via-purple-500 to-orange-500 shrink-0 shadow-sm">
               <div className="w-full h-full bg-white rounded-full flex items-center justify-center">
-                <svg className="w-5 lg:w-6 h-5 lg:h-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
+                <svg className="w-4 sm:w-5 lg:w-6 h-4 sm:h-5 lg:h-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
               </div>
             </div>
-            <div className="text-left">
-              <div className="text-2xl lg:text-3xl font-black text-gray-900 leading-none">1+</div>
-              <div className="text-[0.65rem] lg:text-xs text-gray-500 font-bold uppercase tracking-wider mt-1">Years Experience</div>
+            <div>
+              <div className="text-lg sm:text-2xl lg:text-3xl font-black text-gray-900 leading-none">1+</div>
+              <div className="text-[0.55rem] sm:text-[0.65rem] lg:text-xs text-gray-500 font-bold uppercase tracking-wider mt-0.5 sm:mt-1 whitespace-nowrap">Years Experience</div>
             </div>
           </div>
           
-          <div className="hidden md:block w-px h-12 bg-gray-200 shrink-0"></div>
+          <div className="w-px h-8 sm:h-12 bg-gray-200 shrink-0"></div>
           
           {/* Stat 2 */}
-          <div className="flex items-center gap-4">
-            <div className="w-10 lg:w-12 h-10 lg:h-12 rounded-full p-[1.5px] bg-gradient-to-r from-blue-500 via-purple-500 to-orange-500 shrink-0 shadow-sm">
+          <div className="flex flex-col sm:flex-row items-center sm:items-center gap-1.5 sm:gap-4 text-center sm:text-left flex-1 justify-center">
+            <div className="w-8 sm:w-10 lg:w-12 h-8 sm:h-10 lg:h-12 rounded-full p-[1.5px] bg-gradient-to-r from-blue-500 via-purple-500 to-orange-500 shrink-0 shadow-sm">
               <div className="w-full h-full bg-white rounded-full flex items-center justify-center">
-                <svg className="w-5 lg:w-6 h-5 lg:h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
+                <svg className="w-4 sm:w-5 lg:w-6 h-4 sm:h-5 lg:h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
               </div>
             </div>
-            <div className="text-left">
-              <div className="text-2xl lg:text-3xl font-black text-gray-900 leading-none">25+</div>
-              <div className="text-[0.65rem] lg:text-xs text-gray-500 font-bold uppercase tracking-wider mt-1">Projects Delivered</div>
+            <div>
+              <div className="text-lg sm:text-2xl lg:text-3xl font-black text-gray-900 leading-none">25+</div>
+              <div className="text-[0.55rem] sm:text-[0.65rem] lg:text-xs text-gray-500 font-bold uppercase tracking-wider mt-0.5 sm:mt-1 whitespace-nowrap">Projects Delivered</div>
             </div>
           </div>
- 
-          <div className="hidden md:block w-px h-12 bg-gray-200 shrink-0"></div>
- 
+
+          <div className="w-px h-8 sm:h-12 bg-gray-200 shrink-0"></div>
+
           {/* Stat 3 */}
-          <div className="flex items-center gap-4">
-            <div className="w-10 lg:w-12 h-10 lg:h-12 rounded-full p-[1.5px] bg-gradient-to-r from-blue-500 via-purple-500 to-orange-500 shrink-0 shadow-sm">
+          <div className="flex flex-col sm:flex-row items-center sm:items-center gap-1.5 sm:gap-4 text-center sm:text-left flex-1 justify-center">
+            <div className="w-8 sm:w-10 lg:w-12 h-8 sm:h-10 lg:h-12 rounded-full p-[1.5px] bg-gradient-to-r from-blue-500 via-purple-500 to-orange-500 shrink-0 shadow-sm">
               <div className="w-full h-full bg-white rounded-full flex items-center justify-center">
-                <svg className="w-5 lg:w-6 h-5 lg:h-6 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <svg className="w-4 sm:w-5 lg:w-6 h-4 sm:h-5 lg:h-6 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
               </div>
             </div>
-            <div className="text-left">
-              <div className="text-2xl lg:text-3xl font-black text-gray-900 leading-none">15+</div>
-              <div className="text-[0.65rem] lg:text-xs text-gray-500 font-bold uppercase tracking-wider mt-1">Happy Clients</div>
+            <div>
+              <div className="text-lg sm:text-2xl lg:text-3xl font-black text-gray-900 leading-none">15+</div>
+              <div className="text-[0.55rem] sm:text-[0.65rem] lg:text-xs text-gray-500 font-bold uppercase tracking-wider mt-0.5 sm:mt-1 whitespace-nowrap">Happy Clients</div>
             </div>
           </div>
- 
-          <div className="hidden md:block w-px h-12 bg-gray-200 shrink-0"></div>
- 
+
+          <div className="w-px h-8 sm:h-12 bg-gray-200 shrink-0"></div>
+
           {/* Stat 4 */}
-          <div className="flex items-center gap-4">
-            <div className="w-10 lg:w-12 h-10 lg:h-12 rounded-full p-[1.5px] bg-gradient-to-r from-blue-500 via-purple-500 to-orange-500 shrink-0 shadow-sm">
+          <div className="flex flex-col sm:flex-row items-center sm:items-center gap-1.5 sm:gap-4 text-center sm:text-left flex-1 justify-center">
+            <div className="w-8 sm:w-10 lg:w-12 h-8 sm:h-10 lg:h-12 rounded-full p-[1.5px] bg-gradient-to-r from-blue-500 via-purple-500 to-orange-500 shrink-0 shadow-sm">
               <div className="w-full h-full bg-white rounded-full flex items-center justify-center">
-                <svg className="w-5 lg:w-6 h-5 lg:h-6 text-pink-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                <svg className="w-4 sm:w-5 lg:w-6 h-4 sm:h-5 lg:h-6 text-pink-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
               </div>
             </div>
-            <div className="text-left">
-              <div className="text-2xl lg:text-3xl font-black text-gray-900 leading-none">99%</div>
-              <div className="text-[0.65rem] lg:text-xs text-gray-500 font-bold uppercase tracking-wider mt-1">Client Satisfaction</div>
+            <div>
+              <div className="text-lg sm:text-2xl lg:text-3xl font-black text-gray-900 leading-none">99%</div>
+              <div className="text-[0.55rem] sm:text-[0.65rem] lg:text-xs text-gray-500 font-bold uppercase tracking-wider mt-0.5 sm:mt-1 whitespace-nowrap">Client Satisfaction</div>
             </div>
           </div>
         </motion.div>

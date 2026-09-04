@@ -64,17 +64,17 @@ export function ServicesCards() {
             <Link
               key={idx}
               to={`/services#${project.id}`}
-              className={`block snap-center shrink-0 w-[85vw] ${
+              className={`block snap-center shrink-0 h-[380px] sm:h-[420px] md:h-[480px] ${
                 project.type === "Mobile"
-                  ? "md:w-[240px] h-[480px]"
+                  ? "w-[210px] sm:w-[230px] md:w-[240px]"
                   : project.type === "E-Commerce"
-                    ? "md:w-[300px] h-[480px]"
+                    ? "w-[260px] sm:w-[280px] md:w-[300px]"
                     : project.type === "Marketing"
-                      ? "md:w-[300px] h-[480px]"
+                      ? "w-[260px] sm:w-[280px] md:w-[300px]"
                       : project.type === "SAAS"
-                        ? "md:w-[540px] h-[480px]"
-                        : "md:w-[480px] h-[480px]"
-              } rounded-[32px] overflow-hidden relative flex flex-col justify-between ${project.bg} group cursor-pointer transition-transform duration-500 hover:scale-[1.02]`}
+                        ? "w-[340px] sm:w-[440px] md:w-[540px]"
+                        : "w-[320px] sm:w-[400px] md:w-[480px]"
+              } rounded-[24px] sm:rounded-[32px] overflow-hidden relative flex flex-col justify-between ${project.bg} group cursor-pointer transition-transform duration-500 hover:scale-[1.02]`}
             >
               {project.type === "Website" ? (
                 <div className="w-full h-full rounded-[16px] md:rounded-[20px] border border-gray-200 overflow-hidden relative flex flex-col shadow-xl bg-[#f3f4f6]">

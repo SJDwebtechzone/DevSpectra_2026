@@ -60,11 +60,12 @@ export function WhyChooseUs() {
           <div className="h-[2px] flex-1 bg-gray-200"></div>
         </div>
 
-        {/* Numbered Columns Grid */}
+        {/* Numbered Cards Horizontal Straight Line Layout */}
         <div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6 lg:gap-4 lg:items-end min-h-[400px]"
+          className="flex flex-row gap-4 overflow-x-auto pb-6 snap-x snap-mandatory hide-scrollbar -mx-6 px-6 lg:mx-0 lg:px-0 lg:grid lg:grid-cols-6 lg:overflow-visible lg:pb-0 lg:snap-none min-h-[380px] sm:min-h-[400px]"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
           {reasons.map((reason, idx) => {
             const isActive = activeIndex === idx;
@@ -73,7 +74,8 @@ export function WhyChooseUs() {
               <div
                 key={reason.title}
                 onMouseEnter={() => setActiveIndex(idx)}
-                className={`relative rounded-[28px] cursor-pointer transition-all duration-500 ease-out overflow-hidden border h-[360px] lg:h-[400px] ${
+                onClick={() => setActiveIndex(idx)}
+                className={`relative rounded-[24px] sm:rounded-[28px] cursor-pointer transition-all duration-500 ease-out overflow-hidden border h-[340px] sm:h-[380px] lg:h-[400px] w-[240px] sm:w-[280px] shrink-0 snap-center lg:w-auto lg:shrink ${
                   isActive
                     ? "z-20 shadow-2xl border-transparent"
                     : "z-10 bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50"

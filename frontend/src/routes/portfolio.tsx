@@ -352,7 +352,9 @@ function Portfolio() {
             .animate-marquee {
               animation: marquee 50s linear infinite;
             }
-            .animate-marquee:hover {
+            .animate-marquee:hover,
+            .animate-marquee:active,
+            .animate-marquee:focus-within {
               animation-play-state: paused;
             }
             @keyframes marquee {
@@ -404,7 +406,10 @@ function Portfolio() {
                 </div>
 
                 {section.category === "Website" ? (
-                  <div className="overflow-hidden pb-8 relative -mx-6 md:-mx-12">
+                  <div
+                    className="overflow-x-auto pb-8 relative -mx-6 px-6 md:-mx-12 md:px-12 hide-scrollbar snap-x snap-mandatory"
+                    style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+                  >
                     <div className="flex gap-6 animate-marquee w-max">
                       {[...section.items, ...section.items].map((project, idx) => {
                         const pAny = project as any;
@@ -415,7 +420,7 @@ function Portfolio() {
                             href={targetUrl}
                             target={targetUrl !== "#" ? "_blank" : undefined}
                             rel="noopener noreferrer"
-                            className="shrink-0 w-[85vw] md:w-[480px] h-[340px] rounded-[32px] overflow-hidden relative flex flex-col justify-between group cursor-pointer transition-transform duration-500 hover:scale-[1.02] block no-underline"
+                            className="shrink-0 w-[300px] sm:w-[400px] md:w-[480px] h-[340px] rounded-[32px] overflow-hidden relative flex flex-col justify-between group cursor-pointer transition-transform duration-500 hover:scale-[1.02] block no-underline"
                           >
                             <div className="w-full h-full rounded-[16px] md:rounded-[20px] border border-gray-200 overflow-hidden relative flex flex-col shadow-xl bg-[#f3f4f6]">
                               {/* Mac Window Title Bar */}
@@ -475,17 +480,17 @@ function Portfolio() {
                           href={targetUrl}
                           target={targetUrl !== "#" ? "_blank" : undefined}
                           rel="noopener noreferrer"
-                          className={`snap-center shrink-0 w-[85vw] ${
+                          className={`snap-center shrink-0 h-[380px] sm:h-[420px] md:h-[480px] ${
                             section.category === "Mobile"
-                              ? "md:w-[240px] h-[480px]"
+                              ? "w-[210px] sm:w-[230px] md:w-[240px]"
                               : section.category === "E-Commerce"
-                                ? "md:w-[300px] h-[460px]"
+                                ? "w-[260px] sm:w-[280px] md:w-[300px]"
                                 : section.category === "Digital Marketing"
-                                  ? "md:w-[300px] h-[480px]"
+                                  ? "w-[260px] sm:w-[280px] md:w-[300px]"
                                   : section.category === "UI/UX"
-                                    ? "md:w-[540px] h-[400px]"
-                                    : "md:w-[400px] h-[450px]"
-                          } rounded-[32px] overflow-hidden relative flex flex-col justify-between ${project.bg} group cursor-pointer transition-transform duration-500 hover:scale-[1.02] block no-underline`}
+                                    ? "w-[340px] sm:w-[440px] md:w-[540px] !h-[320px] sm:!h-[360px] md:!h-[400px]"
+                                    : "w-[300px] sm:w-[360px] md:w-[400px]"
+                          } rounded-[24px] sm:rounded-[32px] overflow-hidden relative flex flex-col justify-between ${project.bg} group cursor-pointer transition-transform duration-500 hover:scale-[1.02] block no-underline`}
                         >
                           {section.category === "Mobile" ? (
                             <div className="w-full h-full rounded-[44px] border-[10px] md:border-[14px] border-[#111] overflow-hidden relative shadow-xl bg-black">

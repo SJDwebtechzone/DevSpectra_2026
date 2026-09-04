@@ -42,25 +42,28 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Column 1 */}
-          <div className="flex flex-col text-gray-300 font-semibold">
-            <span className="mb-2 text-gray-500 font-mono text-sm md:text-base tracking-widest uppercase">SERVICES</span>
-            <Link to="/services#web-development" className="hover:text-white transition-colors">Web Development</Link>
-            <Link to="/services#mobile-application" className="hover:text-white transition-colors">App Development</Link>
-            <Link to="/services#e-commerce" className="hover:text-white transition-colors">E-Commerce</Link>
-            <Link to="/services#saas-products" className="hover:text-white transition-colors">SaaS Products</Link>
-            <Link to="/services#digital-marketing" className="hover:text-white transition-colors">Digital Marketing</Link>
-          </div>
+          {/* Services & Company Side-by-Side Container on Mobile */}
+          <div className="grid grid-cols-2 gap-6 col-span-1 md:col-span-2 lg:contents">
+            {/* Services Column */}
+            <div className="flex flex-col text-gray-300 font-semibold">
+              <span className="mb-2 text-gray-500 font-mono text-sm md:text-base tracking-widest uppercase">SERVICES</span>
+              <Link to="/services#web-development" className="hover:text-white transition-colors">Web Development</Link>
+              <Link to="/services#mobile-application" className="hover:text-white transition-colors">App Development</Link>
+              <Link to="/services#e-commerce" className="hover:text-white transition-colors">E-Commerce</Link>
+              <Link to="/services#saas-products" className="hover:text-white transition-colors">SaaS Products</Link>
+              <Link to="/services#digital-marketing" className="hover:text-white transition-colors">Digital Marketing</Link>
+            </div>
 
-          {/* Column 2 */}
-          <div className="flex flex-col text-gray-300 font-semibold">
-            <span className="mb-2 text-gray-500 font-mono text-sm md:text-base tracking-widest uppercase">COMPANY</span>
-            <Link to="/" className="hover:text-white transition-colors">Home</Link>
-            <Link to="/services" className="hover:text-white transition-colors">Services</Link>
-            <Link to="/portfolio" className="hover:text-white transition-colors">Portfolio</Link>
-            <Link to="/blog" className="hover:text-white transition-colors">Blogs</Link>
-            <Link to="/careers" className="hover:text-white transition-colors">Careers</Link>
-            <Link to="/contact" className="hover:text-white transition-colors">Contact</Link>
+            {/* Company Column */}
+            <div className="flex flex-col text-gray-300 font-semibold">
+              <span className="mb-2 text-gray-500 font-mono text-sm md:text-base tracking-widest uppercase">COMPANY</span>
+              <Link to="/" className="hover:text-white transition-colors">Home</Link>
+              <Link to="/services" className="hover:text-white transition-colors">Services</Link>
+              <Link to="/portfolio" className="hover:text-white transition-colors">Portfolio</Link>
+              <Link to="/blog" className="hover:text-white transition-colors">Blogs</Link>
+              <Link to="/careers" className="hover:text-white transition-colors">Careers</Link>
+              <Link to="/contact" className="hover:text-white transition-colors">Contact</Link>
+            </div>
           </div>
 
           {/* Column 3 - Map */}
