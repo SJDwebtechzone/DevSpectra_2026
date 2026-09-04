@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { ContactsService } from './contacts.service';
 import { CreateContactDto } from './dto/create-contact.dto';
+import { CreateContactFieldDto, UpdateContactFieldDto } from './dto/create-contact-field.dto';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
@@ -9,6 +10,43 @@ import { UserRole } from '../users/entities/user.entity';
 @Controller('contacts')
 export class ContactsController {
   constructor(private readonly contactsService: ContactsService) {}
+
+  // --- Dynamic Form Fields Endpoints ---
+
+  @Get('fields')
+  getFields() {
+    return this.contactsService.getFields(false);
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.SUPER_ADMIN, UserRole.ADMIN)
+  @Get('fields/admin')
+  getAdminFields() {
+    return this.contactsService.getFields(true);
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.SUPER_ADMIN, UserRole.ADMIN)
+  @Post('fields')
+  createField(@Body() createDto: CreateContactFieldDto) {
+    return this.contactsService.createField(createDto);
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.SUPER_ADMIN, UserRole.ADMIN)
+  @Patch('fields/:id')
+  updateField(@Param('id') id: string, @Body() updateDto: UpdateContactFieldDto) {
+    return this.contactsService.updateField(id, updateDto);
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.SUPER_ADMIN, UserRole.ADMIN)
+  @Delete('fields/:id')
+  deleteField(@Param('id') id: string) {
+    return this.contactsService.deleteField(id);
+  }
+
+  // --- Submission Endpoints ---
 
   @Post()
   create(@Body() createContactDto: CreateContactDto) {

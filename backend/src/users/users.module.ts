@@ -13,13 +13,13 @@ export class UsersModule implements OnApplicationBootstrap {
 
   async onApplicationBootstrap() {
     // Seed initial Super Admin if it doesn't exist
-    const adminEmail = 'admin@portfolio.com';
+    const adminEmail = 'admin@devspectra.com';
     const existingAdmin = await this.usersService.findByEmail(adminEmail);
     if (!existingAdmin) {
       await this.usersService.create({
         name: 'Super Admin',
         email: adminEmail,
-        password: 'Admin@123',
+        password: 'Devspectra@123',
       }, UserRole.SUPER_ADMIN);
       console.log('Initial Super Admin seeded successfully.');
     }

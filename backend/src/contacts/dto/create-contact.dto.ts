@@ -1,8 +1,11 @@
-import { IsEmail, IsNotEmpty, IsString, IsOptional } from 'class-validator';
+import { IsEmail, IsString, IsOptional, IsObject } from 'class-validator';
+
 export class CreateContactDto {
-  @IsString() @IsNotEmpty() name: string;
-  @IsEmail() email: string;
+  @IsString() @IsOptional() name?: string;
+  @IsEmail() @IsOptional() email?: string;
   @IsString() @IsOptional() phone?: string;
-  @IsString() @IsNotEmpty() subject: string;
-  @IsString() @IsNotEmpty() message: string;
+  @IsString() @IsOptional() subject?: string;
+  @IsString() @IsOptional() service?: string;
+  @IsString() @IsOptional() message?: string;
+  @IsObject() @IsOptional() customData?: Record<string, any>;
 }

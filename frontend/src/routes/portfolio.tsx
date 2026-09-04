@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageShell } from "@/components/site/PageShell";
 import { ArrowUpRight } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
 export const Route = createFileRoute("/portfolio")({
@@ -14,6 +14,16 @@ export const Route = createFileRoute("/portfolio")({
   component: Portfolio,
 });
 
+const formatExternalUrl = (url?: string) => {
+  if (!url) return "#";
+  const trimmed = url.trim();
+  if (!trimmed || trimmed === "#") return "#";
+  if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
+    return trimmed;
+  }
+  return `https://${trimmed}`;
+};
+
 const portfolioData = [
   {
     category: "Website",
@@ -25,6 +35,7 @@ const portfolioData = [
         eyebrow: "NEW",
         img: "/portfolio/website-1.jpg",
         bg: "bg-black text-white",
+        liveUrl: "https://nskillindia.com",
       },
       {
         title: "seatown",
@@ -33,6 +44,7 @@ const portfolioData = [
         eyebrow: "FEATURED",
         img: "/portfolio/website-2.jpg",
         bg: "bg-white text-black border border-gray-200",
+        liveUrl: "https://seatown.com",
       },
       {
         title: "co-tea",
@@ -41,6 +53,7 @@ const portfolioData = [
         eyebrow: "E-COMMERCE",
         img: "/portfolio/website-3.jpg",
         bg: "bg-black text-white",
+        liveUrl: "https://co-tea.com",
       },
       {
         title: "silicon vista",
@@ -49,6 +62,7 @@ const portfolioData = [
         eyebrow: "TRENDING",
         img: "/portfolio/website-4.jpg",
         bg: "bg-white text-black border border-gray-200",
+        liveUrl: "https://siliconvista.com",
       },
     ],
   },
@@ -60,18 +74,21 @@ const portfolioData = [
         meta: "Mobile App",
         img: "/portfolio/mobile-1.jpg",
         bg: "bg-black text-white",
+        liveUrl: "https://veerify.com",
       },
       {
         title: "snapoo",
         meta: "Mobile App",
         img: "/portfolio/mobile-2.jpg",
         bg: "bg-gray-100 text-black",
+        liveUrl: "https://snapoo.com",
       },
       {
         title: "martial art",
         meta: "Mobile App",
         img: "/portfolio/mobile-3.jpg",
         bg: "bg-zinc-900 text-white",
+        liveUrl: "https://martialart.com",
       },
     ],
   },
@@ -83,12 +100,14 @@ const portfolioData = [
         meta: "E-Commerce Store",
         img: "/portfolio/ecommerce-1.jpg",
         bg: "bg-[#f5f5f7] text-black",
+        liveUrl: "https://smenterprises.com",
       },
       {
         title: "cloth buy",
         meta: "Fashion E-Commerce",
         img: "/portfolio/ecommerce-2.jpg",
         bg: "bg-[#1d1d1f] text-white",
+        liveUrl: "https://clothbuy.com",
       },
     ],
   },
@@ -100,24 +119,28 @@ const portfolioData = [
         meta: "UI/UX Design",
         img: "/portfolio/uiux-1.jpg",
         bg: "bg-gray-100 text-black",
+        liveUrl: "https://katalist.com",
       },
       {
         title: "seatown",
         meta: "UI/UX Design",
         img: "/portfolio/uiux-2.jpg",
         bg: "bg-black text-white",
+        liveUrl: "https://seatown.com",
       },
       {
         title: "school website",
         meta: "UI/UX Design",
         img: "/portfolio/uiux-3.jpg",
         bg: "bg-zinc-100 text-black",
+        liveUrl: "https://schoolwebsite.com",
       },
       {
         title: "silicon vista",
         meta: "UI/UX Design",
         img: "/portfolio/uiux-4.jpg",
         bg: "bg-gray-900 text-white",
+        liveUrl: "https://siliconvista.com",
       },
     ],
   },
@@ -129,24 +152,28 @@ const portfolioData = [
         meta: "Marketing Campaign",
         img: "/portfolio/digital-1.jpg",
         bg: "bg-[#1d1d1f] text-white",
+        liveUrl: "https://seo-agency.com",
       },
       {
         title: "Poster Making",
         meta: "LinkedIn, Instagram, Facebook",
         img: "/portfolio/digital-2.jpg",
         bg: "bg-[#f5f5f7] text-black",
+        liveUrl: "https://postermaking.com",
       },
       {
         title: "Reels",
         meta: "Instagram Reels",
         img: "/portfolio/digital-3.jpg",
         bg: "bg-black text-white",
+        liveUrl: "https://reelsstudio.com",
       },
       {
         title: "Content",
         meta: "Content Strategy",
         img: "/portfolio/digital-4.jpg",
         bg: "bg-gray-100 text-black",
+        liveUrl: "https://contentagency.com",
       },
     ],
   },
@@ -156,6 +183,45 @@ import { AuroraBackground } from "@/components/ui/aurora-background";
 
 function Portfolio() {
   const [animationKey, setAnimationKey] = useState(0);
+  const [dbProjects, setDbProjects] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetch("http://localhost:5000/projects")
+      .then((res) => (res.ok ? res.json() : []))
+      .then((data) => setDbProjects(data))
+      .catch((err) => console.error("Failed to fetch dynamic projects", err));
+  }, []);
+
+  const activePortfolioData = portfolioData.map((section) => {
+    const dynamicItems = dbProjects
+      .filter((p) => {
+        const status = (p.status || "published").toLowerCase();
+        if (status === "inactive" || status === "draft") return false;
+
+        const cat = (p.category || "").toLowerCase();
+        const secCat = section.category.toLowerCase();
+        if (secCat === "website" && cat.includes("website")) return true;
+        if (secCat === "mobile" && (cat.includes("mobile") || cat.includes("app"))) return true;
+        if (secCat === "e-commerce" && (cat.includes("e-commerce") || cat.includes("commerce"))) return true;
+        if (secCat === "ui/ux" && (cat.includes("ui") || cat.includes("ux") || cat.includes("design"))) return true;
+        if (secCat === "digital marketing" && (cat.includes("marketing") || cat.includes("digital"))) return true;
+        return false;
+      })
+      .map((p) => ({
+        title: p.title,
+        meta: p.description || p.category,
+        submeta: Array.isArray(p.technologies) ? p.technologies.join(", ") : p.technologies || "Built with modern tech",
+        eyebrow: "NEW",
+        img: p.thumbnail || "/portfolio/website-1.jpg",
+        bg: section.category === "Website" ? "bg-black text-white" : "bg-[#1d1d1f] text-white",
+        liveUrl: p.liveUrl || p.websiteUrl || (p.title ? `${p.title.toLowerCase().replace(/\s+/g, "")}.com` : "#"),
+      }));
+
+    return {
+      ...section,
+      items: [...dynamicItems, ...section.items],
+    };
+  });
 
   return (
     <PageShell mode="portfolio" ctaLabel="Start a Project">
@@ -328,7 +394,7 @@ function Portfolio() {
 
           {/* Category Rows */}
           <div className="space-y-24">
-            {portfolioData.map((section, sIdx) => (
+            {activePortfolioData.map((section, sIdx) => (
               <div key={sIdx}>
                 <div className="flex items-center gap-4 mb-8">
                   <h2 className="text-3xl font-bold tracking-tight text-black">
@@ -340,52 +406,59 @@ function Portfolio() {
                 {section.category === "Website" ? (
                   <div className="overflow-hidden pb-8 relative -mx-6 md:-mx-12">
                     <div className="flex gap-6 animate-marquee w-max">
-                      {[...section.items, ...section.items].map((project, idx) => (
-                        <div
-                          key={`marquee-${idx}`}
-                          className="shrink-0 w-[85vw] md:w-[480px] h-[340px] rounded-[32px] overflow-hidden relative flex flex-col justify-between group cursor-pointer transition-transform duration-500 hover:scale-[1.02]"
-                        >
-                          <div className="w-full h-full rounded-[16px] md:rounded-[20px] border border-gray-200 overflow-hidden relative flex flex-col shadow-xl bg-[#f3f4f6]">
-                            {/* Mac Window Title Bar */}
-                            <div className="h-8 w-full bg-[#e5e7eb] flex items-center px-4 shrink-0 border-b border-gray-300">
-                              {/* Window Controls */}
-                              <div className="flex gap-1.5 w-16">
-                                <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f56] shadow-sm"></div>
-                                <div className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e] shadow-sm"></div>
-                                <div className="w-2.5 h-2.5 rounded-full bg-[#27c93f] shadow-sm"></div>
+                      {[...section.items, ...section.items].map((project, idx) => {
+                        const pAny = project as any;
+                        const targetUrl = formatExternalUrl(pAny.liveUrl || pAny.websiteUrl || (project.title ? `${project.title.toLowerCase().replace(/\s+/g, "")}.com` : ""));
+                        return (
+                          <a
+                            key={`marquee-${idx}`}
+                            href={targetUrl}
+                            target={targetUrl !== "#" ? "_blank" : undefined}
+                            rel="noopener noreferrer"
+                            className="shrink-0 w-[85vw] md:w-[480px] h-[340px] rounded-[32px] overflow-hidden relative flex flex-col justify-between group cursor-pointer transition-transform duration-500 hover:scale-[1.02] block no-underline"
+                          >
+                            <div className="w-full h-full rounded-[16px] md:rounded-[20px] border border-gray-200 overflow-hidden relative flex flex-col shadow-xl bg-[#f3f4f6]">
+                              {/* Mac Window Title Bar */}
+                              <div className="h-8 w-full bg-[#e5e7eb] flex items-center px-4 shrink-0 border-b border-gray-300">
+                                {/* Window Controls */}
+                                <div className="flex gap-1.5 w-16">
+                                  <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f56] shadow-sm"></div>
+                                  <div className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e] shadow-sm"></div>
+                                  <div className="w-2.5 h-2.5 rounded-full bg-[#27c93f] shadow-sm"></div>
+                                </div>
+                                {/* URL Bar */}
+                                <div className="flex-1 max-w-[180px] mx-auto h-5 bg-white rounded flex items-center justify-center text-[10px] text-gray-700 font-mono shadow-sm truncate px-2 font-medium hover:text-blue-600 transition-colors">
+                                  {pAny.liveUrl ? pAny.liveUrl.replace(/^https?:\/\//, '') : `${project.title.toLowerCase().replace(/\s+/g, "")}.com`}
+                                </div>
+                                <div className="w-16"></div>
                               </div>
-                              {/* URL Bar */}
-                              <div className="flex-1 max-w-[160px] mx-auto h-5 bg-white rounded flex items-center justify-center text-[9px] text-gray-500 font-mono shadow-sm">
-                                {project.title.toLowerCase().replace(/\s+/g, "")}.com
+
+                              {/* Desktop Screen Content */}
+                              <div className="flex-1 relative bg-white overflow-hidden">
+                                {/* Top Details Overlay */}
+                                <div className="absolute inset-x-0 top-0 p-4 md:p-6 z-10 bg-gradient-to-b from-black/80 via-black/40 to-transparent pointer-events-none text-white">
+                                  <h3 className="text-2xl font-bold tracking-tight capitalize drop-shadow-md">
+                                    {project.title}
+                                  </h3>
+                                  <p className="text-[11px] font-semibold mt-0.5 drop-shadow-md opacity-90">
+                                    {project.meta}
+                                  </p>
+                                </div>
+
+                                <img
+                                  src={project.img}
+                                  alt={project.title}
+                                  className="w-full h-full object-cover object-top group-hover:scale-[1.03] transition-transform duration-700 ease-out"
+                                />
+
+                                <div className="absolute bottom-4 right-4 w-10 h-10 bg-black/50 backdrop-blur-md rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 shadow-lg">
+                                  <ArrowUpRight className="w-5 h-5 text-white" />
+                                </div>
                               </div>
-                              <div className="w-16"></div>
                             </div>
-
-                            {/* Desktop Screen Content */}
-                            <div className="flex-1 relative bg-white overflow-hidden">
-                              {/* Top Details Overlay */}
-                              <div className="absolute inset-x-0 top-0 p-4 md:p-6 z-10 bg-gradient-to-b from-black/80 via-black/40 to-transparent pointer-events-none text-white">
-                                <h3 className="text-2xl font-bold tracking-tight capitalize drop-shadow-md">
-                                  {project.title}
-                                </h3>
-                                <p className="text-[11px] font-semibold mt-0.5 drop-shadow-md opacity-90">
-                                  {project.meta}
-                                </p>
-                              </div>
-
-                              <img
-                                src={project.img}
-                                alt={project.title}
-                                className="w-full h-full object-cover object-top group-hover:scale-[1.03] transition-transform duration-700 ease-out"
-                              />
-
-                              <div className="absolute bottom-4 right-4 w-10 h-10 bg-black/40 backdrop-blur-md rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
-                                <ArrowUpRight className="w-5 h-5 text-white" />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
+                          </a>
+                        );
+                      })}
                     </div>
                   </div>
                 ) : (
@@ -393,351 +466,358 @@ function Portfolio() {
                     className="flex gap-6 overflow-x-auto pb-8 snap-x snap-mandatory hide-scrollbar -mx-6 px-6 md:-mx-12 md:px-12"
                     style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
                   >
-                    {section.items.map((project, idx) => (
-                      <div
-                        key={idx}
-                        className={`snap-center shrink-0 w-[85vw] ${
-                          section.category === "Mobile"
-                            ? "md:w-[240px] h-[480px]"
-                            : section.category === "E-Commerce"
-                              ? "md:w-[300px] h-[460px]"
-                              : section.category === "Digital Marketing"
-                                ? "md:w-[300px] h-[480px]"
-                                : section.category === "UI/UX"
-                                  ? "md:w-[540px] h-[400px]"
-                                  : "md:w-[400px] h-[450px]"
-                        } rounded-[32px] overflow-hidden relative flex flex-col justify-between ${project.bg} group cursor-pointer transition-transform duration-500 hover:scale-[1.02]`}
-                      >
-                        {section.category === "Mobile" ? (
-                          <div className="w-full h-full rounded-[44px] border-[10px] md:border-[14px] border-[#111] overflow-hidden relative shadow-xl bg-black">
-                            {/* Hardware Notch / Dynamic Island */}
-                            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-7 bg-[#111] rounded-b-2xl z-30 flex items-center justify-end px-3">
-                              <div className="w-3 h-3 rounded-full bg-white/10" />
-                            </div>
-
-                            {/* Fake Status Bar */}
-                            <div className="absolute top-1.5 inset-x-6 flex justify-between items-center z-20 text-[10px] font-semibold text-white/80">
-                              <span>9:41</span>
-                              <div className="flex gap-1 items-center">
-                                <div className="w-5 h-2.5 border border-current rounded-[3px] p-[1px] opacity-80">
-                                  <div className="w-[75%] h-full bg-current rounded-sm"></div>
-                                </div>
+                    {section.items.map((project, idx) => {
+                      const pAny = project as any;
+                      const targetUrl = formatExternalUrl(pAny.liveUrl || pAny.websiteUrl || (project.title ? `${project.title.toLowerCase().replace(/\s+/g, "")}.com` : ""));
+                      return (
+                        <a
+                          key={idx}
+                          href={targetUrl}
+                          target={targetUrl !== "#" ? "_blank" : undefined}
+                          rel="noopener noreferrer"
+                          className={`snap-center shrink-0 w-[85vw] ${
+                            section.category === "Mobile"
+                              ? "md:w-[240px] h-[480px]"
+                              : section.category === "E-Commerce"
+                                ? "md:w-[300px] h-[460px]"
+                                : section.category === "Digital Marketing"
+                                  ? "md:w-[300px] h-[480px]"
+                                  : section.category === "UI/UX"
+                                    ? "md:w-[540px] h-[400px]"
+                                    : "md:w-[400px] h-[450px]"
+                          } rounded-[32px] overflow-hidden relative flex flex-col justify-between ${project.bg} group cursor-pointer transition-transform duration-500 hover:scale-[1.02] block no-underline`}
+                        >
+                          {section.category === "Mobile" ? (
+                            <div className="w-full h-full rounded-[44px] border-[10px] md:border-[14px] border-[#111] overflow-hidden relative shadow-xl bg-black">
+                              {/* Hardware Notch / Dynamic Island */}
+                              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-7 bg-[#111] rounded-b-2xl z-30 flex items-center justify-end px-3">
+                                <div className="w-3 h-3 rounded-full bg-white/10" />
                               </div>
-                            </div>
 
-                            {/* Top Info Section (Name) */}
-                            <div
-                              className={`pt-12 pb-6 px-6 relative z-10 text-center ${project.bg}`}
-                            >
-                              <h3 className="text-2xl font-bold tracking-tight capitalize">
-                                {project.title}
-                              </h3>
-                              <p className="text-xs font-medium opacity-70 mt-1">{project.meta}</p>
-                            </div>
-
-                            {/* Screen Content (Image) */}
-                            <div className="absolute inset-0 top-32 overflow-hidden bg-black">
-                              <img
-                                src={project.img}
-                                alt={project.title}
-                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                              />
-                            </div>
-                          </div>
-                        ) : section.category === "E-Commerce" ? (
-                          <div className="w-full h-full rounded-[32px] overflow-hidden relative flex flex-col bg-white border border-gray-200/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
-                            {/* Top Product Meta */}
-                            <div className="flex justify-between items-start p-6 pb-4 relative z-10">
-                              <div>
-                                <div className="flex gap-1 text-amber-400 mb-2">
-                                  {[...Array(5)].map((_, i) => (
-                                    <svg
-                                      key={i}
-                                      className="w-3.5 h-3.5 fill-current"
-                                      viewBox="0 0 20 20"
-                                    >
-                                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                    </svg>
-                                  ))}
-                                </div>
-                                <h3 className="text-xl font-bold tracking-tight capitalize text-gray-900">
-                                  {project.title}
-                                </h3>
-                                <p className="text-xs font-semibold text-gray-500 mt-1 uppercase tracking-wider">
-                                  {project.meta}
-                                </p>
-                              </div>
-                              <div className="w-9 h-9 rounded-full bg-gray-50 flex items-center justify-center border border-gray-100">
-                                <svg
-                                  className="w-4 h-4 text-gray-900"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  stroke="currentColor"
-                                  strokeWidth={2}
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
-                                  />
-                                </svg>
-                              </div>
-                            </div>
-
-                            {/* Image area pretending to be product photo */}
-                            <div className="flex-1 w-full bg-[#f8f9fa] p-6 relative overflow-hidden flex items-center justify-center border-y border-gray-100">
-                              <img
-                                src={project.img}
-                                alt={project.title}
-                                className="w-full h-full object-cover rounded-xl shadow-md group-hover:scale-[1.05] group-hover:-translate-y-1 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
-                              />
-                            </div>
-
-                            {/* Bottom Checkout Bar */}
-                            <div className="p-5 flex items-center justify-between bg-white relative z-10">
-                              <div>
-                                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">
-                                  Total Price
-                                </p>
-                                <p className="text-lg font-bold text-gray-900 leading-none mt-1">
-                                  $299.00
-                                </p>
-                              </div>
-                              <button className="bg-black text-white px-5 py-2.5 rounded-full text-sm font-semibold flex items-center gap-2 group-hover:bg-gray-800 transition-colors">
-                                Add to Bag
-                              </button>
-                            </div>
-                          </div>
-                        ) : section.category === "Digital Marketing" ? (
-                          <div className="w-full h-full rounded-[24px] overflow-hidden relative flex flex-col bg-white border border-gray-200 shadow-md">
-                            {/* Top bar (Social Profile) */}
-                            <div className="flex items-center gap-3 p-4 border-b border-gray-100 bg-white">
-                              <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-pink-500 via-red-500 to-yellow-500 p-[2px]">
-                                <div className="w-full h-full bg-white rounded-full flex items-center justify-center p-[2px]">
-                                  <div className="w-full h-full bg-gray-200 rounded-full overflow-hidden">
-                                    <img src={project.img} className="w-full h-full object-cover" />
+                              {/* Fake Status Bar */}
+                              <div className="absolute top-1.5 inset-x-6 flex justify-between items-center z-20 text-[10px] font-semibold text-white/80">
+                                <span>9:41</span>
+                                <div className="flex gap-1 items-center">
+                                  <div className="w-5 h-2.5 border border-current rounded-[3px] p-[1px] opacity-80">
+                                    <div className="w-[75%] h-full bg-current rounded-sm"></div>
                                   </div>
                                 </div>
                               </div>
-                              <div className="flex-1">
-                                <h3 className="text-sm font-bold text-gray-900 leading-none">
-                                  {project.title.replace(/\s/g, "").toLowerCase()}
-                                </h3>
-                                <p className="text-[11px] text-gray-500 mt-0.5 tracking-wide">
-                                  Sponsored
-                                </p>
-                              </div>
-                              <svg
-                                className="w-5 h-5 text-gray-400"
-                                fill="currentColor"
-                                viewBox="0 0 24 24"
+
+                              {/* Top Info Section (Name) */}
+                              <div
+                                className={`pt-12 pb-6 px-6 relative z-10 text-center ${project.bg}`}
                               >
-                                <path d="M12 8a2 2 0 110-4 2 2 0 010 4zm0 6a2 2 0 110-4 2 2 0 010 4zm0 6a2 2 0 110-4 2 2 0 010 4z" />
-                              </svg>
-                            </div>
+                                <h3 className="text-2xl font-bold tracking-tight capitalize">
+                                  {project.title}
+                                </h3>
+                                <p className="text-xs font-medium opacity-70 mt-1">{project.meta}</p>
+                              </div>
 
-                            {/* Main Image */}
-                            <div className="w-full flex-1 relative overflow-hidden bg-gray-100">
-                              <img
-                                src={project.img}
-                                alt={project.title}
-                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                              />
-                              {/* Analytics Overlay */}
-                              <div className="absolute top-3 right-3 bg-black/70 backdrop-blur-md rounded-lg px-2.5 py-1.5 flex items-center gap-1.5 text-white shadow-lg border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <svg
-                                  className="w-3.5 h-3.5 text-green-400"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  stroke="currentColor"
-                                  strokeWidth={3.5}
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                                  />
-                                </svg>
-                                <span className="text-xs font-bold tracking-wider">142%</span>
+                              {/* Screen Content (Image) */}
+                              <div className="absolute inset-0 top-32 overflow-hidden bg-black">
+                                <img
+                                  src={project.img}
+                                  alt={project.title}
+                                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                                />
                               </div>
                             </div>
-
-                            {/* Bottom Action Bar */}
-                            <div className="p-4 bg-white border-t border-gray-100">
-                              <div className="flex items-center gap-3.5 mb-3">
-                                <svg
-                                  className="w-[22px] h-[22px] text-gray-800 hover:text-red-500 transition-colors cursor-pointer"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  stroke="currentColor"
-                                  strokeWidth={2}
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                                  />
-                                </svg>
-                                <svg
-                                  className="w-[22px] h-[22px] text-gray-800"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  stroke="currentColor"
-                                  strokeWidth={2}
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                                  />
-                                </svg>
-                                <svg
-                                  className="w-[22px] h-[22px] text-gray-800"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  stroke="currentColor"
-                                  strokeWidth={2}
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
-                                  />
-                                </svg>
-                              </div>
-                              <p className="text-sm text-gray-800 leading-tight">
-                                <span className="font-bold mr-1.5">
-                                  {project.title.replace(/\s/g, "").toLowerCase()}
-                                </span>
-                                {project.meta}
-                              </p>
-                            </div>
-                          </div>
-                        ) : section.category === "UI/UX" ? (
-                          <div className="w-full h-full rounded-[16px] md:rounded-[20px] overflow-hidden relative flex flex-col bg-[#1e1e1e] border border-[#333] shadow-2xl font-sans text-left">
-                            {/* Design Tool Top Bar */}
-                            <div className="h-11 w-full bg-[#2c2c2c] flex items-center justify-between px-4 shrink-0 border-b border-[#111]">
-                              <div className="flex items-center gap-3">
-                                {/* Fake Hamburger */}
-                                <svg
-                                  className="w-4 h-4 text-gray-400"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  stroke="currentColor"
-                                  strokeWidth={2}
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M4 6h16M4 12h16M4 18h16"
-                                  />
-                                </svg>
-                                {/* Fake File Name */}
-                                <div className="text-[11px] font-medium text-gray-300 bg-[#3a3a3a] px-2 py-1 rounded-md capitalize">
-                                  {project.title.toLowerCase()} - Design
+                          ) : section.category === "E-Commerce" ? (
+                            <div className="w-full h-full rounded-[32px] overflow-hidden relative flex flex-col bg-white border border-gray-200/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                              {/* Top Product Meta */}
+                              <div className="flex justify-between items-start p-6 pb-4 relative z-10">
+                                <div>
+                                  <div className="flex gap-1 text-amber-400 mb-2">
+                                    {[...Array(5)].map((_, i) => (
+                                      <svg
+                                        key={i}
+                                        className="w-3.5 h-3.5 fill-current"
+                                        viewBox="0 0 20 20"
+                                      >
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                      </svg>
+                                    ))}
+                                  </div>
+                                  <h3 className="text-xl font-bold tracking-tight capitalize text-gray-900">
+                                    {project.title}
+                                  </h3>
+                                  <p className="text-xs font-semibold text-gray-500 mt-1 uppercase tracking-wider">
+                                    {project.meta}
+                                  </p>
                                 </div>
-                              </div>
-                              <div className="flex items-center gap-4 text-gray-400">
-                                <svg
-                                  className="w-4 h-4 hidden sm:block"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  stroke="currentColor"
-                                  strokeWidth={2}
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"
-                                  />
-                                </svg>
-                                <div className="w-px h-4 bg-[#444] hidden sm:block"></div>
-                                <div className="w-6 h-6 rounded-full bg-blue-500 text-white flex items-center justify-center text-[9px] font-bold">
-                                  DS
-                                </div>
-                              </div>
-                            </div>
-
-                            <div className="flex-1 flex overflow-hidden">
-                              {/* Left Sidebar (Layers) */}
-                              <div className="w-32 bg-[#252525] border-r border-[#111] hidden sm:flex flex-col p-3 gap-1.5 shrink-0">
-                                <div className="text-[9px] text-gray-500 font-bold uppercase tracking-wider mb-2">
-                                  Layers
-                                </div>
-                                <div className="text-[10px] text-gray-300 bg-[#3a3a3a] rounded px-2 py-1.5 truncate flex items-center gap-1.5">
-                                  <span className="font-bold">#</span> Frame 1
-                                </div>
-                                <div className="text-[10px] text-gray-400 px-2 py-1 truncate flex items-center gap-1.5 pl-4">
+                                <div className="w-9 h-9 rounded-full bg-gray-50 flex items-center justify-center border border-gray-100">
                                   <svg
-                                    className="w-3 h-3"
+                                    className="w-4 h-4 text-gray-900"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
+                                    strokeWidth={2}
                                   >
                                     <path
                                       strokeLinecap="round"
                                       strokeLinejoin="round"
-                                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                      d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
                                     />
                                   </svg>
-                                  {project.meta}
                                 </div>
                               </div>
 
-                              {/* Canvas Area */}
-                              <div
-                                className="flex-1 bg-[#1e1e1e] relative flex items-center justify-center p-8 overflow-hidden"
-                                style={{
-                                  backgroundImage: "radial-gradient(#333 1px, transparent 1px)",
-                                  backgroundSize: "16px 16px",
-                                }}
-                              >
-                                <div className="relative w-full h-full max-h-full max-w-full flex items-center justify-center group-hover:scale-[1.03] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
-                                  {/* Selected Border (Blue bounding box) */}
-                                  <div className="absolute inset-0 border-2 border-[#0ea5e9] opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 pointer-events-none">
-                                    {/* Handles */}
-                                    <div className="absolute -top-1 -left-1 w-2 h-2 bg-white border border-[#0ea5e9]"></div>
-                                    <div className="absolute -top-1 -right-1 w-2 h-2 bg-white border border-[#0ea5e9]"></div>
-                                    <div className="absolute -bottom-1 -left-1 w-2 h-2 bg-white border border-[#0ea5e9]"></div>
-                                    <div className="absolute -bottom-1 -right-1 w-2 h-2 bg-white border border-[#0ea5e9]"></div>
-                                    {/* Title Tab */}
-                                    <div className="absolute bottom-full left-[-2px] bg-[#0ea5e9] text-white text-[9px] font-bold px-1.5 py-0.5 whitespace-nowrap">
-                                      {project.title}
+                              {/* Image area pretending to be product photo */}
+                              <div className="flex-1 w-full bg-[#f8f9fa] p-6 relative overflow-hidden flex items-center justify-center border-y border-gray-100">
+                                <img
+                                  src={project.img}
+                                  alt={project.title}
+                                  className="w-full h-full object-cover rounded-xl shadow-md group-hover:scale-[1.05] group-hover:-translate-y-1 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
+                                />
+                              </div>
+
+                              {/* Bottom Checkout Bar */}
+                              <div className="p-5 flex items-center justify-between bg-white relative z-10">
+                                <div>
+                                  <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">
+                                    Total Price
+                                  </p>
+                                  <p className="text-lg font-bold text-gray-900 leading-none mt-1">
+                                    $299.00
+                                  </p>
+                                </div>
+                                <div className="bg-black text-white px-5 py-2.5 rounded-full text-sm font-semibold flex items-center gap-2 group-hover:bg-gray-800 transition-colors">
+                                  Visit Store
+                                </div>
+                              </div>
+                            </div>
+                          ) : section.category === "Digital Marketing" ? (
+                            <div className="w-full h-full rounded-[24px] overflow-hidden relative flex flex-col bg-white border border-gray-200 shadow-md">
+                              {/* Top bar (Social Profile) */}
+                              <div className="flex items-center gap-3 p-4 border-b border-gray-100 bg-white">
+                                <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-pink-500 via-red-500 to-yellow-500 p-[2px]">
+                                  <div className="w-full h-full bg-white rounded-full flex items-center justify-center p-[2px]">
+                                    <div className="w-full h-full bg-gray-200 rounded-full overflow-hidden">
+                                      <img src={project.img} className="w-full h-full object-cover" />
                                     </div>
                                   </div>
-                                  <img
-                                    src={project.img}
-                                    alt={project.title}
-                                    className="max-w-full max-h-full object-contain shadow-[0_15px_40px_rgba(0,0,0,0.6)] relative z-10"
-                                  />
+                                </div>
+                                <div className="flex-1">
+                                  <h3 className="text-sm font-bold text-gray-900 leading-none">
+                                    {project.title.replace(/\s/g, "").toLowerCase()}
+                                  </h3>
+                                  <p className="text-[11px] text-gray-500 mt-0.5 tracking-wide">
+                                    Sponsored
+                                  </p>
+                                </div>
+                                <svg
+                                  className="w-5 h-5 text-gray-400"
+                                  fill="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path d="M12 8a2 2 0 110-4 2 2 0 010 4zm0 6a2 2 0 110-4 2 2 0 010 4zm0 6a2 2 0 110-4 2 2 0 010 4z" />
+                                </svg>
+                              </div>
+
+                              {/* Main Image */}
+                              <div className="w-full flex-1 relative overflow-hidden bg-gray-100">
+                                <img
+                                  src={project.img}
+                                  alt={project.title}
+                                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                                />
+                                {/* Analytics Overlay */}
+                                <div className="absolute top-3 right-3 bg-black/70 backdrop-blur-md rounded-lg px-2.5 py-1.5 flex items-center gap-1.5 text-white shadow-lg border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                  <svg
+                                    className="w-3.5 h-3.5 text-green-400"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    strokeWidth={3.5}
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                                    />
+                                  </svg>
+                                  <span className="text-xs font-bold tracking-wider">142%</span>
+                                </div>
+                              </div>
+
+                              {/* Bottom Action Bar */}
+                              <div className="p-4 bg-white border-t border-gray-100">
+                                <div className="flex items-center gap-3.5 mb-3">
+                                  <svg
+                                    className="w-[22px] h-[22px] text-gray-800 hover:text-red-500 transition-colors cursor-pointer"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    strokeWidth={2}
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                                    />
+                                  </svg>
+                                  <svg
+                                    className="w-[22px] h-[22px] text-gray-800"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    strokeWidth={2}
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                                    />
+                                  </svg>
+                                  <svg
+                                    className="w-[22px] h-[22px] text-gray-800"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    strokeWidth={2}
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
+                                    />
+                                  </svg>
+                                </div>
+                                <p className="text-sm text-gray-800 leading-tight">
+                                  <span className="font-bold mr-1.5">
+                                    {project.title.replace(/\s/g, "").toLowerCase()}
+                                  </span>
+                                  {project.meta}
+                                </p>
+                              </div>
+                            </div>
+                          ) : section.category === "UI/UX" ? (
+                            <div className="w-full h-full rounded-[16px] md:rounded-[20px] overflow-hidden relative flex flex-col bg-[#1e1e1e] border border-[#333] shadow-2xl font-sans text-left">
+                              {/* Design Tool Top Bar */}
+                              <div className="h-11 w-full bg-[#2c2c2c] flex items-center justify-between px-4 shrink-0 border-b border-[#111]">
+                                <div className="flex items-center gap-3">
+                                  {/* Fake Hamburger */}
+                                  <svg
+                                    className="w-4 h-4 text-gray-400"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    strokeWidth={2}
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      d="M4 6h16M4 12h16M4 18h16"
+                                    />
+                                  </svg>
+                                  {/* Fake File Name */}
+                                  <div className="text-[11px] font-medium text-gray-300 bg-[#3a3a3a] px-2 py-1 rounded-md capitalize">
+                                    {project.title.toLowerCase()} - Design
+                                  </div>
+                                </div>
+                                <div className="flex items-center gap-4 text-gray-400">
+                                  <svg
+                                    className="w-4 h-4 hidden sm:block"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    strokeWidth={2}
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"
+                                    />
+                                  </svg>
+                                  <div className="w-px h-4 bg-[#444] hidden sm:block"></div>
+                                  <div className="w-6 h-6 rounded-full bg-blue-500 text-white flex items-center justify-center text-[9px] font-bold">
+                                    DS
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div className="flex-1 flex overflow-hidden">
+                                {/* Left Sidebar (Layers) */}
+                                <div className="w-32 bg-[#252525] border-r border-[#111] hidden sm:flex flex-col p-3 gap-1.5 shrink-0">
+                                  <div className="text-[9px] text-gray-500 font-bold uppercase tracking-wider mb-2">
+                                    Layers
+                                  </div>
+                                  <div className="text-[10px] text-gray-300 bg-[#3a3a3a] rounded px-2 py-1.5 truncate flex items-center gap-1.5">
+                                    <span className="font-bold">#</span> Frame 1
+                                  </div>
+                                  <div className="text-[10px] text-gray-400 px-2 py-1 truncate flex items-center gap-1.5 pl-4">
+                                    <svg
+                                      className="w-3 h-3"
+                                      fill="none"
+                                      viewBox="0 0 24 24"
+                                      stroke="currentColor"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                      />
+                                    </svg>
+                                    {project.meta}
+                                  </div>
+                                </div>
+
+                                {/* Canvas Area */}
+                                <div
+                                  className="flex-1 bg-[#1e1e1e] relative flex items-center justify-center p-8 overflow-hidden"
+                                  style={{
+                                    backgroundImage: "radial-gradient(#333 1px, transparent 1px)",
+                                    backgroundSize: "16px 16px",
+                                  }}
+                                >
+                                  <div className="relative w-full h-full max-h-full max-w-full flex items-center justify-center group-hover:scale-[1.03] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
+                                    {/* Selected Border (Blue bounding box) */}
+                                    <div className="absolute inset-0 border-2 border-[#0ea5e9] opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 pointer-events-none">
+                                      {/* Handles */}
+                                      <div className="absolute -top-1 -left-1 w-2 h-2 bg-white border border-[#0ea5e9]"></div>
+                                      <div className="absolute -top-1 -right-1 w-2 h-2 bg-white border border-[#0ea5e9]"></div>
+                                      <div className="absolute -bottom-1 -left-1 w-2 h-2 bg-white border border-[#0ea5e9]"></div>
+                                      <div className="absolute -bottom-1 -right-1 w-2 h-2 bg-white border border-[#0ea5e9]"></div>
+                                      {/* Title Tab */}
+                                      <div className="absolute bottom-full left-[-2px] bg-[#0ea5e9] text-white text-[9px] font-bold px-1.5 py-0.5 whitespace-nowrap">
+                                        {project.title}
+                                      </div>
+                                    </div>
+                                    <img
+                                      src={project.img}
+                                      alt={project.title}
+                                      className="max-w-full max-h-full object-contain shadow-[0_15px_40px_rgba(0,0,0,0.6)] relative z-10"
+                                    />
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        ) : (
-                          <>
-                            <div className="p-8 relative z-10">
-                              <h3 className="text-3xl font-bold tracking-tight mb-2 capitalize">
-                                {project.title}
-                              </h3>
-                              <p className="text-lg font-medium opacity-80">{project.meta}</p>
-                            </div>
+                          ) : (
+                            <>
+                              <div className="p-8 relative z-10">
+                                <h3 className="text-3xl font-bold tracking-tight mb-2 capitalize">
+                                  {project.title}
+                                </h3>
+                                <p className="text-lg font-medium opacity-80">{project.meta}</p>
+                              </div>
 
-                            <div className="absolute inset-0 top-32 overflow-hidden flex items-end justify-center pb-8">
-                              <img
-                                src={project.img}
-                                alt={project.title}
-                                className="w-[90%] h-[80%] object-cover rounded-2xl shadow-2xl group-hover:scale-105 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
-                              />
-                            </div>
+                              <div className="absolute inset-0 top-32 overflow-hidden flex items-end justify-center pb-8">
+                                <img
+                                  src={project.img}
+                                  alt={project.title}
+                                  className="w-[90%] h-[80%] object-cover rounded-2xl shadow-2xl group-hover:scale-105 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
+                                />
+                              </div>
 
-                            <div className="absolute top-8 right-8 w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                              <ArrowUpRight className="w-6 h-6 text-current" />
-                            </div>
-                          </>
-                        )}
-                      </div>
-                    ))}
+                              <div className="absolute top-8 right-8 w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <ArrowUpRight className="w-6 h-6 text-current" />
+                              </div>
+                            </>
+                          )}
+                        </a>
+                      );
+                    })}
                   </div>
                 )}
               </div>
