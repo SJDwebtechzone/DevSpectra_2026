@@ -314,18 +314,17 @@ function Contact() {
             >
               <div className="space-y-8 relative z-10 w-full text-gray-900">
                 <div>
-                  <h3 className="text-2xl font-bold mb-2 text-gray-900 font-display">Address</h3>
+                  <h3 className="text-2xl font-bold mb-3 text-gray-900 font-display">Address</h3>
                   <p className="text-gray-600 font-medium leading-relaxed text-[17px]">
-                    4517 Washington Ave. Manchester,
+                    DevSpectra, Valasaravakkam,
                     <br />
-                    Kentucky 39495
+                    Chennai, Tamil Nadu, India
                   </p>
                 </div>
 
                 <div>
                   <h3 className="text-2xl font-bold mb-3 text-gray-900 font-display">Contact</h3>
-                  <p className="text-gray-600 font-medium text-[17px]">Phone : +0123-456-789</p>
-                  <p className="text-gray-600 font-medium mt-1 text-[17px]">Email : ramyashan.1010@gmail.com</p>
+                  <p className="text-gray-600 font-medium text-[17px]">Email : info@devspectra.com</p>
                 </div>
 
                 <div>
@@ -335,22 +334,65 @@ function Contact() {
 
                 <div>
                   <h3 className="text-2xl font-bold mb-4 text-gray-900 font-display">Stay Connected</h3>
-                  <div className="flex gap-4 flex-wrap">
-                    {[
-                      { icon: Facebook, href: "#" },
-                      { icon: Twitter, href: "#" },
-                      { icon: Linkedin, href: "#" },
-                      { icon: Instagram, href: "#" },
-                      { icon: Youtube, href: "#" },
-                    ].map((s, i) => (
-                      <a
-                        key={i}
-                        href={s.href}
-                        className="w-14 h-14 rounded-full bg-white/90 backdrop-blur-md border border-white flex items-center justify-center text-gray-700 hover:text-black hover:bg-white hover:scale-110 transition-all shadow-[0_8px_20px_rgba(0,0,0,0.06)]"
-                      >
-                        <s.icon className="w-5 h-5 stroke-[2]" />
-                      </a>
-                    ))}
+                  <div className="flex flex-wrap gap-3.5">
+                    {/* LinkedIn */}
+                    <a
+                      href="https://www.linkedin.com/company/devspectra/posts/?feedView=all"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="LinkedIn"
+                      className="w-12 h-12 bg-white/70 text-[#0077B5] backdrop-blur-xl border border-white/90 shadow-[0_4px_12px_rgba(0,0,0,0.05),inset_0_2px_8px_rgba(255,255,255,0.8)] flex items-center justify-center rounded-full hover:bg-white hover:scale-110 hover:shadow-lg transition-all"
+                    >
+                      <Linkedin className="w-5 h-5" />
+                    </a>
+
+                    {/* Facebook */}
+                    <a
+                      href="https://www.facebook.com/people/Devspectra/61592571971735/?rdid=LKwgeZMfC0rRrH6K&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1HgawTFf6o%2F"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Facebook"
+                      className="w-12 h-12 bg-white/70 text-[#1877F2] backdrop-blur-xl border border-white/90 shadow-[0_4px_12px_rgba(0,0,0,0.05),inset_0_2px_8px_rgba(255,255,255,0.8)] flex items-center justify-center rounded-full hover:bg-white hover:scale-110 hover:shadow-lg transition-all"
+                    >
+                      <Facebook className="w-5 h-5" />
+                    </a>
+
+                    {/* Instagram */}
+                    <a
+                      href="https://www.instagram.com/_devspectra_?igsi=MW9wMW9oczAyOHg2eA%3D%3D"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Instagram"
+                      className="w-12 h-12 bg-white/70 text-[#E4405F] backdrop-blur-xl border border-white/90 shadow-[0_4px_12px_rgba(0,0,0,0.05),inset_0_2px_8px_rgba(255,255,255,0.8)] flex items-center justify-center rounded-full hover:bg-white hover:scale-110 hover:shadow-lg transition-all"
+                    >
+                      <Instagram className="w-5 h-5" />
+                    </a>
+
+                    {/* YouTube */}
+                    <a
+                      href="https://www.youtube.com/@Devspectratech"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="YouTube"
+                      className="w-12 h-12 bg-white/70 text-[#FF0000] backdrop-blur-xl border border-white/90 shadow-[0_4px_12px_rgba(0,0,0,0.05),inset_0_2px_8px_rgba(255,255,255,0.8)] flex items-center justify-center rounded-full hover:bg-white hover:scale-110 hover:shadow-lg transition-all"
+                    >
+                      <Youtube className="w-5 h-5" />
+                    </a>
+
+                    {/* Justdial */}
+                    <a
+                      href="https://www.justdial.com/Chennai/DevSpectra-Valasaravakkam/044PXX44-XX44-251112122932-Q6Z1_BZDET?via=scode"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Justdial"
+                      className="w-12 h-12 bg-white/70 backdrop-blur-xl border border-white/90 shadow-[0_4px_12px_rgba(0,0,0,0.05),inset_0_2px_8px_rgba(255,255,255,0.8)] flex items-center justify-center rounded-full hover:bg-white hover:scale-110 hover:shadow-lg transition-all"
+                    >
+                      <svg viewBox="0 0 24 24" className="w-6 h-6 rounded-md shadow-sm" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="24" height="24" rx="6" fill="#0076D7" />
+                        <text x="4" y="16.5" fill="#FFFFFF" fontSize="12" fontWeight="900" fontFamily="system-ui, sans-serif">J</text>
+                        <text x="11.5" y="16.5" fill="#FF8A00" fontSize="12" fontWeight="900" fontFamily="system-ui, sans-serif">d</text>
+                      </svg>
+                    </a>
                   </div>
                 </div>
               </div>
