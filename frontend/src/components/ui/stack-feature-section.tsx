@@ -14,13 +14,13 @@ export default function FeatureSection() {
   return (
     <section className="w-full bg-white">
       <div className="relative mx-auto w-full max-w-[1400px] overflow-hidden" style={{ aspectRatio: `${CANVAS_W} / ${CANVAS_H}` }}>
-        <div className="absolute font-extrabold leading-[0.9] tracking-tight text-neutral-900" style={{ ...pos(50, 15), fontSize: "clamp(24px, 6.6vw, 62px)" }}>
+        <div className="absolute font-display font-black leading-[0.82] tracking-[-0.06em] text-neutral-950" style={{ ...pos(50, 15), fontSize: "clamp(28px, 8vw, 78px)" }}>
           bring
         </div>
-        <div className="absolute font-extrabold leading-[0.9] tracking-tight text-neutral-900" style={{ ...pos(150, 95), fontSize: "clamp(24px, 6.6vw, 62px)" }}>
+        <div className="absolute font-display font-black leading-[0.82] tracking-[-0.06em] text-neutral-950" style={{ ...pos(150, 95), fontSize: "clamp(28px, 8vw, 78px)" }}>
           a team
         </div>
-        <div className="absolute font-extrabold leading-[0.9] tracking-tight text-neutral-900" style={{ ...pos(300, 175), fontSize: "clamp(24px, 6.6vw, 62px)" }}>
+        <div className="absolute font-display font-black leading-[0.82] tracking-[-0.06em] text-neutral-950" style={{ ...pos(300, 175), fontSize: "clamp(28px, 8vw, 78px)" }}>
           together
         </div>
 
@@ -31,7 +31,7 @@ export default function FeatureSection() {
           <path d="M 0 12 C 35 12, 28 40, 65 40 C 100 40, 95 12, 140 12" stroke="#111827" strokeWidth="2.2" strokeDasharray="6 6" strokeLinecap="round" />
         </svg>
 
-        <div className="absolute hidden items-center justify-center rounded-full bg-emerald-500 shadow-lg sm:flex" style={pos(248, 20, 62, 62)}>
+        <div className="absolute hidden items-center justify-center rounded-full bg-emerald-500 shadow-lg sm:flex" style={pos(248, 20, 52, 52)}>
           <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="h-[44%] w-[44%]">
             <line x1="7" y1="17" x2="17" y2="7" /><polyline points="7 7 17 7 17 17" />
           </svg>
@@ -39,9 +39,9 @@ export default function FeatureSection() {
         <div className="absolute hidden items-center rounded-full bg-gradient-to-r from-blue-500 to-blue-300 shadow-lg sm:flex" style={{ ...pos(320, 27, 110, 56), padding: "6%" }}>
           <div className="ml-auto flex h-[88%] w-[44%] items-center justify-center rounded-full bg-white shadow-inner"><div className="h-[68%] w-[68%] rounded-full border-4 border-neutral-200 border-t-blue-400" /></div>
         </div>
-        <div className="absolute hidden items-center justify-center sm:flex" style={{ ...pos(450, 15, 70, 70), fontSize: "clamp(22px,3.8vw,36px)" }}>🥳</div>
+        <div className="absolute hidden items-center justify-center sm:flex" style={{ ...pos(450, 10, 78, 78), fontSize: "clamp(32px,5vw,52px)" }}>🥳</div>
 
-        <div className="absolute hidden items-center justify-center rounded-full bg-amber-400 shadow-lg sm:flex" style={pos(35, 95, 82, 82)}><span className="h-[9%] w-[9%] rounded-full bg-blue-600" /></div>
+        <div className="absolute hidden items-center justify-center rounded-full bg-amber-400 shadow-lg sm:flex" style={pos(35, 95, 68, 68)}><span className="h-[9%] w-[9%] rounded-full bg-blue-600" /></div>
         <div className="absolute hidden items-center rounded-full border border-neutral-300 bg-white shadow-md sm:flex" style={{ ...pos(425, 108, 110, 34), padding: "0 8%" }}>
           <div className="relative h-[10%] w-full rounded-full bg-neutral-200"><span className="absolute left-1/2 top-1/2 h-[70%] w-[9%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-500 ring-4 ring-emerald-100" /></div>
         </div>
