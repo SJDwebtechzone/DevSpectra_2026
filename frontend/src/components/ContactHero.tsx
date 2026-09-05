@@ -99,11 +99,10 @@ export default function ContactHero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.35, duration: 0.7 }}
-            className="relative z-10 mx-auto mt-10 max-w-[560px] text-[17px] font-medium leading-[1.5] tracking-[-0.2px] text-black/80 sm:text-[19px] lg:text-[21px]"
+            className="relative z-10 mx-auto mt-10 max-w-[680px] text-[clamp(10px,3.4vw,21px)] font-medium leading-[1.5] tracking-[-0.2px] text-black/80"
           >
-            Have a project, idea, or question?
-            <br />
-            Connect with us and let&apos;s create something amazing together.
+            <span className="block whitespace-nowrap">Have a project, idea, or question?</span>
+            <span className="block whitespace-nowrap">Connect with us and let&apos;s create something amazing together.</span>
           </motion.p>
 
           <motion.a
