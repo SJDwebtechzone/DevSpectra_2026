@@ -10,8 +10,8 @@ const floatTransition = {
 
 export default function ContactHero() {
   return (
-    <section className="relative min-h-[650px] overflow-hidden bg-white px-5 py-16 sm:min-h-[700px] sm:px-8 sm:py-20 lg:min-h-[760px] lg:px-12">
-      <div className="mx-auto flex min-h-[550px] max-w-7xl items-center justify-center sm:min-h-[600px]">
+    <section className="relative min-h-[650px] overflow-hidden bg-white px-5 pb-16 pt-8 sm:min-h-[700px] sm:px-8 sm:pb-20 sm:pt-10 lg:min-h-[760px] lg:px-12 lg:pb-24 lg:pt-12">
+      <div className="mx-auto flex min-h-[550px] max-w-7xl -translate-y-8 items-center justify-center sm:min-h-[600px] sm:-translate-y-10 lg:-translate-y-12">
         <div className="relative w-full max-w-6xl text-center">
           <motion.div
             aria-hidden="true"
