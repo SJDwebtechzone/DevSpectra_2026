@@ -299,7 +299,7 @@ function Contact() {
           </div>
 
           {/* Left: Contact Details */}
-          <div className="relative mt-8 lg:mt-0 order-1 lg:order-1 pr-0 lg:pr-20">
+          <div className="relative mt-0 order-1 lg:order-1 pr-0 lg:pr-20">
             {/* Badge overlay */}
             <div className="hidden">
               <div className="absolute inset-2 border border-dashed border-black/20 rounded-full animate-[spin_12s_linear_infinite]" />
