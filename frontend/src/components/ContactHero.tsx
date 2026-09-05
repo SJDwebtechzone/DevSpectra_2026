@@ -99,7 +99,7 @@ export default function ContactHero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.35, duration: 0.7 }}
-            className="relative z-10 mx-auto mt-10 max-w-[520px] text-[14px] font-medium leading-[1.45] tracking-[-0.2px] text-black/80 sm:text-[15px]"
+            className="relative z-10 mx-auto mt-10 max-w-[560px] text-[17px] font-medium leading-[1.5] tracking-[-0.2px] text-black/80 sm:text-[19px] lg:text-[21px]"
           >
             Have a project, idea, or question?
             <br />
