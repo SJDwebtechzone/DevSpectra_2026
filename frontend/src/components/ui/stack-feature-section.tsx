@@ -1,43 +1,96 @@
+import React from "react";
+
+const ToggleDecoration: React.FC<{ className?: string }> = ({ className = "" }) => (
+  <div className={`flex h-14 w-28 items-center rounded-full bg-gradient-to-r from-blue-500 to-blue-300 p-1.5 shadow-lg ${className}`}>
+    <div className="ml-auto flex h-11 w-11 items-center justify-center rounded-full bg-white shadow-inner">
+      <div className="h-8 w-8 rounded-full border-4 border-neutral-200 border-t-blue-400" />
+    </div>
+  </div>
+);
+
+const ArrowCircle: React.FC<{ className?: string }> = ({ className = "" }) => (
+  <div className={`flex h-20 w-20 items-center justify-center rounded-full bg-emerald-500 shadow-lg ${className}`}>
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="7" y1="17" x2="17" y2="7" />
+      <polyline points="7 7 17 7 17 17" />
+    </svg>
+  </div>
+);
+
+const EmojiBubble: React.FC<{ className?: string }> = ({ className = "" }) => (
+  <div className={`flex h-20 w-20 items-center justify-center rounded-full bg-white text-4xl shadow-lg ${className}`}>🥳</div>
+);
+
+const OrangeCircle: React.FC<{ className?: string }> = ({ className = "" }) => (
+  <div className={`flex h-24 w-24 items-center justify-center rounded-full bg-amber-400 shadow-lg ${className}`}>
+    <span className="h-2.5 w-2.5 rounded-full bg-blue-600" />
+  </div>
+);
+
+const SliderDecoration: React.FC<{ className?: string }> = ({ className = "" }) => (
+  <div className={`flex h-10 w-32 items-center rounded-full border border-neutral-300 bg-white px-3 shadow-md ${className}`}>
+    <div className="relative h-1 w-full rounded-full bg-neutral-200">
+      <span className="absolute left-1/2 top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-500 ring-4 ring-emerald-100" />
+    </div>
+  </div>
+);
+
+const CommandBadge: React.FC<{ className?: string }> = ({ className = "" }) => (
+  <div className={`relative h-16 w-28 ${className}`}>
+    <div className="absolute left-0 top-0 h-16 w-16 rounded-full bg-gradient-to-br from-pink-400 to-pink-300 shadow-lg" />
+    <div className="absolute left-10 top-0 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-blue-400 text-white shadow-lg">
+      <span className="text-lg font-bold">⌘</span>
+    </div>
+  </div>
+);
+
+const DashedConnector: React.FC<{ className?: string; d: string; width?: number; height?: number }> = ({
+  className = "",
+  d,
+  width = 200,
+  height = 200,
+}) => (
+  <svg viewBox={`0 0 ${width} ${height}`} className={`pointer-events-none absolute ${className}`} fill="none">
+    <path d={d} stroke="#111827" strokeWidth="2" strokeDasharray="6 6" strokeLinecap="round" />
+  </svg>
+);
+
 export default function FeatureSection() {
   return (
-    <section className="relative isolate flex min-h-[620px] w-full items-center justify-center overflow-hidden border-b border-black/5 bg-white px-4 py-20 sm:min-h-[700px] sm:px-6 lg:min-h-[760px]">
-      <div aria-hidden="true" className="absolute inset-0 overflow-hidden">
-        <div className="absolute left-[8%] top-[43%] h-16 w-16 rounded-full bg-[#ffc53d] shadow-[inset_-8px_-8px_18px_rgba(255,150,0,0.2)] sm:h-24 sm:w-24 lg:left-[18%]" />
-        <div className="absolute left-[32%] top-[22%] flex h-16 w-16 rotate-45 items-center justify-center rounded-[1.25rem] bg-[#36d84b] shadow-[0_8px_20px_rgba(54,216,75,0.25)] sm:h-20 sm:w-20">
-          <span className="-rotate-45 text-3xl text-black">↗</span>
-        </div>
-        <div className="absolute right-[8%] top-[23%] h-16 w-36 rounded-full bg-gradient-to-r from-[#2f75df] to-[#93c5ff] shadow-[0_12px_24px_rgba(47,117,223,0.22)] sm:h-20 sm:w-56 lg:right-[19%]" />
-        <div className="absolute right-[25%] top-[18%] h-16 w-16 rounded-full border-[8px] border-[#f4f1e9] bg-white shadow-[0_4px_14px_rgba(0,0,0,0.1)] sm:h-20 sm:w-20" />
-        <div className="absolute right-[14%] top-[18%] h-14 w-14 rotate-12 rounded-[45%] bg-[#ff9e36] shadow-[0_6px_14px_rgba(255,158,54,0.25)] sm:h-20 sm:w-20" />
-        <div className="absolute left-[31%] top-[54%] h-14 w-28 rotate-[-10deg] rounded-full bg-gradient-to-r from-[#f2599d] to-[#78a9f5] opacity-90 sm:h-20 sm:w-40" />
-        <div className="absolute left-[40%] top-[55%] flex h-12 w-24 items-center justify-center rounded-full border-4 border-[#99b9eb] bg-[#d8e7ff] text-xl font-bold text-[#162442] shadow-[0_8px_15px_rgba(80,120,190,0.2)] sm:h-16 sm:w-32">
-          ⌘
-        </div>
-        <div className="absolute right-[13%] top-[45%] h-10 w-24 rounded-full border-2 border-black bg-white shadow-[0_4px_10px_rgba(0,0,0,0.08)] sm:w-32 lg:right-[20%]">
-          <span className="absolute left-1/2 top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#31d74b] shadow-[0_0_0_4px_rgba(49,215,75,0.15)]" />
-        </div>
-        <div className="absolute left-[17%] top-[41%] h-28 w-px rotate-12 bg-black/80 sm:h-36" />
-        <div className="absolute left-[19%] top-[48%] h-24 w-px -rotate-12 bg-black/80 sm:h-32" />
-        <div className="absolute left-[19%] top-[47%] h-px w-20 bg-black/80 sm:w-32" />
-        <div className="absolute right-[8%] top-[39%] h-24 w-px rotate-[45deg] bg-black/80 sm:h-32" />
-        <div className="absolute right-[3%] top-[37%] h-px w-24 bg-black/80 sm:w-40" />
-      </div>
+    <section className="relative overflow-hidden bg-white">
+      <div className="relative mx-auto max-w-5xl px-6 pb-20 pt-8 md:px-12 md:pt-14">
+        <DashedConnector className="left-[-40px] top-[170px] hidden h-[140px] w-[220px] md:block" width={220} height={140} d="M 10 110 C 10 60, 60 90, 90 40 C 110 10, 140 10, 200 10" />
+        <DashedConnector className="right-[-60px] top-[70px] hidden h-[120px] w-[260px] md:block" width={260} height={120} d="M 0 30 C 80 30, 60 90, 140 90 C 200 90, 220 40, 260 40" />
 
-      <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center text-center">
-        <h1 className="max-w-4xl text-[clamp(3.7rem,11vw,9.5rem)] font-black lowercase leading-[0.82] tracking-[-0.08em] text-black">
-          <span className="block">bring</span>
-          <span className="block">your team</span>
-          <span className="block">together</span>
+        <h1 className="relative select-none text-[15vw] font-black leading-[0.92] tracking-tight text-neutral-900 sm:text-[80px] md:text-[92px]">
+          <span className="relative inline-flex items-center gap-4">
+            bring
+            <ArrowCircle className="hidden -translate-y-1 md:inline-flex" />
+            <ToggleDecoration className="hidden md:inline-flex" />
+            <EmojiBubble className="hidden md:inline-flex" />
+          </span>
+
+          <span className="relative mt-1 flex items-center gap-4">
+            <OrangeCircle className="hidden -translate-y-2 md:inline-flex" />
+            <span className="ml-0 md:ml-24">a team</span>
+            <SliderDecoration className="hidden md:inline-flex" />
+          </span>
+
+          <span className="relative mt-1 flex items-center gap-4">
+            <CommandBadge className="hidden md:inline-flex" />
+            together
+          </span>
         </h1>
-        <p className="mt-8 max-w-xl text-base leading-relaxed text-black/70 sm:text-lg">
-          Connect with DevSpectra and turn your next idea into a clear, confident digital experience.
+
+        <p className="mt-10 max-w-md text-[15px] leading-relaxed text-neutral-500 md:mt-8">
+          DevSpectra connects ideas, people, and technology so your team can deliver better products faster.
         </p>
-        <a
-          href="#contact-form"
-          className="mt-7 rounded-full bg-[#242424] px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#4b3a28]"
-        >
-          Start a conversation
-        </a>
+
+        <div className="mt-8">
+          <a href="#contact-form" className="inline-flex items-center rounded-full bg-neutral-900 px-7 py-3.5 text-sm font-semibold text-white shadow-md transition-transform hover:-translate-y-0.5 hover:bg-neutral-800">
+            Start a conversation
+          </a>
+        </div>
       </div>
     </section>
   );
