@@ -67,9 +67,9 @@ export default function ContactHero() {
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
               className="font-display text-[56px] font-black leading-[0.92] tracking-[-0.06em] text-black sm:text-[76px] md:text-[100px] lg:text-[116px]"
             >
-              let&apos;s
+              bring
               <br />
-              <span className="relative inline-block">talk</span>
+              <span className="relative inline-block">a team</span>
               <br />
               <span className="relative inline-block">together</span>
             </motion.h1>
