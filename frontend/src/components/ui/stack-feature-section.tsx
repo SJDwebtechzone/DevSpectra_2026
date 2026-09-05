@@ -30,7 +30,7 @@ export default function FeatureSection() {
   const iconsPerOrbit = Math.ceil(iconConfigs.length / orbitCount);
 
   return (
-    <section className="relative w-full min-h-screen flex items-center justify-between overflow-hidden bg-[#b7f000] border-b border-black/10">
+    <section className="relative w-full min-h-screen flex items-center justify-between overflow-hidden bg-[#b8f000] border-b border-black/10">
       {/* Background Atmospheric Lighting & Gradients */}
       <div className="hidden">
         {/* Base Atmospheric Glow */}
@@ -70,14 +70,14 @@ export default function FeatureSection() {
 
       {/* Left side: Heading and Text */}
       <div className="w-full lg:w-1/2 z-10 pl-8 md:pl-16 lg:pl-20 -mt-16 lg:-mt-24 relative">
-        <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold mb-6 text-gray-900 dark:text-white leading-tight tracking-tight drop-shadow-sm">
+        <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold mb-6 text-black leading-tight tracking-tight">
           Let’s Build Something{" "}
-          <span className="text-transparent bg-clip-text bg-[linear-gradient(90deg,#5B21B6_0%,#2563EB_25%,#00B4D8_45%,#10B981_65%,#F59E0B_82%,#EF4444_100%)]">
+          <span className="text-black">
             Great
           </span>{" "}
           Together.
         </h1>
-        <p className="text-gray-600 dark:text-gray-300 mb-8 max-w-lg text-lg lg:text-xl font-medium leading-relaxed">
+        <p className="text-black/70 mb-8 max-w-lg text-lg lg:text-xl font-medium leading-relaxed">
           Have a question, a project in mind, or just want to say hello? Our team is ready to help
           you bring your ideas to life with speed and precision.
         </p>
