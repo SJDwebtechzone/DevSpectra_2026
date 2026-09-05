@@ -32,7 +32,7 @@ export default function FeatureSection() {
   return (
     <section className="relative w-full min-h-screen flex items-center justify-between overflow-hidden bg-[#fdfxff] dark:bg-slate-950 border-b border-gray-100 dark:border-gray-800">
       {/* Background Atmospheric Lighting & Gradients */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      <div className="hidden">
         {/* Base Atmospheric Glow */}
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top_right,rgba(219,234,254,0.75),transparent_50%),radial-gradient(ellipse_at_bottom_left,rgba(233,213,255,0.65),transparent_50%),radial-gradient(ellipse_at_bottom_right,rgba(254,243,199,0.5),transparent_45%)] dark:bg-[radial-gradient(ellipse_at_top_right,rgba(15,23,42,0.8),transparent_50%)]" />
         <div className="absolute -top-[20%] -left-[10%] w-[70%] h-[70%] bg-purple-100/50 blur-[120px] rounded-full mix-blend-multiply opacity-60 dark:opacity-10" />
