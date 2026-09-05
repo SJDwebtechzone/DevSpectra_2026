@@ -14,7 +14,6 @@ import {
   Loader2,
   CheckCircle2,
 } from "lucide-react";
-import { AuroraBackground } from "@/components/ui/aurora-background";
 import FeatureSection from "@/components/ui/stack-feature-section";
 import { toast } from "sonner";
 
@@ -227,7 +226,7 @@ function Contact() {
       <Marquee />
 
       {/* Main Content Area */}
-      <section id="contact-form" className="relative py-20 lg:py-28 text-black bg-[#f5f4f0] overflow-hidden">
+      <section className="relative py-20 lg:py-28 text-black bg-[#f5f4f0] overflow-hidden">
         {/* Background Atmospheric Glow */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(233,213,255,0.38),transparent_50%),radial-gradient(ellipse_at_bottom_right,rgba(209,250,229,0.42),transparent_50%),radial-gradient(ellipse_at_center,rgba(254,243,199,0.25),transparent_45%)] pointer-events-none" />
 
@@ -317,10 +316,7 @@ function Contact() {
               <ArrowUpRight className="w-8 h-8 text-black/80" />
             </div>
 
-            <AuroraBackground
-              className="h-full w-full p-0 relative overflow-hidden items-start justify-start !bg-transparent !shadow-none !border-0 !text-gray-900"
-              showRadialGradient={false}
-            >
+            <div className="w-full text-gray-900">
               <div className="space-y-8 relative z-10 w-full text-gray-900">
                 <div className="mb-16">
                   <p className="text-xs font-semibold tracking-[0.18em] uppercase text-[#9b835d] mb-4">Get in touch</p>
@@ -424,7 +420,7 @@ function Contact() {
                   </div>
                 </div>
               </div>
-            </AuroraBackground>
+            </div>
           </div>
         </div>
       </section>
