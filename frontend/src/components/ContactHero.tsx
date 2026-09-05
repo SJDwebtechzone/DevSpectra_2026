@@ -129,15 +129,6 @@ export default function ContactHero() {
               transition={{ duration: 1.5, delay: 0.5, ease: "easeInOut" }}
             />
             <motion.path
-              d="M820 110 C870 110 900 110 900 160 L900 240 C900 270 870 285 825 285"
-              stroke="#171717"
-              strokeWidth="2"
-              strokeDasharray="7 9"
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: 1, opacity: 1 }}
-              transition={{ duration: 1.5, delay: 0.7, ease: "easeInOut" }}
-            />
-            <motion.path
               d="M160 470 C190 470 210 470 230 450"
               stroke="#171717"
               strokeWidth="2"
