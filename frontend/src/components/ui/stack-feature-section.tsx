@@ -1,35 +1,64 @@
+import React from "react";
+
+const CANVAS_W = 660;
+const CANVAS_H = 365;
+
+const pos = (x: number, y: number, w?: number, h?: number) => ({
+  left: `${(x / CANVAS_W) * 100}%`,
+  top: `${(y / CANVAS_H) * 100}%`,
+  ...(w ? { width: `${(w / CANVAS_W) * 100}%` } : {}),
+  ...(h ? { height: `${(h / CANVAS_H) * 100}%` } : {}),
+});
+
 export default function FeatureSection() {
   return (
-    <section className="relative flex min-h-[52vh] w-full items-end justify-center overflow-hidden border-b border-black/10 bg-[#e9e9e9] px-5 pb-0 sm:min-h-[60vh] sm:px-8 lg:min-h-[68vh]">
-      <div aria-hidden="true" className="absolute left-[8%] top-[30%] h-16 w-16 rounded-full bg-[#ffbd2e] sm:h-20 sm:w-20" />
-      <div aria-hidden="true" className="absolute left-[39%] top-[15%] h-16 w-16 rounded-full bg-[#28dc51] sm:h-20 sm:w-20" />
-      <div aria-hidden="true" className="absolute right-[12%] top-[18%] text-4xl sm:text-5xl">🥳</div>
+    <section className="w-full bg-white">
+      <div className="relative mx-auto w-full max-w-[1400px] overflow-hidden" style={{ aspectRatio: `${CANVAS_W} / ${CANVAS_H}` }}>
+        <div className="absolute font-extrabold leading-[0.9] tracking-tight text-neutral-900" style={{ ...pos(50, 15), fontSize: "clamp(24px, 6.6vw, 62px)" }}>
+          bring
+        </div>
+        <div className="absolute font-extrabold leading-[0.9] tracking-tight text-neutral-900" style={{ ...pos(150, 95), fontSize: "clamp(24px, 6.6vw, 62px)" }}>
+          a team
+        </div>
+        <div className="absolute font-extrabold leading-[0.9] tracking-tight text-neutral-900" style={{ ...pos(300, 175), fontSize: "clamp(24px, 6.6vw, 62px)" }}>
+          together
+        </div>
 
-      <div aria-hidden="true" className="absolute left-[35%] top-[17%] h-16 w-44 rounded-full bg-gradient-to-r from-[#2775e8] to-[#8eb2ff] shadow-[inset_-18px_0_0_#f8f8f8] sm:h-20 sm:w-64" />
-      <div aria-hidden="true" className="absolute left-[39%] top-[18.5%] h-10 w-10 rounded-full border border-gray-300 bg-white shadow-sm sm:h-14 sm:w-14" />
-      <div aria-hidden="true" className="absolute right-[25%] top-[34%] h-10 w-28 rounded-full border-2 border-black bg-white shadow-[inset_20px_0_0_#35d85e] sm:h-14 sm:w-40" />
+        <svg className="absolute hidden sm:block" style={pos(60, 130, 100, 100)} viewBox="0 0 100 100" fill="none">
+          <path d="M 45 100 C 42 70, 15 68, 12 45 C 10 25, 25 12, 42 5" stroke="#111827" strokeWidth="2.2" strokeDasharray="6 6" strokeLinecap="round" />
+        </svg>
+        <svg className="absolute hidden sm:block" style={pos(520, 40, 140, 55)} viewBox="0 0 140 55" fill="none">
+          <path d="M 0 12 C 35 12, 28 40, 65 40 C 100 40, 95 12, 140 12" stroke="#111827" strokeWidth="2.2" strokeDasharray="6 6" strokeLinecap="round" />
+        </svg>
 
-      <div aria-hidden="true" className="absolute bottom-[27%] left-[22%] h-16 w-28 rounded-full bg-gradient-to-r from-[#f46b9d] to-[#72a9ff] opacity-90 sm:h-20 sm:w-40" />
-      <div aria-hidden="true" className="absolute bottom-[28%] left-[29%] h-12 w-12 rounded-full border-2 border-white bg-[#b7ccff] shadow-sm sm:h-16 sm:w-16" />
+        <div className="absolute hidden items-center justify-center rounded-full bg-emerald-500 shadow-lg sm:flex" style={pos(248, 20, 62, 62)}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="h-[44%] w-[44%]">
+            <line x1="7" y1="17" x2="17" y2="7" /><polyline points="7 7 17 7 17 17" />
+          </svg>
+        </div>
+        <div className="absolute hidden items-center rounded-full bg-gradient-to-r from-blue-500 to-blue-300 shadow-lg sm:flex" style={{ ...pos(320, 27, 110, 56), padding: "6%" }}>
+          <div className="ml-auto flex h-[88%] w-[44%] items-center justify-center rounded-full bg-white shadow-inner"><div className="h-[68%] w-[68%] rounded-full border-4 border-neutral-200 border-t-blue-400" /></div>
+        </div>
+        <div className="absolute hidden items-center justify-center sm:flex" style={{ ...pos(450, 15, 70, 70), fontSize: "clamp(22px,3.8vw,36px)" }}>🥳</div>
 
-      <div className="relative z-10 flex max-w-4xl flex-col items-center text-center">
-        <h1 className="max-w-4xl text-[clamp(3.6rem,10vw,8.75rem)] font-black uppercase leading-[0.82] tracking-[-0.07em] text-black">
-          Bring a team
-          <br />
-          together<span aria-hidden="true" className="ml-2 align-top text-2xl normal-case tracking-normal sm:ml-3 sm:text-4xl">↗</span>
-        </h1>
-        <p className="mt-10 max-w-xl text-sm font-medium leading-relaxed text-gray-600 sm:text-base">
-          Have a question, a project in mind, or just want to say hello? Let&apos;s bring your next idea to life together.
-        </p>
-        <a
-          href="#contact-form"
-          className="mt-7 rounded-full bg-[#171717] px-6 py-3 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5"
-        >
-          Start a conversation
-        </a>
+        <div className="absolute hidden items-center justify-center rounded-full bg-amber-400 shadow-lg sm:flex" style={pos(35, 95, 82, 82)}><span className="h-[9%] w-[9%] rounded-full bg-blue-600" /></div>
+        <div className="absolute hidden items-center rounded-full border border-neutral-300 bg-white shadow-md sm:flex" style={{ ...pos(425, 108, 110, 34), padding: "0 8%" }}>
+          <div className="relative h-[10%] w-full rounded-full bg-neutral-200"><span className="absolute left-1/2 top-1/2 h-[70%] w-[9%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-500 ring-4 ring-emerald-100" /></div>
+        </div>
+        <div className="absolute hidden sm:block" style={pos(150, 175, 120, 62)}>
+          <div className="absolute left-0 top-0 h-full w-[60%] rounded-full bg-gradient-to-br from-pink-400 to-pink-300 shadow-lg" />
+          <div className="absolute left-[40%] top-0 flex h-full w-[60%] items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-blue-400 text-white shadow-lg">⌘</div>
+        </div>
+
+        <div className="absolute text-center leading-relaxed text-neutral-500" style={{ ...pos(75, 268, 510), fontSize: "clamp(9px, 1.7vw, 15px)" }}>
+          concept connect everyone in the design process so team<br />can deliver better product faster
+        </div>
+        <div className="absolute" style={pos(255, 320)}>
+          <a href="#try" className="inline-flex items-center whitespace-nowrap rounded-full bg-neutral-900 px-[clamp(16px,3vw,26px)] py-[clamp(8px,1.5vw,13px)] text-[clamp(9px,1.6vw,14px)] font-semibold text-white shadow-md transition-transform hover:-translate-y-0.5 hover:bg-neutral-800">
+            Try for more
+          </a>
+        </div>
       </div>
-
-      <div aria-hidden="true" className="absolute bottom-7 left-1/2 h-px w-24 -translate-x-1/2 bg-black/20" />
     </section>
   );
 }
