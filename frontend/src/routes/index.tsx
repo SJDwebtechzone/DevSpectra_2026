@@ -3,6 +3,7 @@ import { PageShell } from "@/components/site/PageShell";
 import HeroSection from "@/components/HeroSection";
 import { ServicesCards } from "@/components/ServicesCards";
 import { OngoingProjects } from "@/components/OngoingProjects";
+import { TechStackSection } from "@/components/TechStackSection";
 import { WhyChooseUs } from "@/components/WhyChooseUs";
 import { FAQ } from "@/components/FAQ";
 import { PartnerSection } from "@/components/PartnerSection";
@@ -137,6 +138,7 @@ function Home() {
       </section>
 
       <ServicesCards />
+      <TechStackSection />
       <OngoingProjects />
       <WhyChooseUs />
       <FAQ />
