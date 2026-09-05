@@ -37,7 +37,7 @@ export default function FeatureSection() {
           </div>
         </div>
 
-        <div className="mt-auto flex flex-col gap-5 border-b border-black/20 pb-4 text-[9px] font-semibold uppercase tracking-[0.08em] sm:flex-row sm:items-end sm:justify-between">
+        <div className="mt-auto flex flex-col gap-5 text-[9px] font-semibold uppercase tracking-[0.08em] sm:flex-row sm:items-end sm:justify-between">
           <p>© Copyright 2024. All rights reserved.</p>
           <p>Terms &amp; Conditions</p>
           <div className="flex items-center gap-3 sm:justify-end">
@@ -48,9 +48,6 @@ export default function FeatureSection() {
           </div>
         </div>
 
-        <h2 className="mt-3 text-[2.2rem] font-black leading-[0.78] tracking-[-0.07em] sm:whitespace-nowrap sm:text-8xl lg:text-[10rem]">
-          LET&apos;S WORK TOGETHER
-        </h2>
       </div>
     </section>
   );
