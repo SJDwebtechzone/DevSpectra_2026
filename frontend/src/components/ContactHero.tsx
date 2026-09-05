@@ -120,7 +120,7 @@ export default function ContactHero() {
 
           <svg className="pointer-events-none absolute inset-0 z-0 hidden h-full w-full md:block" viewBox="0 0 1000 650" fill="none" preserveAspectRatio="none" aria-hidden="true">
             <motion.path
-              d="M95 220 C95 270 95 330 145 330 L190 330 C230 330 240 370 270 390"
+              d="M72 205 C72 255 72 300 112 320 L150 320 C170 320 178 342 188 360"
               stroke="#171717"
               strokeWidth="2"
               strokeDasharray="7 9"
@@ -129,7 +129,7 @@ export default function ContactHero() {
               transition={{ duration: 1.5, delay: 0.5, ease: "easeInOut" }}
             />
             <motion.path
-              d="M160 470 C190 470 210 470 230 450"
+              d="M78 475 C112 475 130 468 148 448"
               stroke="#171717"
               strokeWidth="2"
               strokeDasharray="6 8"
