@@ -129,12 +129,17 @@ export default function HeroSection() {
               </div>
               
               {/* Main uppercase text */}
-              <h1 
+              <h1
                 className="text-[3.5rem] sm:text-[5rem] lg:text-[5.5rem] font-black leading-[0.85] tracking-tighter text-gray-950 flex flex-col uppercase relative z-0 mt-8"
               >
                 <span>Experiences</span>
                 <span className="text-gray-950">That Drive</span>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 pb-2">
+                <span
+                  className="text-transparent bg-clip-text pb-2"
+                  style={{
+                    backgroundImage: "linear-gradient(to right, #7928CA, #0070F3, #00DFD8, #10B981, #F5A623, #FF4B4B)"
+                  }}
+                >
                   Results.
                 </span>
               </h1>
@@ -157,15 +162,7 @@ export default function HeroSection() {
               transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
               className="flex flex-wrap items-center gap-4 mb-16"
             >
-              <SpectraButton>Explore Our Work</SpectraButton>
-              <button className="px-8 py-4 rounded-full bg-white text-gray-900 font-semibold shadow-md hover:shadow-lg hover:-translate-y-1 transition-all flex items-center gap-3 border border-gray-100">
-                <div className="w-6 h-6 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center">
-                  <svg className="w-3 h-3 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M8 5v14l11-7z" />
-                  </svg>
-                </div>
-                Watch Showreel
-              </button>
+              <SpectraButton href="/portfolio">Explore Our Work</SpectraButton>
             </motion.div>
 
 
@@ -196,34 +193,8 @@ export default function HeroSection() {
                        <div className="w-1.5 h-1.5 rounded-full bg-blue-900 shadow-[0_0_4px_#3b82f6]"></div>
                     </div>
                     
-                    {/* Dark Screen Content */}
                     <div className="flex-1 bg-[#050505] rounded-sm md:rounded-md overflow-hidden relative border border-white/5 shadow-inner">
-                       {/* Abstract Wave Representation Inside Screen */}
-                       <div className="absolute inset-0 opacity-60 z-20" style={{
-                         background: 'radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%), linear-gradient(135deg, rgba(59,130,246,0.1) 0%, rgba(236,72,153,0.1) 100%)'
-                       }}></div>
-                       
-                       {/* Simulated wave shape */}
-                       <div className="absolute inset-0 z-10 opacity-90">
-                         <svg className="absolute w-[150%] h-[150%] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-[spin_20s_linear_infinite]" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                           <path fill="url(#grad1-dark-lap)" d="M44.7,-76.4C58.9,-69.2,71.8,-59.1,81.1,-46.3C90.4,-33.5,96.1,-18.1,96.5,-2.5C96.9,13.1,91.9,28.9,81.8,41.2C71.7,53.5,56.5,62.3,41.2,69.5C25.9,76.7,10.5,82.3,-5.3,80.1C-21.1,77.9,-37.2,67.9,-51.2,56.3C-65.2,44.7,-77.1,31.5,-82.2,16.2C-87.3,0.9,-85.6,-16.5,-77.6,-30.9C-69.6,-45.3,-55.3,-56.7,-40.8,-63.9C-26.3,-71.1,-11.6,-74.1,2.5,-78.4C16.6,-82.7,30.5,-83.6,44.7,-76.4Z" transform="translate(100 100)" />
-                           <defs>
-                             <linearGradient id="grad1-dark-lap" x1="0%" y1="0%" x2="100%" y2="100%">
-                               <stop offset="0%" style={{stopColor:'#3b82f6', stopOpacity:0.8}} />
-                               <stop offset="100%" style={{stopColor:'#ec4899', stopOpacity:0.8}} />
-                             </linearGradient>
-                           </defs>
-                         </svg>
-                         <svg className="absolute w-[130%] h-[130%] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-[spin_15s_linear_infinite_reverse]" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                           <path fill="url(#grad2-dark-lap)" d="M47.5,-73.2C60.2,-64.5,68.4,-49.4,75.4,-33.7C82.4,-18,88.2,-1.7,85.2,12.7C82.2,27.1,70.4,39.6,56.8,47.9C43.2,56.2,27.8,60.3,12.2,64.2C-3.4,68.1,-19.2,71.8,-33.1,67.1C-47,62.4,-59,49.3,-68.1,34.5C-77.2,19.7,-83.4,3.2,-81,-11.9C-78.6,-27,-67.6,-40.7,-54.2,-49.4C-40.8,-58.1,-25,-61.8,-8.3,-60.7C8.4,-59.6,26.8,-53.7,47.5,-73.2Z" transform="translate(100 100)" />
-                           <defs>
-                             <linearGradient id="grad2-dark-lap" x1="100%" y1="0%" x2="0%" y2="100%">
-                               <stop offset="0%" style={{stopColor:'#3b82f6', stopOpacity:0.6}} />
-                               <stop offset="100%" style={{stopColor:'#ec4899', stopOpacity:0.6}} />
-                             </linearGradient>
-                           </defs>
-                         </svg>
-                       </div>
+                       <img src="/home1.png" alt="DevSpectra website view" className="absolute inset-0 w-full h-full object-cover" />
                     </div>
                   </div>
                   
@@ -259,32 +230,8 @@ export default function HeroSection() {
                       </div>
                     </div>
 
-                    {/* Screen Content - Matching Spectra Wave */}
                     <div className="absolute inset-0 overflow-hidden bg-[#050505]">
-                       <div className="absolute inset-0 opacity-60 z-20" style={{
-                         background: 'radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%), linear-gradient(180deg, rgba(59,130,246,0.15) 0%, rgba(236,72,153,0.15) 100%)'
-                       }}></div>
-                       
-                       <div className="absolute inset-0 z-10 opacity-90">
-                         <svg className="absolute w-[200%] h-[200%] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-[spin_20s_linear_infinite]" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                           <path fill="url(#grad1-dark-mob)" d="M44.7,-76.4C58.9,-69.2,71.8,-59.1,81.1,-46.3C90.4,-33.5,96.1,-18.1,96.5,-2.5C96.9,13.1,91.9,28.9,81.8,41.2C71.7,53.5,56.5,62.3,41.2,69.5C25.9,76.7,10.5,82.3,-5.3,80.1C-21.1,77.9,-37.2,67.9,-51.2,56.3C-65.2,44.7,-77.1,31.5,-82.2,16.2C-87.3,0.9,-85.6,-16.5,-77.6,-30.9C-69.6,-45.3,-55.3,-56.7,-40.8,-63.9C-26.3,-71.1,-11.6,-74.1,2.5,-78.4C16.6,-82.7,30.5,-83.6,44.7,-76.4Z" transform="translate(100 100)" />
-                           <defs>
-                             <linearGradient id="grad1-dark-mob" x1="0%" y1="0%" x2="100%" y2="100%">
-                               <stop offset="0%" style={{stopColor:'#3b82f6', stopOpacity:0.8}} />
-                               <stop offset="100%" style={{stopColor:'#ec4899', stopOpacity:0.8}} />
-                             </linearGradient>
-                           </defs>
-                         </svg>
-                         <svg className="absolute w-[180%] h-[180%] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-[spin_15s_linear_infinite_reverse]" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                           <path fill="url(#grad2-dark-mob)" d="M47.5,-73.2C60.2,-64.5,68.4,-49.4,75.4,-33.7C82.4,-18,88.2,-1.7,85.2,12.7C82.2,27.1,70.4,39.6,56.8,47.9C43.2,56.2,27.8,60.3,12.2,64.2C-3.4,68.1,-19.2,71.8,-33.1,67.1C-47,62.4,-59,49.3,-68.1,34.5C-77.2,19.7,-83.4,3.2,-81,-11.9C-78.6,-27,-67.6,-40.7,-54.2,-49.4C-40.8,-58.1,-25,-61.8,-8.3,-60.7C8.4,-59.6,26.8,-53.7,47.5,-73.2Z" transform="translate(100 100)" />
-                           <defs>
-                             <linearGradient id="grad2-dark-mob" x1="100%" y1="0%" x2="0%" y2="100%">
-                               <stop offset="0%" style={{stopColor:'#3b82f6', stopOpacity:0.6}} />
-                               <stop offset="100%" style={{stopColor:'#ec4899', stopOpacity:0.6}} />
-                             </linearGradient>
-                           </defs>
-                         </svg>
-                       </div>
+                       <img src="/home2.png" alt="DevSpectra mobile app view" className="absolute inset-0 w-full h-full object-cover" />
                     </div>
                   </div>
                 </motion.div>

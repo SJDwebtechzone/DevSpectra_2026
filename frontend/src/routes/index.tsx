@@ -5,6 +5,7 @@ import { ServicesCards } from "@/components/ServicesCards";
 import { OngoingProjects } from "@/components/OngoingProjects";
 import { WhyChooseUs } from "@/components/WhyChooseUs";
 import { FAQ } from "@/components/FAQ";
+import { PartnerSection } from "@/components/PartnerSection";
 import { useState, useEffect, useRef } from "react";
 
 export const Route = createFileRoute("/")({
@@ -139,6 +140,7 @@ function Home() {
       <OngoingProjects />
       <WhyChooseUs />
       <FAQ />
+      <PartnerSection />
 
       <section className="pb-24 bg-white">
         <div className="container-page">
