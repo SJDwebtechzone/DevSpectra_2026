@@ -227,7 +227,7 @@ function Contact() {
       <Marquee />
 
       {/* Main Content Area */}
-      <section className="relative py-20 lg:py-28 text-black bg-[#f5f4f0] overflow-hidden">
+      <section id="contact-form" className="relative py-20 lg:py-28 text-black bg-[#f5f4f0] overflow-hidden">
         {/* Background Atmospheric Glow */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(233,213,255,0.38),transparent_50%),radial-gradient(ellipse_at_bottom_right,rgba(209,250,229,0.42),transparent_50%),radial-gradient(ellipse_at_center,rgba(254,243,199,0.25),transparent_45%)] pointer-events-none" />
 
