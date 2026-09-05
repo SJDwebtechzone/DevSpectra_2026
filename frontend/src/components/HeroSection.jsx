@@ -49,7 +49,7 @@ export default function HeroSection() {
   }, []);
 
   return (
-    <section className="relative w-full overflow-hidden bg-[#fafcff] -mt-24 pt-36 pb-16 lg:pt-40 lg:pb-24">
+    <section className="relative w-full overflow-hidden bg-[#fafcff] border-2 border-[#c0c0c0] sm:border-0 -mt-24 pt-36 pb-16 lg:pt-40 lg:pb-24">
       {/* Background Noise Texture */}
       <div 
         className="absolute top-0 left-0 bottom-0 w-[60%] z-0 pointer-events-none" 
