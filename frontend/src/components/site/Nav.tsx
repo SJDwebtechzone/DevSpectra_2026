@@ -61,7 +61,7 @@ export function Nav({ ctaLabel = "Get Free Consultation", ctaTo = "/contact", cl
                 <Link
                   key={l.to}
                   to={l.to}
-                  className="rounded-full px-4 py-2 text-[15px] font-medium text-white/80 transition-colors hover:text-white"
+                  className={`rounded-full px-4 py-2 ${l.label === "Blogs" ? "text-[18px]" : "text-[15px]"} font-medium text-white/80 transition-colors hover:text-white`}
                   activeOptions={{ exact: l.to === "/" }}
                   activeProps={{
                     className:
