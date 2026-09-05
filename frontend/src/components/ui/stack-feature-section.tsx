@@ -1,96 +1,41 @@
-import React from "react";
-
-const ToggleDecoration: React.FC<{ className?: string }> = ({ className = "" }) => (
-  <div className={`flex h-14 w-28 items-center rounded-full bg-gradient-to-r from-blue-500 to-blue-300 p-1.5 shadow-lg ${className}`}>
-    <div className="ml-auto flex h-11 w-11 items-center justify-center rounded-full bg-white shadow-inner">
-      <div className="h-8 w-8 rounded-full border-4 border-neutral-200 border-t-blue-400" />
-    </div>
-  </div>
-);
-
-const ArrowCircle: React.FC<{ className?: string }> = ({ className = "" }) => (
-  <div className={`flex h-20 w-20 items-center justify-center rounded-full bg-emerald-500 shadow-lg ${className}`}>
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <line x1="7" y1="17" x2="17" y2="7" />
-      <polyline points="7 7 17 7 17 17" />
-    </svg>
-  </div>
-);
-
-const EmojiBubble: React.FC<{ className?: string }> = ({ className = "" }) => (
-  <div className={`flex h-20 w-20 items-center justify-center rounded-full bg-white text-4xl shadow-lg ${className}`}>🥳</div>
-);
-
-const OrangeCircle: React.FC<{ className?: string }> = ({ className = "" }) => (
-  <div className={`flex h-24 w-24 items-center justify-center rounded-full bg-amber-400 shadow-lg ${className}`}>
-    <span className="h-2.5 w-2.5 rounded-full bg-blue-600" />
-  </div>
-);
-
-const SliderDecoration: React.FC<{ className?: string }> = ({ className = "" }) => (
-  <div className={`flex h-10 w-32 items-center rounded-full border border-neutral-300 bg-white px-3 shadow-md ${className}`}>
-    <div className="relative h-1 w-full rounded-full bg-neutral-200">
-      <span className="absolute left-1/2 top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-500 ring-4 ring-emerald-100" />
-    </div>
-  </div>
-);
-
-const CommandBadge: React.FC<{ className?: string }> = ({ className = "" }) => (
-  <div className={`relative h-16 w-28 ${className}`}>
-    <div className="absolute left-0 top-0 h-16 w-16 rounded-full bg-gradient-to-br from-pink-400 to-pink-300 shadow-lg" />
-    <div className="absolute left-10 top-0 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-blue-400 text-white shadow-lg">
-      <span className="text-lg font-bold">⌘</span>
-    </div>
-  </div>
-);
-
-const DashedConnector: React.FC<{ className?: string; d: string; width?: number; height?: number }> = ({
-  className = "",
-  d,
-  width = 200,
-  height = 200,
-}) => (
-  <svg viewBox={`0 0 ${width} ${height}`} className={`pointer-events-none absolute ${className}`} fill="none">
-    <path d={d} stroke="#111827" strokeWidth="2" strokeDasharray="6 6" strokeLinecap="round" />
-  </svg>
-);
-
 export default function FeatureSection() {
   return (
-    <section className="relative overflow-hidden bg-white">
-      <div className="relative mx-auto max-w-5xl px-6 pb-20 pt-8 md:px-12 md:pt-14">
-        <DashedConnector className="left-[-40px] top-[170px] hidden h-[140px] w-[220px] md:block" width={220} height={140} d="M 10 110 C 10 60, 60 90, 90 40 C 110 10, 140 10, 200 10" />
-        <DashedConnector className="right-[-60px] top-[70px] hidden h-[120px] w-[260px] md:block" width={260} height={120} d="M 0 30 C 80 30, 60 90, 140 90 C 200 90, 220 40, 260 40" />
-
-        <h1 className="relative select-none text-[15vw] font-black leading-[0.92] tracking-tight text-neutral-900 sm:text-[80px] md:text-[92px]">
-          <span className="relative inline-flex items-center gap-4">
-            bring
-            <ArrowCircle className="hidden -translate-y-1 md:inline-flex" />
-            <ToggleDecoration className="hidden md:inline-flex" />
-            <EmojiBubble className="hidden md:inline-flex" />
-          </span>
-
-          <span className="relative mt-1 flex items-center gap-4">
-            <OrangeCircle className="hidden -translate-y-2 md:inline-flex" />
-            <span className="ml-0 md:ml-24">a team</span>
-            <SliderDecoration className="hidden md:inline-flex" />
-          </span>
-
-          <span className="relative mt-1 flex items-center gap-4">
-            <CommandBadge className="hidden md:inline-flex" />
-            together
-          </span>
-        </h1>
-
-        <p className="mt-10 max-w-md text-[15px] leading-relaxed text-neutral-500 md:mt-8">
-          DevSpectra connects ideas, people, and technology so your team can deliver better products faster.
-        </p>
-
-        <div className="mt-8">
-          <a href="#contact-form" className="inline-flex items-center rounded-full bg-neutral-900 px-7 py-3.5 text-sm font-semibold text-white shadow-md transition-transform hover:-translate-y-0.5 hover:bg-neutral-800">
-            Start a conversation
-          </a>
+    <section className="relative isolate flex min-h-[620px] w-full items-center justify-center overflow-hidden border-b border-black/5 bg-white px-6 py-24 sm:min-h-[700px] lg:min-h-[760px]">
+      <div aria-hidden="true" className="absolute inset-0 overflow-hidden">
+        <div className="absolute left-[12%] top-[37%] h-20 w-20 rounded-full bg-[#ffc53d] shadow-[inset_-8px_-8px_18px_rgba(255,150,0,0.2)] sm:h-28 sm:w-28" />
+        <div className="absolute left-[28%] top-[21%] h-20 w-20 rotate-45 rounded-[1.5rem] bg-[#36d84b] shadow-[0_8px_20px_rgba(54,216,75,0.25)] sm:h-24 sm:w-24" />
+        <div className="absolute right-[18%] top-[23%] h-20 w-44 rounded-full bg-gradient-to-r from-[#2f75df] to-[#93c5ff] shadow-[0_12px_24px_rgba(47,117,223,0.22)] sm:h-24 sm:w-64" />
+        <div className="absolute right-[29%] top-[18%] h-20 w-20 rounded-full border-[10px] border-[#f4f1e9] bg-white shadow-[0_4px_14px_rgba(0,0,0,0.1)] sm:h-24 sm:w-24" />
+        <div className="absolute left-[34%] top-[48%] h-16 w-32 rotate-[-10deg] rounded-full bg-gradient-to-r from-[#f2599d] to-[#78a9f5] opacity-90 sm:h-20 sm:w-44" />
+        <div className="absolute left-[41%] top-[51%] flex h-14 w-28 items-center justify-center rounded-full border-4 border-[#99b9eb] bg-[#d8e7ff] text-xl font-bold text-[#162442] shadow-[0_8px_15px_rgba(80,120,190,0.2)] sm:h-16 sm:w-36">
+          ⌘
         </div>
+        <div className="absolute right-[23%] top-[42%] h-12 w-28 rounded-full border-2 border-black bg-white shadow-[0_4px_10px_rgba(0,0,0,0.08)] sm:w-36">
+          <span className="absolute left-1/2 top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#31d74b] shadow-[0_0_0_4px_rgba(49,215,75,0.15)]" />
+        </div>
+        <div className="absolute right-[22%] top-[20%] h-16 w-16 rotate-12 rounded-[45%] bg-[#ff9e36] shadow-[0_6px_14px_rgba(255,158,54,0.25)] sm:h-20 sm:w-20" />
+        <div className="absolute left-[18%] top-[28%] h-24 w-px rotate-12 bg-black/80 sm:h-32" />
+        <div className="absolute left-[20%] top-[45%] h-24 w-px -rotate-12 bg-black/80 sm:h-32" />
+        <div className="absolute left-[20%] top-[43%] h-px w-24 bg-black/80 sm:w-36" />
+        <div className="absolute right-[12%] top-[34%] h-24 w-px rotate-[45deg] bg-black/80 sm:h-32" />
+        <div className="absolute right-[7%] top-[31%] h-px w-28 bg-black/80 sm:w-44" />
+      </div>
+
+      <div className="relative z-10 mx-auto flex max-w-3xl flex-col items-center text-center">
+        <h1 className="max-w-3xl text-[clamp(4rem,10vw,8.5rem)] font-black lowercase leading-[0.82] tracking-[-0.08em] text-black">
+          <span className="block">bring</span>
+          <span className="block">a team</span>
+          <span className="block">together</span>
+        </h1>
+        <p className="mt-8 max-w-xl text-sm leading-relaxed text-black/75 sm:text-base">
+          DevSpectra connects everyone in the design process so teams can deliver better products faster.
+        </p>
+        <a
+          href="#contact-form"
+          className="mt-7 rounded-full bg-[#242424] px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#4b3a28]"
+        >
+          Try for more
+        </a>
       </div>
     </section>
   );
