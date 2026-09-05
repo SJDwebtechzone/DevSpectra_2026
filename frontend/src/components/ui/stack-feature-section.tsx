@@ -14,13 +14,13 @@ export default function FeatureSection() {
   return (
     <section className="w-full bg-white">
       <div className="relative mx-auto w-full max-w-[1400px] overflow-hidden [container-type:inline-size]" style={{ aspectRatio: `${CANVAS_W} / ${CANVAS_H}` }}>
-        <div className="absolute font-display font-black leading-[0.9] tracking-[-0.04em] text-neutral-950" style={{ ...pos(50, 15), fontSize: "clamp(26px, 7.8cqw, 72px)" }}>
+        <div className="absolute font-display font-black leading-[0.9] tracking-[-0.04em] text-neutral-950" style={{ ...pos(50, 15), fontSize: "clamp(28px, 9cqw, 82px)" }}>
           bring
         </div>
-        <div className="absolute font-display font-black leading-[0.9] tracking-[-0.04em] text-neutral-950" style={{ ...pos(150, 95), fontSize: "clamp(26px, 7.8cqw, 72px)" }}>
+        <div className="absolute font-display font-black leading-[0.9] tracking-[-0.04em] text-neutral-950" style={{ ...pos(150, 95), fontSize: "clamp(28px, 9cqw, 82px)" }}>
           a team
         </div>
-        <div className="absolute font-display font-black leading-[0.9] tracking-[-0.04em] text-neutral-950" style={{ ...pos(300, 175), fontSize: "clamp(26px, 7.8cqw, 72px)" }}>
+        <div className="absolute font-display font-black leading-[0.9] tracking-[-0.04em] text-neutral-950" style={{ ...pos(300, 175), fontSize: "clamp(28px, 9cqw, 82px)" }}>
           together
         </div>
 
@@ -39,7 +39,7 @@ export default function FeatureSection() {
         <div className="absolute hidden items-center rounded-full bg-gradient-to-r from-blue-500 to-blue-300 shadow-lg sm:flex" style={{ ...pos(320, 27, 110, 56), padding: "6%" }}>
           <div className="ml-auto flex h-[88%] w-[44%] items-center justify-center rounded-full bg-white shadow-inner"><div className="h-[68%] w-[68%] rounded-full border-4 border-neutral-200 border-t-blue-400" /></div>
         </div>
-        <div className="absolute hidden items-center justify-center sm:flex" style={{ ...pos(450, 15, 70, 70), fontSize: "clamp(26px,4.8cqw,44px)" }}>🥳</div>
+        <div className="absolute hidden items-center justify-center sm:flex" style={{ ...pos(450, 15, 70, 70), fontSize: "clamp(28px,5.6cqw,52px)" }}>🥳</div>
 
         <div className="absolute hidden items-center justify-center rounded-full bg-amber-400 shadow-lg sm:flex" style={pos(35, 95, 82, 82)}><span className="h-[9%] w-[9%] rounded-full bg-blue-600" /></div>
         <div className="absolute hidden items-center rounded-full border border-neutral-300 bg-white shadow-md sm:flex" style={{ ...pos(425, 108, 110, 34), padding: "0 8%" }}>
