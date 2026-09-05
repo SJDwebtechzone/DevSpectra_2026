@@ -34,9 +34,9 @@ export default function FeatureSection() {
       {/* Background Atmospheric Lighting & Gradients */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {/* Base Atmospheric Glow */}
-        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top_right,rgba(240,248,255,0.8),transparent_50%),radial-gradient(ellipse_at_bottom_left,rgba(230,245,255,0.6),transparent_50%)] dark:bg-[radial-gradient(ellipse_at_top_right,rgba(15,23,42,0.8),transparent_50%)]" />
-        <div className="absolute -top-[20%] -left-[10%] w-[70%] h-[70%] bg-blue-50/50 blur-[120px] rounded-full mix-blend-multiply opacity-60 dark:opacity-10" />
-        <div className="absolute top-[30%] right-[10%] w-[60%] h-[60%] bg-cyan-50/40 blur-[100px] rounded-full mix-blend-multiply opacity-50 dark:opacity-10" />
+        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top_right,rgba(219,234,254,0.75),transparent_50%),radial-gradient(ellipse_at_bottom_left,rgba(233,213,255,0.65),transparent_50%),radial-gradient(ellipse_at_bottom_right,rgba(254,243,199,0.5),transparent_45%)] dark:bg-[radial-gradient(ellipse_at_top_right,rgba(15,23,42,0.8),transparent_50%)]" />
+        <div className="absolute -top-[20%] -left-[10%] w-[70%] h-[70%] bg-purple-100/50 blur-[120px] rounded-full mix-blend-multiply opacity-60 dark:opacity-10" />
+        <div className="absolute top-[30%] right-[10%] w-[60%] h-[60%] bg-emerald-100/40 blur-[100px] rounded-full mix-blend-multiply opacity-50 dark:opacity-10" />
 
         {/* Top Wave */}
         <div className="absolute -top-[10%] -left-[5%] w-[110%] h-[35%] bg-gradient-to-b from-white/70 to-transparent backdrop-blur-[12px] rounded-[100%_0_60%_0/50%_0_100%_0] border-b border-white/60 opacity-80 animate-[wave-slow_15s_ease-in-out_infinite]" />
@@ -72,7 +72,7 @@ export default function FeatureSection() {
       <div className="w-full lg:w-1/2 z-10 pl-8 md:pl-16 lg:pl-20 -mt-16 lg:-mt-24 relative">
         <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold mb-6 text-gray-900 dark:text-white leading-tight tracking-tight drop-shadow-sm">
           Let’s Build Something{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">
+          <span className="text-transparent bg-clip-text bg-[linear-gradient(90deg,#5B21B6_0%,#2563EB_25%,#00B4D8_45%,#10B981_65%,#F59E0B_82%,#EF4444_100%)]">
             Great
           </span>{" "}
           Together.
