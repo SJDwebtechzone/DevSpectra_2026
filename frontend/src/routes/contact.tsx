@@ -311,7 +311,7 @@ function Contact() {
               showRadialGradient={false}
             >
               <div className="space-y-8 relative z-10 w-full text-gray-900">
-                <div className="mb-12">
+                <div className="mb-16">
                   <p className="text-xs font-semibold tracking-[0.18em] uppercase text-[#9b835d] mb-4">Get in touch</p>
                   <h3 className="text-5xl sm:text-6xl font-display font-semibold mb-5 text-[#171612] leading-[0.95]">Contact me</h3>
                   <p className="text-gray-500 max-w-md leading-relaxed text-base">
@@ -319,7 +319,7 @@ function Contact() {
                   </p>
                 </div>
 
-                <div className="border-t border-[#dedbd3] pt-5 pb-5">
+                <div className="border-t border-[#dedbd3] pt-7 pb-8">
                   <h3 className="text-xs font-semibold tracking-[0.16em] uppercase mb-2 text-[#9b835d]">Office</h3>
                   <p className="text-gray-600 leading-relaxed text-[17px]">
                     DevSpectra, Valasaravakkam,
@@ -328,17 +328,17 @@ function Contact() {
                   </p>
                 </div>
 
-                <div className="border-t border-[#dedbd3] pt-5 pb-5">
+                <div className="border-t border-[#dedbd3] pt-7 pb-8">
                   <h3 className="text-xs font-semibold tracking-[0.16em] uppercase mb-2 text-[#9b835d]">Email</h3>
                   <p className="text-gray-600 text-[17px]">info@devspectra.com</p>
                 </div>
 
-                <div className="border-t border-[#dedbd3] pt-5 pb-5">
+                <div className="border-t border-[#dedbd3] pt-7 pb-8">
                   <h3 className="text-xs font-semibold tracking-[0.16em] uppercase mb-2 text-[#9b835d]">Open time</h3>
                   <p className="text-gray-600 text-[17px]">Monday - Friday : 10:00 - 20:00</p>
                 </div>
 
-                <div className="border-t border-[#dedbd3] pt-5">
+                <div className="border-t border-[#dedbd3] pt-7">
                   <h3 className="text-xs font-semibold tracking-[0.16em] uppercase mb-4 text-[#9b835d]">Follow me</h3>
                   <div className="flex flex-wrap gap-3.5">
                     {/* LinkedIn */}
