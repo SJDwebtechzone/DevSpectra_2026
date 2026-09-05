@@ -25,7 +25,8 @@ import {
   AlertTriangle,
   Power,
   Upload,
-  Image as ImageIcon
+  Image as ImageIcon,
+  MapPin
 } from "lucide-react";
 import { ReviewsTab } from "@/components/dashboard/ReviewsTab";
 import { toast } from "sonner";
@@ -83,7 +84,7 @@ function Dashboard() {
   const [stats, setStats] = useState<any>(null);
   const [dbProjects, setDbProjects] = useState<any[]>([]);
   const [contacts, setContacts] = useState<any[]>([]);
-  const [contactSubTab, setContactSubTab] = useState<"submissions" | "builder">("submissions");
+  const [contactSubTab, setContactSubTab] = useState<"submissions" | "builder" | "locations">("submissions");
   const [formFields, setFormFields] = useState<any[]>([]);
   const [isAddFieldModalOpen, setIsAddFieldModalOpen] = useState(false);
   const [fieldFormData, setFieldFormData] = useState({
@@ -103,6 +104,34 @@ function Dashboard() {
     isRequired: true,
     halfWidth: false,
   });
+
+  // Office Location Management State
+  const [officeLocations, setOfficeLocations] = useState<any[]>([]);
+  const [isAddLocationModalOpen, setIsAddLocationModalOpen] = useState(false);
+  const [locationFormData, setLocationFormData] = useState({
+    name: "",
+    city: "",
+    address: "",
+    phone: "+0123-456-789",
+    hours: "Mon - Fri : 10:00 - 20:00 IST",
+    status: "Open Now",
+    embedUrl: "",
+    directUrl: "",
+    isPrimary: false,
+  });
+  const [editingLocation, setEditingLocation] = useState<any | null>(null);
+  const [editLocationFormData, setEditLocationFormData] = useState({
+    name: "",
+    city: "",
+    address: "",
+    phone: "",
+    hours: "",
+    status: "Open Now",
+    embedUrl: "",
+    directUrl: "",
+    isPrimary: false,
+  });
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [activeTab, setActiveTab] = useState("overview");
@@ -148,7 +177,172 @@ function Dashboard() {
     fetchProjects();
     fetchContacts();
     fetchFormFields();
+    fetchOfficeLocations();
   }, [navigate]);
+
+  const fetchOfficeLocations = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/contacts/locations");
+      if (res.ok) {
+        const data = await res.json();
+        setOfficeLocations(Array.isArray(data) ? data : []);
+      }
+    } catch (err) {
+      console.error("Failed to fetch office locations", err);
+    }
+  };
+
+  const handleAddLocationSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!locationFormData.name || !locationFormData.address) {
+      toast.error("Please fill in office name and full address");
+      return;
+    }
+
+    try {
+      const token = getAuthToken();
+      const payload = {
+        ...locationFormData,
+        embedUrl:
+          locationFormData.embedUrl ||
+          `https://maps.google.com/maps?q=${encodeURIComponent(locationFormData.address)}&t=&z=15&ie=UTF8&iwloc=&output=embed`,
+        directUrl:
+          locationFormData.directUrl ||
+          `https://maps.google.com/?q=${encodeURIComponent(locationFormData.address)}`,
+      };
+
+      const res = await fetch("http://localhost:5000/contacts/locations", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        if (res.status === 401) {
+          clearAuthSession();
+          navigate({ to: "/login" });
+          throw new Error("Session expired. Please log in again.");
+        }
+        const errData = await res.json().catch(() => ({}));
+        const errMsg = Array.isArray(errData.message) ? errData.message.join(", ") : errData.message;
+        throw new Error(errMsg || "Failed to create location");
+      }
+
+      toast.success("Office location added successfully!");
+      setIsAddLocationModalOpen(false);
+      setLocationFormData({
+        name: "",
+        city: "",
+        address: "",
+        phone: "+0123-456-789",
+        hours: "Mon - Fri : 10:00 - 20:00 IST",
+        status: "Open Now",
+        embedUrl: "",
+        directUrl: "",
+        isPrimary: false,
+      });
+      fetchOfficeLocations();
+    } catch (err: any) {
+      toast.error(err.message || "Error adding location");
+    }
+  };
+
+  const openEditLocationModal = (loc: any) => {
+    setEditingLocation(loc);
+    setEditLocationFormData({
+      name: loc.name || "",
+      city: loc.city || "",
+      address: loc.address || "",
+      phone: loc.phone || "",
+      hours: loc.hours || "",
+      status: loc.status || "Open Now",
+      embedUrl: loc.embedUrl || "",
+      directUrl: loc.directUrl || "",
+      isPrimary: !!loc.isPrimary,
+    });
+  };
+
+  const handleEditLocationSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingLocation) return;
+
+    try {
+      const token = getAuthToken();
+      const payload = {
+        ...editLocationFormData,
+        embedUrl:
+          editLocationFormData.embedUrl ||
+          `https://maps.google.com/maps?q=${encodeURIComponent(editLocationFormData.address)}&t=&z=15&ie=UTF8&iwloc=&output=embed`,
+        directUrl:
+          editLocationFormData.directUrl ||
+          `https://maps.google.com/?q=${encodeURIComponent(editLocationFormData.address)}`,
+      };
+
+      const res = await fetch(`http://localhost:5000/contacts/locations/${editingLocation.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        if (res.status === 401) {
+          clearAuthSession();
+          navigate({ to: "/login" });
+          throw new Error("Session expired. Please log in again.");
+        }
+        const errData = await res.json().catch(() => ({}));
+        const errMsg = Array.isArray(errData.message) ? errData.message.join(", ") : errData.message;
+        throw new Error(errMsg || "Failed to update location");
+      }
+
+      toast.success("Office location updated successfully!");
+      setEditingLocation(null);
+      fetchOfficeLocations();
+    } catch (err: any) {
+      toast.error(err.message || "Error updating location");
+    }
+  };
+
+  const handleDeleteLocation = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this office location?")) return;
+    try {
+      const token = getAuthToken();
+      const res = await fetch(`http://localhost:5000/contacts/locations/${id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!res.ok) throw new Error("Failed to delete location");
+      toast.success("Office location deleted");
+      fetchOfficeLocations();
+    } catch (err) {
+      toast.error("Failed to delete location");
+    }
+  };
+
+  const handleSetPrimaryLocation = async (id: string) => {
+    try {
+      const token = getAuthToken();
+      const res = await fetch(`http://localhost:5000/contacts/locations/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ isPrimary: true }),
+      });
+      if (!res.ok) throw new Error("Failed to update primary location");
+      toast.success("Set as primary footer map!");
+      fetchOfficeLocations();
+    } catch (err) {
+      toast.error("Failed to update primary location");
+    }
+  };
 
   const fetchDashboardStats = async () => {
     try {
@@ -217,6 +411,26 @@ function Dashboard() {
       }
     } catch (err) {
       toast.error("Failed to delete contact submission");
+    }
+  };
+
+  const handleToggleReadStatus = async (id: string) => {
+    try {
+      const token = getAuthToken();
+      const res = await fetch(`http://localhost:5000/contacts/${id}/read`, {
+        method: "PATCH",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        const updated = await res.json();
+        toast.success(updated.isRead ? "Marked as Read" : "Marked as Unread");
+        setContacts((prev) =>
+          prev.map((c) => (c.id === id ? { ...c, isRead: updated.isRead } : c))
+        );
+        fetchDashboardStats();
+      }
+    } catch (err) {
+      toast.error("Failed to update status");
     }
   };
 
@@ -403,6 +617,7 @@ function Dashboard() {
         thumbnail: formData.imageUrl || getCategoryDefaultImage(formData.category),
         liveUrl: formData.liveUrl,
         status: formData.status,
+        isOngoing: formData.status === "ongoing",
       };
 
       const res = await fetch("http://localhost:5000/projects", {
@@ -481,6 +696,7 @@ function Dashboard() {
         thumbnail: editFormData.imageUrl,
         liveUrl: editFormData.liveUrl,
         status: editFormData.status,
+        isOngoing: editFormData.status === "ongoing",
       };
 
       const res = await fetch(`http://localhost:5000/projects/${editFormData.id}`, {
@@ -719,61 +935,35 @@ function Dashboard() {
                 icon={<FolderKanban className="text-indigo-400" />}
               />
               <StatCard
-                title="Total Contacts"
-                value={stats?.totalContacts || 12}
-                icon={<Users className="text-purple-400" />}
+                title="Active Office Locations"
+                value={officeLocations.length || 1}
+                icon={<MapPin className="text-emerald-400" />}
               />
               <StatCard
-                title="Unread Messages"
-                value={stats?.unreadContacts || 3}
-                icon={<Mail className="text-pink-400" />}
+                title="Form Fields Configured"
+                value={formFields.length || 5}
+                icon={<Pencil className="text-purple-400" />}
               />
             </div>
 
             {/* Recent Activity */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
-                <h2 className="text-xl font-medium mb-4 tracking-tight">Recent Projects</h2>
-                <div className="space-y-4">
-                  {allDisplayProjects.slice(0, 4).map((project: any, idx: number) => (
-                    <div
-                      key={idx}
-                      className="flex justify-between items-center p-3 rounded-xl bg-black/40 hover:bg-white/5 transition-colors"
-                    >
-                      <div>
-                        <p className="font-medium text-sm">{project.title}</p>
-                        <p className="text-xs text-zinc-500">{project.category}</p>
-                      </div>
-                      <span className="px-2 py-1 text-xs rounded-full bg-green-500/20 text-green-400">
-                        {project.status || "published"}
-                      </span>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+              <h2 className="text-xl font-medium mb-4 tracking-tight">Recent Projects</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {allDisplayProjects.slice(0, 4).map((project: any, idx: number) => (
+                  <div
+                    key={idx}
+                    className="flex justify-between items-center p-4 rounded-xl bg-black/40 hover:bg-white/5 transition-colors border border-white/5"
+                  >
+                    <div>
+                      <p className="font-medium text-sm text-white">{project.title}</p>
+                      <p className="text-xs text-zinc-400 mt-0.5">{project.category}</p>
                     </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
-                <h2 className="text-xl font-medium mb-4 tracking-tight">Recent Messages</h2>
-                <div className="space-y-4">
-                  {stats?.latestContacts?.length > 0 ? (
-                    stats.latestContacts.map((contact: any) => (
-                      <div
-                        key={contact.id}
-                        className="p-3 rounded-xl bg-black/40 hover:bg-white/5 transition-colors"
-                      >
-                        <div className="flex justify-between items-start mb-1">
-                          <p className="font-medium text-sm">{contact.name}</p>
-                          {!contact.isRead && (
-                            <span className="w-2 h-2 bg-indigo-500 rounded-full"></span>
-                          )}
-                        </div>
-                        <p className="text-xs text-zinc-400 truncate">{contact.subject}</p>
-                      </div>
-                    ))
-                  ) : (
-                    <p className="text-zinc-500 text-sm">No messages yet.</p>
-                  )}
-                </div>
+                    <span className="px-2.5 py-1 text-[11px] font-semibold rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                      {project.status || "published"}
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -960,7 +1150,7 @@ function Dashboard() {
 
         {/* Contacts Tab */}
         {activeTab === "contacts" && (
-          <div className="space-y-6">
+          <div className="space-y-8">
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between bg-white/5 border border-white/10 rounded-2xl p-6 gap-4">
               <div>
@@ -984,7 +1174,7 @@ function Dashboard() {
 
             {/* Form Fields Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {formFields.map((field) => (
+              {(Array.isArray(formFields) ? formFields : []).map((field) => (
                 <div
                   key={field.id}
                   className="bg-white/5 border border-white/10 rounded-2xl p-5 flex flex-col justify-between gap-4 hover:border-indigo-500/30 transition-all"
@@ -1058,6 +1248,103 @@ function Dashboard() {
                   </div>
                 </div>
               ))}
+            </div>
+
+            {/* Office Locations & Google Maps Manager */}
+            <div className="pt-10 border-t border-white/10 space-y-6">
+              <div className="flex flex-col md:flex-row md:items-center justify-between bg-white/5 border border-white/10 rounded-2xl p-6 gap-4">
+                <div>
+                  <h2 className="text-2xl font-semibold text-white flex items-center gap-2">
+                    <MapPin className="text-emerald-400 h-6 w-6" />
+                    Office Locations & Google Maps Manager
+                  </h2>
+                  <p className="text-zinc-400 text-sm mt-1">
+                    Manage your dynamic office branches (Chennai, Kanchipuram, or new locations). Change addresses, map embeds, or select which location appears in your website footer map.
+                  </p>
+                </div>
+
+                <button
+                  onClick={() => setIsAddLocationModalOpen(true)}
+                  className="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold px-4 py-2.5 rounded-xl flex items-center gap-2 transition-all cursor-pointer shadow-lg shadow-emerald-600/20 shrink-0"
+                >
+                  <Plus size={16} />
+                  <span>Add Office Location</span>
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {(Array.isArray(officeLocations) ? officeLocations : []).map((loc) => (
+                  <div
+                    key={loc.id}
+                    className={`bg-white/5 border rounded-2xl p-6 flex flex-col justify-between gap-5 transition-all relative ${
+                      loc.isPrimary ? "border-emerald-500/50 bg-emerald-950/10" : "border-white/10 hover:border-white/20"
+                    }`}
+                  >
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between gap-2">
+                        <div>
+                          <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                            {loc.name}
+                            {loc.isPrimary && (
+                              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                                Primary Footer Map
+                              </span>
+                            )}
+                          </h3>
+                          <p className="text-xs text-emerald-400 font-medium">{loc.city}</p>
+                        </div>
+
+                        <button
+                          onClick={() => handleSetPrimaryLocation(loc.id)}
+                          disabled={loc.isPrimary}
+                          className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                            loc.isPrimary
+                              ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 cursor-default"
+                              : "bg-white/5 hover:bg-emerald-600/20 text-zinc-400 hover:text-emerald-300 border border-white/10"
+                          }`}
+                        >
+                          {loc.isPrimary ? "Primary Map" : "Set as Footer Map"}
+                        </button>
+                      </div>
+
+                      <div className="space-y-1.5 text-xs text-zinc-300 bg-black/40 p-3.5 rounded-xl border border-white/5 font-mono">
+                        <p><span className="text-zinc-500">Address:</span> {loc.address}</p>
+                        <p><span className="text-zinc-500">Phone:</span> {loc.phone || "+0123-456-789"}</p>
+                        <p><span className="text-zinc-500">Hours:</span> {loc.hours || "Mon - Fri : 10:00 - 20:00"}</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between pt-3 border-t border-white/10">
+                      <a
+                        href={loc.directUrl || "#"}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-xs text-indigo-400 hover:text-indigo-300 flex items-center gap-1 font-medium"
+                      >
+                        Preview Map <ExternalLink size={12} />
+                      </a>
+
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => openEditLocationModal(loc)}
+                          className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-indigo-500/20 text-zinc-300 hover:text-indigo-300 text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
+                        >
+                          <Pencil size={13} />
+                          <span>Edit</span>
+                        </button>
+
+                        <button
+                          onClick={() => handleDeleteLocation(loc.id)}
+                          className="p-1.5 rounded-lg bg-white/5 hover:bg-red-500/20 text-zinc-400 hover:text-red-400 transition-colors cursor-pointer"
+                          title="Delete Location"
+                        >
+                          <Trash2 size={15} />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}
@@ -1148,6 +1435,7 @@ function Dashboard() {
                       className="w-full bg-black/50 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors cursor-pointer"
                     >
                       <option value="published">Active (Visible on website)</option>
+                      <option value="ongoing">Ongoing Project (Visible under Ongoing Projects)</option>
                       <option value="inactive">Inactive (Hidden from website)</option>
                     </select>
                   </div>
@@ -1355,6 +1643,7 @@ function Dashboard() {
                       className="w-full bg-black/50 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors cursor-pointer"
                     >
                       <option value="published">Active (Visible on website)</option>
+                      <option value="ongoing">Ongoing Project (Visible under Ongoing Projects)</option>
                       <option value="inactive">Inactive (Hidden from website)</option>
                     </select>
                   </div>
@@ -1831,6 +2120,300 @@ function Dashboard() {
                   >
                     <CheckCircle size={15} />
                     <span>Save Changes</span>
+                  </button>
+                </div>
+              </form>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Add Office Location Modal Dialog */}
+      <AnimatePresence>
+        {isAddLocationModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsAddLocationModalOpen(false)}
+              className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+            />
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 15 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 15 }}
+              className="w-full max-w-lg bg-[#0d111a] border border-white/10 rounded-2xl p-6 shadow-2xl relative z-10 text-white overflow-hidden"
+            >
+              <div className="flex items-center justify-between pb-4 mb-4 border-b border-white/10">
+                <h3 className="text-xl font-semibold text-white flex items-center gap-2">
+                  <MapPin className="text-emerald-400" size={20} />
+                  Add Office Branch Location
+                </h3>
+                <button
+                  onClick={() => setIsAddLocationModalOpen(false)}
+                  className="p-1 rounded-lg text-zinc-400 hover:text-white hover:bg-white/10 transition-colors"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+
+              <form onSubmit={handleAddLocationSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-xs font-semibold text-zinc-300 uppercase tracking-wider mb-1.5">
+                    Office Name *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={locationFormData.name}
+                    onChange={(e) => setLocationFormData({ ...locationFormData, name: e.target.value })}
+                    placeholder="e.g. Coimbatore Branch, Madurai Office"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-zinc-300 uppercase tracking-wider mb-1.5">
+                    City / Region *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={locationFormData.city}
+                    onChange={(e) => setLocationFormData({ ...locationFormData, city: e.target.value })}
+                    placeholder="e.g. Coimbatore, Tamil Nadu"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-zinc-300 uppercase tracking-wider mb-1.5">
+                    Full Address *
+                  </label>
+                  <textarea
+                    rows={2}
+                    required
+                    value={locationFormData.address}
+                    onChange={(e) => setLocationFormData({ ...locationFormData, address: e.target.value })}
+                    placeholder="e.g. Door No. 12, Main Road, Gandhipuram, Coimbatore 641012"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors resize-none"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-zinc-300 uppercase tracking-wider mb-1.5">
+                      Phone Number
+                    </label>
+                    <input
+                      type="text"
+                      value={locationFormData.phone}
+                      onChange={(e) => setLocationFormData({ ...locationFormData, phone: e.target.value })}
+                      placeholder="+0123-456-789"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-zinc-300 uppercase tracking-wider mb-1.5">
+                      Operating Hours
+                    </label>
+                    <input
+                      type="text"
+                      value={locationFormData.hours}
+                      onChange={(e) => setLocationFormData({ ...locationFormData, hours: e.target.value })}
+                      placeholder="Mon - Fri : 10:00 - 20:00 IST"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-zinc-300 uppercase tracking-wider mb-1.5">
+                    Google Maps Embed URL (Optional)
+                  </label>
+                  <input
+                    type="text"
+                    value={locationFormData.embedUrl}
+                    onChange={(e) => setLocationFormData({ ...locationFormData, embedUrl: e.target.value })}
+                    placeholder="Auto-generated from address if empty"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors"
+                  />
+                </div>
+
+                <div className="flex items-center gap-2 pt-2">
+                  <input
+                    type="checkbox"
+                    id="isPrimaryLocCheck"
+                    checked={locationFormData.isPrimary}
+                    onChange={(e) => setLocationFormData({ ...locationFormData, isPrimary: e.target.checked })}
+                    className="w-4 h-4 rounded text-emerald-600 focus:ring-0 cursor-pointer"
+                  />
+                  <label htmlFor="isPrimaryLocCheck" className="text-xs font-medium text-zinc-300 cursor-pointer">
+                    Set as Primary Footer Map (Appears in website footer)
+                  </label>
+                </div>
+
+                <div className="pt-4 border-t border-white/10 flex items-center justify-end gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setIsAddLocationModalOpen(false)}
+                    className="px-4 py-2 rounded-xl text-xs font-medium text-zinc-400 hover:text-white hover:bg-white/5 transition-colors cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-5 py-2.5 rounded-xl text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white transition-all shadow-lg hover:shadow-emerald-500/25 flex items-center gap-2 cursor-pointer"
+                  >
+                    <Plus size={15} />
+                    <span>Create Location</span>
+                  </button>
+                </div>
+              </form>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Edit Office Location Modal Dialog */}
+      <AnimatePresence>
+        {editingLocation && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setEditingLocation(null)}
+              className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+            />
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 15 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 15 }}
+              className="w-full max-w-lg bg-[#0d111a] border border-white/10 rounded-2xl p-6 shadow-2xl relative z-10 text-white overflow-hidden"
+            >
+              <div className="flex items-center justify-between pb-4 mb-4 border-b border-white/10">
+                <h3 className="text-xl font-semibold text-white flex items-center gap-2">
+                  <Pencil className="text-emerald-400" size={20} />
+                  Edit Office Location
+                </h3>
+                <button
+                  onClick={() => setEditingLocation(null)}
+                  className="p-1 rounded-lg text-zinc-400 hover:text-white hover:bg-white/10 transition-colors"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+
+              <form onSubmit={handleEditLocationSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-xs font-semibold text-zinc-300 uppercase tracking-wider mb-1.5">
+                    Office Name *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={editLocationFormData.name}
+                    onChange={(e) => setEditLocationFormData({ ...editLocationFormData, name: e.target.value })}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-zinc-300 uppercase tracking-wider mb-1.5">
+                    City / Region *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={editLocationFormData.city}
+                    onChange={(e) => setEditLocationFormData({ ...editLocationFormData, city: e.target.value })}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-zinc-300 uppercase tracking-wider mb-1.5">
+                    Full Address *
+                  </label>
+                  <textarea
+                    rows={2}
+                    required
+                    value={editLocationFormData.address}
+                    onChange={(e) => setEditLocationFormData({ ...editLocationFormData, address: e.target.value })}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors resize-none"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-zinc-300 uppercase tracking-wider mb-1.5">
+                      Phone Number
+                    </label>
+                    <input
+                      type="text"
+                      value={editLocationFormData.phone}
+                      onChange={(e) => setEditLocationFormData({ ...editLocationFormData, phone: e.target.value })}
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-zinc-300 uppercase tracking-wider mb-1.5">
+                      Operating Hours
+                    </label>
+                    <input
+                      type="text"
+                      value={editLocationFormData.hours}
+                      onChange={(e) => setEditLocationFormData({ ...editLocationFormData, hours: e.target.value })}
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-zinc-300 uppercase tracking-wider mb-1.5">
+                    Google Maps Embed URL (Optional)
+                  </label>
+                  <input
+                    type="text"
+                    value={editLocationFormData.embedUrl}
+                    onChange={(e) => setEditLocationFormData({ ...editLocationFormData, embedUrl: e.target.value })}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors"
+                  />
+                </div>
+
+                <div className="flex items-center gap-2 pt-2">
+                  <input
+                    type="checkbox"
+                    id="editIsPrimaryLocCheck"
+                    checked={editLocationFormData.isPrimary}
+                    onChange={(e) => setEditLocationFormData({ ...editLocationFormData, isPrimary: e.target.checked })}
+                    className="w-4 h-4 rounded text-emerald-600 focus:ring-0 cursor-pointer"
+                  />
+                  <label htmlFor="editIsPrimaryLocCheck" className="text-xs font-medium text-zinc-300 cursor-pointer">
+                    Set as Primary Footer Map (Appears in website footer)
+                  </label>
+                </div>
+
+                <div className="pt-4 border-t border-white/10 flex items-center justify-end gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setEditingLocation(null)}
+                    className="px-4 py-2 rounded-xl text-xs font-medium text-zinc-400 hover:text-white hover:bg-white/5 transition-colors cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-5 py-2.5 rounded-xl text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white transition-all shadow-lg hover:shadow-emerald-500/25 flex items-center gap-2 cursor-pointer"
+                  >
+                    <CheckCircle size={15} />
+                    <span>Save Location Changes</span>
                   </button>
                 </div>
               </form>

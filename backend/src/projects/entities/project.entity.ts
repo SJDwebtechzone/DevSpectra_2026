@@ -13,6 +13,7 @@ export class Project {
   @Column({ nullable: true }) thumbnail: string;
   @Column('simple-array', { nullable: true }) images: string[];
   @Column({ default: false }) featured: boolean;
+  @Column({ default: false }) isOngoing: boolean;
   @Column({ default: 0 }) displayOrder: number;
   @Column({ default: 'draft' }) status: string;
   @CreateDateColumn() createdAt: Date;

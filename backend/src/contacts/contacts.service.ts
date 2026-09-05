@@ -2,8 +2,10 @@ import { Injectable, NotFoundException, OnModuleInit, Logger } from '@nestjs/com
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ContactField } from './entities/contact-field.entity';
+import { OfficeLocation } from './entities/office-location.entity';
 import { CreateContactDto } from './dto/create-contact.dto';
 import { CreateContactFieldDto, UpdateContactFieldDto } from './dto/create-contact-field.dto';
+import { CreateOfficeLocationDto, UpdateOfficeLocationDto } from './dto/office-location.dto';
 import * as nodemailer from 'nodemailer';
 
 @Injectable()
@@ -12,10 +14,48 @@ export class ContactsService implements OnModuleInit {
 
   constructor(
     @InjectRepository(ContactField) private fieldsRepository: Repository<ContactField>,
+    @InjectRepository(OfficeLocation) private locationsRepository: Repository<OfficeLocation>,
   ) {}
 
   async onModuleInit() {
     await this.seedDefaultFields();
+    await this.seedDefaultLocations();
+  }
+
+  async seedDefaultLocations() {
+    const count = await this.locationsRepository.count();
+    if (count > 0) return;
+
+    const defaultLocations: Partial<OfficeLocation>[] = [
+      {
+        name: 'Chennai Headquarters',
+        city: 'Chennai, Tamil Nadu',
+        address: '18, 2nd St, Vani Nagar, Jai Nagar, Valasaravakkam, Chennai, Tamil Nadu 600087',
+        phone: '+0123-456-789',
+        hours: 'Mon - Fri : 10:00 - 20:00 IST',
+        status: 'Open Now',
+        embedUrl: 'https://maps.google.com/maps?q=18,+2nd+St,+Vani+Nagar,+Jai+Nagar,+Valasaravakkam,+Chennai,+Tamil+Nadu+600087&t=&z=15&ie=UTF8&iwloc=&output=embed',
+        directUrl: 'https://maps.google.com/?q=18,+2nd+St,+Vani+Nagar,+Jai+Nagar,+Valasaravakkam,+Chennai,+Tamil+Nadu+600087',
+        isPrimary: true,
+        order: 1,
+      },
+      {
+        name: 'Kanchipuram Office',
+        city: 'Kanchipuram, Tamil Nadu',
+        address: 'Kanchipuram, Tamil Nadu 631501',
+        phone: '+0123-456-789',
+        hours: 'Mon - Sat : 09:30 - 19:30 IST',
+        status: 'Open Now',
+        embedUrl: 'https://maps.google.com/maps?q=Kanchipuram,+Tamil+Nadu&t=&z=14&ie=UTF8&iwloc=&output=embed',
+        directUrl: 'https://maps.google.com/?q=Kanchipuram,+Tamil+Nadu',
+        isPrimary: false,
+        order: 2,
+      },
+    ];
+
+    for (const loc of defaultLocations) {
+      await this.locationsRepository.save(this.locationsRepository.create(loc));
+    }
   }
 
   async seedDefaultFields() {
@@ -242,5 +282,43 @@ export class ContactsService implements OnModuleInit {
 
   async remove(id: string) {
     return { success: true };
+  }
+
+  // --- Office Location Management Methods ---
+
+  async getLocations() {
+    return this.locationsRepository.find({
+      order: { isPrimary: 'DESC', order: 'ASC', createdAt: 'ASC' },
+    });
+  }
+
+  async createLocation(createDto: CreateOfficeLocationDto) {
+    const count = await this.locationsRepository.count();
+    if (createDto.isPrimary) {
+      await this.locationsRepository.update({ isPrimary: true }, { isPrimary: false });
+    }
+    const location = this.locationsRepository.create({
+      ...createDto,
+      order: createDto.order || count + 1,
+    });
+    return this.locationsRepository.save(location);
+  }
+
+  async updateLocation(id: string, updateDto: UpdateOfficeLocationDto) {
+    const location = await this.locationsRepository.findOne({ where: { id } });
+    if (!location) throw new NotFoundException('Office location not found');
+
+    if (updateDto.isPrimary) {
+      await this.locationsRepository.update({ isPrimary: true }, { isPrimary: false });
+    }
+
+    Object.assign(location, updateDto);
+    return this.locationsRepository.save(location);
+  }
+
+  async deleteLocation(id: string) {
+    const location = await this.locationsRepository.findOne({ where: { id } });
+    if (!location) throw new NotFoundException('Office location not found');
+    return this.locationsRepository.remove(location);
   }
 }

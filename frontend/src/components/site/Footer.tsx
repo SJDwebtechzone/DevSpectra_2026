@@ -1,28 +1,33 @@
 import { Link } from "@tanstack/react-router";
-
-function JustdialIcon({ className = "w-6 h-6" }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      className={className}
-      fill="currentColor"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      {/* j dot */}
-      <circle cx="6.8" cy="5.2" r="1.8" />
-      {/* j body */}
-      <path d="M5.3 8.8h3v6.6c0 1.4-1.1 2.6-2.5 2.6H4.4v-2.4h1.1c.4 0 .8-.4.8-.8V8.8z" />
-      {/* d body */}
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M16.4 4.5h2.8V18h-2.6v-1.3c-.8.9-1.9 1.5-3.3 1.5-2.9 0-5.1-2.2-5.1-5.1s2.2-5.1 5.1-5.1c1.4 0 2.5.6 3.3 1.5V4.5zm-2.8 6.4c-1.5 0-2.7 1.1-2.7 2.6s1.2 2.6 2.7 2.6 2.7-1.1 2.7-2.6-1.2-2.6-2.7-2.6z"
-      />
-    </svg>
-  );
-}
+import { useState, useEffect } from "react";
 
 export function Footer() {
+  const [locations, setLocations] = useState<any[]>([]);
+  const [activeLoc, setActiveLoc] = useState<any>({
+    id: "default",
+    name: "Chennai Office",
+    city: "Chennai",
+    address: "18, 2nd St, Vani Nagar, Jai Nagar, Valasaravakkam, Chennai, Tamil Nadu 600087",
+    embedUrl:
+      "https://maps.google.com/maps?q=18,+2nd+St,+Vani+Nagar,+Jai+Nagar,+Valasaravakkam,+Chennai,+Tamil+Nadu+600087&t=&z=15&ie=UTF8&iwloc=&output=embed",
+    directUrl:
+      "https://maps.google.com/?q=18,+2nd+St,+Vani+Nagar,+Jai+Nagar,+Valasaravakkam,+Chennai,+Tamil+Nadu+600087",
+    isPrimary: true,
+  });
+
+  useEffect(() => {
+    fetch("http://localhost:5000/contacts/locations")
+      .then((res) => (res.ok ? res.json() : []))
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setLocations(data);
+          const primary = data.find((l: any) => l.isPrimary) || data[0];
+          setActiveLoc(primary);
+        }
+      })
+      .catch((err) => console.error("Failed to fetch footer locations", err));
+  }, []);
+
   return (
     <footer className="relative bg-[#02081f] pt-24 pb-8 overflow-hidden">
       
@@ -42,120 +47,132 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Services & Company Side-by-Side Container on Mobile */}
-          <div className="grid grid-cols-2 gap-6 col-span-1 md:col-span-2 lg:contents">
-            {/* Services Column */}
-            <div className="flex flex-col text-gray-300 font-semibold">
-              <span className="mb-2 text-gray-500 font-mono text-sm md:text-base tracking-widest uppercase">SERVICES</span>
-              <Link to="/services#web-development" className="hover:text-white transition-colors">Web Development</Link>
-              <Link to="/services#mobile-application" className="hover:text-white transition-colors">App Development</Link>
-              <Link to="/services#e-commerce" className="hover:text-white transition-colors">E-Commerce</Link>
-              <Link to="/services#saas-products" className="hover:text-white transition-colors">SaaS Products</Link>
-              <Link to="/services#digital-marketing" className="hover:text-white transition-colors">Digital Marketing</Link>
-            </div>
-
-            {/* Company Column */}
-            <div className="flex flex-col text-gray-300 font-semibold">
-              <span className="mb-2 text-gray-500 font-mono text-sm md:text-base tracking-widest uppercase">COMPANY</span>
-              <Link to="/" className="hover:text-white transition-colors">Home</Link>
-              <Link to="/services" className="hover:text-white transition-colors">Services</Link>
-              <Link to="/portfolio" className="hover:text-white transition-colors">Portfolio</Link>
-              <Link to="/blog" className="hover:text-white transition-colors">Blogs</Link>
-              <Link to="/careers" className="hover:text-white transition-colors">Careers</Link>
-              <Link to="/contact" className="hover:text-white transition-colors">Contact</Link>
-            </div>
+          {/* Column 1 */}
+          <div className="flex flex-col text-gray-300 font-semibold">
+            <span className="mb-2 text-gray-500 font-mono text-sm md:text-base tracking-widest uppercase">SERVICES</span>
+            <Link to="/services#web-development" className="hover:text-white transition-colors">Web Development</Link>
+            <Link to="/services#mobile-application" className="hover:text-white transition-colors">App Development</Link>
+            <Link to="/services#e-commerce" className="hover:text-white transition-colors">E-Commerce</Link>
+            <Link to="/services#saas-products" className="hover:text-white transition-colors">SaaS Products</Link>
+            <Link to="/services#digital-marketing" className="hover:text-white transition-colors">Digital Marketing</Link>
           </div>
 
-          {/* Column 3 - Map */}
+          {/* Column 2 */}
           <div className="flex flex-col text-gray-300 font-semibold">
-            <span className="mb-2 text-gray-500 font-mono text-sm md:text-base tracking-widest uppercase">OUR LOCATION</span>
-            <div className="relative w-full h-40 mb-3 rounded-[12px] overflow-hidden group border border-gray-800 bg-gray-900">
-               <iframe 
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d113645.75338146747!2d77.49080709088732!3d8.172403912959648!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b04f12613dd3e63%3A0xa946b5bd864893cc!2sNagercoil%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" 
-                  width="100%" 
-                  height="100%" 
-                  style={{ border: 0 }} 
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  className="opacity-70 group-hover:opacity-100 transition-opacity grayscale group-hover:grayscale-0 pointer-events-none"
-               ></iframe>
-            </div>
-            <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors inline-flex items-center gap-1.5 group text-sm">
-              View on Google Maps 
-              <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-              </svg>
-            </a>
+            <span className="mb-2 text-gray-500 font-mono text-sm md:text-base tracking-widest uppercase">COMPANY</span>
+            <Link to="/" className="hover:text-white transition-colors">Home</Link>
+            <Link to="/services" className="hover:text-white transition-colors">Services</Link>
+            <Link to="/portfolio" className="hover:text-white transition-colors">Portfolio</Link>
+            <Link to="/blog" className="hover:text-white transition-colors">Blogs</Link>
+            <Link to="/careers" className="hover:text-white transition-colors">Careers</Link>
+            <Link to="/contact" className="hover:text-white transition-colors">Contact</Link>
+          </div>
+
+          {/* Column 3 - Map & All Office Locations */}
+          <div className="flex flex-col text-gray-300 font-semibold">
+            <span className="text-gray-500 font-mono text-sm md:text-base tracking-widest uppercase mb-2">
+              OUR LOCATIONS {locations.length > 0 && `(${locations.length})`}
+            </span>
+
+            {/* Office Location Branch Pills / Selector */}
+            {locations.length > 0 && (
+              <div className="flex flex-wrap gap-1.5 mb-3">
+                {locations.map((loc) => {
+                  const isSelected = activeLoc?.id === loc.id;
+                  return (
+                    <button
+                      key={loc.id}
+                      onClick={() => setActiveLoc(loc)}
+                      className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5 border ${
+                        isSelected
+                          ? "bg-emerald-500/20 text-emerald-300 border-emerald-500/50 shadow-md"
+                          : "bg-gray-900/60 text-gray-400 hover:text-white border-gray-800 hover:border-gray-700"
+                      }`}
+                    >
+                      <span>{loc.city || loc.name}</span>
+                      {loc.isPrimary && (
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_#34d399]" title="Primary Footer Location" />
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+
+            {activeLoc && (
+              <>
+                <div className="text-xs text-gray-400 font-normal mb-2 leading-tight space-y-0.5">
+                  <p className="font-semibold text-white flex items-center gap-1.5">
+                    {activeLoc.name}
+                    {activeLoc.isPrimary && (
+                      <span className="text-[10px] text-emerald-400 bg-emerald-950/80 px-1.5 py-0.5 rounded border border-emerald-500/30">
+                        Primary
+                      </span>
+                    )}
+                  </p>
+                  <p className="text-[11px] text-gray-400 line-clamp-1">{activeLoc.address}</p>
+                </div>
+
+                <div className="relative w-full h-40 mb-3 rounded-[12px] overflow-hidden group border border-gray-800 bg-gray-900">
+                  <iframe
+                    key={activeLoc.id || activeLoc.embedUrl}
+                    src={
+                      activeLoc.embedUrl ||
+                      `https://maps.google.com/maps?q=${encodeURIComponent(activeLoc.address || activeLoc.name)}&t=&z=15&ie=UTF8&iwloc=&output=embed`
+                    }
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    className="opacity-80 group-hover:opacity-100 transition-opacity grayscale group-hover:grayscale-0"
+                  />
+                </div>
+
+                <a
+                  href={
+                    activeLoc.directUrl ||
+                    `https://maps.google.com/?q=${encodeURIComponent(activeLoc.address || activeLoc.name || "DevSpectra")}`
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-white transition-colors inline-flex items-center gap-1.5 group text-sm"
+                >
+                  View {activeLoc.city || activeLoc.name} on Google Maps
+                  <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </a>
+              </>
+            )}
           </div>
         </div>
 
         {/* Bottom Bar with Socials and Copyright */}
         <div className="flex flex-col justify-center items-center gap-6 mb-8 w-full">
           {/* Social Icons */}
-          <div className="flex items-center gap-4">
-            {/* LinkedIn */}
-            <a
-              href="https://www.linkedin.com/company/devspectra/posts/?feedView=all"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn"
-              className="w-11 h-11 rounded-full bg-white/[0.06] border border-white/10 flex items-center justify-center text-gray-300 hover:text-white hover:bg-[#0077B5] hover:border-[#0077B5] hover:shadow-[0_0_16px_rgba(0,119,181,0.5)] hover:-translate-y-1 transition-all duration-300"
-            >
-              <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+          <div className="flex items-center gap-6 text-gray-400">
+            <a href="#" aria-label="LinkedIn" className="hover:text-white hover:-translate-y-1 transition-all duration-300">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
               </svg>
             </a>
-
-            {/* Facebook */}
-            <a
-              href="https://www.facebook.com/people/Devspectra/61592571971735/?rdid=LKwgeZMfC0rRrH6K&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1HgawTFf6o%2F"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Facebook"
-              className="w-11 h-11 rounded-full bg-white/[0.06] border border-white/10 flex items-center justify-center text-gray-300 hover:text-white hover:bg-[#1877F2] hover:border-[#1877F2] hover:shadow-[0_0_16px_rgba(24,119,242,0.5)] hover:-translate-y-1 transition-all duration-300"
-            >
-              <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            <a href="#" aria-label="X (Twitter)" className="hover:text-white hover:-translate-y-1 transition-all duration-300">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z" />
               </svg>
             </a>
-
-            {/* Instagram */}
-            <a
-              href="https://www.instagram.com/_devspectra_?igsi=MW9wMW9oczAyOHg2eA%3D%3D"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Instagram"
-              className="w-11 h-11 rounded-full bg-white/[0.06] border border-white/10 flex items-center justify-center text-gray-300 hover:text-white hover:bg-[#E4405F] hover:border-[#E4405F] hover:shadow-[0_0_16px_rgba(228,64,95,0.5)] hover:-translate-y-1 transition-all duration-300"
-            >
-              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <a href="#" aria-label="Instagram" className="hover:text-white hover:-translate-y-1 transition-all duration-300">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                 <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
                 <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
               </svg>
             </a>
-
-            {/* YouTube */}
-            <a
-              href="https://www.youtube.com/@Devspectratech"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="YouTube"
-              className="w-11 h-11 rounded-full bg-white/[0.06] border border-white/10 flex items-center justify-center text-gray-300 hover:text-white hover:bg-[#FF0000] hover:border-[#FF0000] hover:shadow-[0_0_16px_rgba(255,0,0,0.5)] hover:-translate-y-1 transition-all duration-300"
-            >
-              <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+            <a href="#" aria-label="YouTube" className="hover:text-white hover:-translate-y-1 transition-all duration-300">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.5 12 3.5 12 3.5s-7.505 0-9.377.55a3.016 3.016 0 0 0-2.122 2.136C0 8.07 0 12 0 12s0 3.93.501 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.55 9.377.55 9.377.55s7.505 0 9.377-.55a3.016 3.016 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
               </svg>
-            </a>
-
-            {/* Justdial */}
-            <a
-              href="https://www.justdial.com/Chennai/DevSpectra-Valasaravakkam/044PXX44-XX44-251112122932-Q6Z1_BZDET?via=scode"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Justdial"
-              className="w-11 h-11 rounded-full bg-white/[0.06] border border-white/10 flex items-center justify-center text-gray-300 hover:text-white hover:bg-[#F26522] hover:border-[#F26522] hover:shadow-[0_0_16px_rgba(242,101,34,0.5)] hover:-translate-y-1 transition-all duration-300"
-            >
-              <JustdialIcon className="w-5 h-5 fill-current" />
             </a>
           </div>
 

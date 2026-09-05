@@ -11,6 +11,7 @@ export class CreateProjectDto {
   @IsString() @IsOptional() thumbnail?: string;
   @IsArray() @IsString({ each: true }) @IsOptional() images?: string[];
   @IsBoolean() @IsOptional() featured?: boolean;
+  @IsBoolean() @IsOptional() isOngoing?: boolean;
   @IsNumber() @IsOptional() displayOrder?: number;
   @IsString() @IsOptional() status?: string;
 }

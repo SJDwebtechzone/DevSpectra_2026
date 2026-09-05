@@ -13,6 +13,7 @@ import { User } from './users/entities/user.entity';
 import { Project } from './projects/entities/project.entity';
 import { Contact } from './contacts/entities/contact.entity';
 import { ContactField } from './contacts/entities/contact-field.entity';
+import { OfficeLocation } from './contacts/entities/office-location.entity';
 import { ReviewsModule } from './reviews/reviews.module';
 import { Review } from './reviews/entities/review.entity';
 import { GoogleReviewsModule } from './google-reviews/google-reviews.module';
@@ -34,7 +35,7 @@ import { GoogleReview } from './google-reviews/entities/google-review.entity';
         username: configService.get<string>('database.user'),
         password: configService.get<string>('database.password'),
         database: configService.get<string>('database.name'),
-        entities: [User, Project, Contact, ContactField, Review, GoogleReview],
+        entities: [User, Project, Contact, ContactField, OfficeLocation, Review, GoogleReview],
         synchronize: process.env.NODE_ENV !== 'production', // Enable auto-synchronization in development to create missing tables
         migrationsRun: true,
       }),

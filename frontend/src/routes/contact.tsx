@@ -13,8 +13,15 @@ import {
   ChevronDown,
   Loader2,
   CheckCircle2,
+  MapPin,
+  Clock,
+  Phone,
+  Navigation,
+  Compass,
+  Sparkles,
 } from "lucide-react";
-import ContactHero from "@/components/ContactHero";
+import { AuroraBackground } from "@/components/ui/aurora-background";
+import FeatureSection from "@/components/ui/stack-feature-section";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/contact")({
@@ -57,35 +64,75 @@ function Marquee() {
   );
 }
 
-const defaultContactFields = [
-  { id: "default-first-name", label: "First Name", name: "firstName", type: "text", placeholder: "First Name *", isRequired: true, halfWidth: true, order: 1 },
-  { id: "default-last-name", label: "Last Name", name: "lastName", type: "text", placeholder: "Last Name *", isRequired: true, halfWidth: true, order: 2 },
-  { id: "default-email", label: "Email", name: "email", type: "email", placeholder: "Email *", isRequired: true, halfWidth: true, order: 3 },
-  { id: "default-phone", label: "Phone Number", name: "phone", type: "tel", placeholder: "Phone Number", isRequired: false, halfWidth: true, order: 4 },
-  { id: "default-service", label: "Service Needed", name: "service", type: "select", placeholder: "Service *", options: ["Website", "Mobile App", "E-Commerce", "Digital Marketing", "SaaS Product", "Other"], isRequired: true, halfWidth: false, order: 5 },
-  { id: "default-message", label: "Message", name: "message", type: "textarea", placeholder: "Message *", isRequired: true, halfWidth: false, order: 6 },
+const defaultFallbackFields = [
+  { id: "1", name: "firstName", label: "First Name", type: "text", placeholder: "First Name *", isRequired: true, halfWidth: true },
+  { id: "2", name: "lastName", label: "Last Name", type: "text", placeholder: "Last Name *", isRequired: true, halfWidth: true },
+  { id: "3", name: "email", label: "Email", type: "email", placeholder: "Email *", isRequired: true, halfWidth: true },
+  { id: "4", name: "phone", label: "Phone Number", type: "tel", placeholder: "Phone Number *", isRequired: false, halfWidth: true },
+  {
+    id: "5",
+    name: "service",
+    label: "Service Needed",
+    type: "select",
+    placeholder: "Service *",
+    isRequired: true,
+    halfWidth: false,
+    options: ["Website", "Mobile App", "E-Commerce", "UI/UX Design", "Digital Marketing", "SaaS Product", "Other"],
+  },
+  { id: "6", name: "message", label: "Message", type: "textarea", placeholder: "Message *", isRequired: true, halfWidth: false },
 ];
 
 function Contact() {
-  const [fields, setFields] = useState<any[]>(defaultContactFields);
+  const [fields, setFields] = useState<any[]>([]);
   const [formValues, setFormValues] = useState<Record<string, any>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [locations, setLocations] = useState<any[]>([]);
+  const [activeLocId, setActiveLocId] = useState<string>("");
 
   useEffect(() => {
     fetch("http://localhost:5000/contacts/fields")
       .then((res) => (res.ok ? res.json() : []))
+      .then((data) => setFields(Array.isArray(data) ? data : []))
+      .catch((err) => console.error("Failed to fetch form fields", err));
+
+    fetch("http://localhost:5000/contacts/locations")
+      .then((res) => (res.ok ? res.json() : []))
       .then((data) => {
-        if (Array.isArray(data) && data.length > 0) setFields(data);
+        if (Array.isArray(data)) {
+          setLocations(data);
+          if (data.length > 0) {
+            const primary = data.find((l: any) => l && l.isPrimary) || data[0];
+            if (primary?.id) setActiveLocId(primary.id);
+          }
+        }
       })
-      .catch((err) => console.error("Failed to fetch form fields, using defaults", err));
+      .catch((err) => console.error("Failed to fetch office locations", err));
   }, []);
+
+  const safeLocations = Array.isArray(locations) ? locations : [];
+  const activeFields = Array.isArray(fields) && fields.length > 0 ? fields : defaultFallbackFields;
+
+  const activeLoc = safeLocations.find((l) => l && l.id === activeLocId) || safeLocations[0] || {
+    name: "Chennai Headquarters",
+    city: "Chennai, Tamil Nadu",
+    address: "18, 2nd St, Vani Nagar, Jai Nagar, Valasaravakkam, Chennai, Tamil Nadu 600087",
+    phone: "+0123-456-789",
+    hours: "Mon - Fri : 10:00 - 20:00 IST",
+    status: "Open Now",
+    embedUrl:
+      "https://maps.google.com/maps?q=18,+2nd+St,+Vani+Nagar,+Jai+Nagar,+Valasaravakkam,+Chennai,+Tamil+Nadu+600087&t=&z=15&ie=UTF8&iwloc=&output=embed",
+    directUrl:
+      "https://maps.google.com/?q=18,+2nd+St,+Vani+Nagar,+Jai+Nagar,+Valasaravakkam,+Chennai,+Tamil+Nadu+600087",
+  };
+
+  const primaryLoc = safeLocations.find((l) => l && l.isPrimary) || activeLoc;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     // Check required fields
-    const missing = fields.filter((f) => f.isRequired && (!formValues[f.name] || !String(formValues[f.name]).trim()));
+    const missing = activeFields.filter((f) => f.isRequired && (!formValues[f.name] || !String(formValues[f.name]).trim()));
     if (missing.length > 0) {
       toast.error(`Please fill in required field: ${missing[0].label}`);
       return;
@@ -129,7 +176,7 @@ function Contact() {
     const rows: Array<{ isHalfRow: boolean; fields: any[] }> = [];
     let currentHalfRow: any[] = [];
 
-    fields.forEach((field) => {
+    activeFields.forEach((field) => {
       if (field.type === "textarea" || !field.halfWidth) {
         if (currentHalfRow.length > 0) {
           rows.push({ isHalfRow: true, fields: currentHalfRow });
@@ -162,7 +209,7 @@ function Contact() {
   const renderInput = (field: any) => {
     const val = formValues[field.name] || "";
     const commonClass =
-      "w-full bg-[#fafafa] border border-[#e7e5e0] rounded-none px-4 h-12 text-gray-800 placeholder:text-gray-400 text-sm transition-colors duration-300 focus:outline-none focus:border-[#9b835d] focus:bg-white";
+      "w-full bg-white/50 backdrop-blur-[24px] border border-white/75 rounded-[32px] px-7 h-[72px] text-gray-800 placeholder:text-gray-400 font-medium text-[18px] shadow-[0_4px_24px_rgba(0,0,0,0.02),inset_0_2px_8px_rgba(255,255,255,0.6),inset_0_-1px_3px_rgba(100,150,255,0.05)] transition-all duration-300 focus:outline-none focus:bg-white/65 focus:border-white focus:shadow-[0_8px_32px_rgba(100,180,255,0.1),inset_0_4px_10px_rgba(255,255,255,0.8),inset_0_-1px_4px_rgba(100,150,255,0.1)] focus:-translate-y-0.5";
 
     if (field.type === "textarea") {
       return (
@@ -172,7 +219,7 @@ function Contact() {
           value={val}
           onChange={(e) => setFormValues({ ...formValues, [field.name]: e.target.value })}
           placeholder={field.placeholder || `${field.label}${field.isRequired ? " *" : ""}`}
-          className="w-full bg-[#fafafa] border border-[#e7e5e0] rounded-none px-4 py-3 h-32 resize-none text-gray-800 placeholder:text-gray-400 text-sm transition-colors duration-300 focus:outline-none focus:border-[#9b835d] focus:bg-white"
+          className="w-full bg-white/50 backdrop-blur-[24px] border border-white/75 rounded-[32px] px-7 py-6 h-[220px] resize-none text-gray-800 placeholder:text-gray-400 font-medium text-[18px] shadow-[0_4px_24px_rgba(0,0,0,0.02),inset_0_2px_8px_rgba(255,255,255,0.6),inset_0_-1px_3px_rgba(100,150,255,0.05)] transition-all duration-300 focus:outline-none focus:bg-white/65 focus:border-white focus:shadow-[0_8px_32px_rgba(100,180,255,0.1),inset_0_4px_10px_rgba(255,255,255,0.8),inset_0_-1px_4px_rgba(100,150,255,0.1)] focus:-translate-y-0.5"
         />
       );
     }
@@ -184,7 +231,7 @@ function Contact() {
             required={field.isRequired}
             value={val}
             onChange={(e) => setFormValues({ ...formValues, [field.name]: e.target.value })}
-            className={`w-full bg-[#fafafa] border border-[#e7e5e0] rounded-none px-4 h-12 text-sm transition-colors duration-300 focus:outline-none focus:border-[#9b835d] focus:bg-white appearance-none cursor-pointer ${
+            className={`w-full bg-white/50 backdrop-blur-[24px] border border-white/75 rounded-[32px] px-7 h-[72px] font-medium text-[18px] shadow-[0_4px_24px_rgba(0,0,0,0.02),inset_0_2px_8px_rgba(255,255,255,0.6),inset_0_-1px_3px_rgba(100,150,255,0.05)] transition-all duration-300 focus:outline-none focus:bg-white/65 focus:border-white focus:shadow-[0_8px_32px_rgba(100,180,255,0.1),inset_0_4px_10px_rgba(255,255,255,0.8),inset_0_-1px_4px_rgba(100,150,255,0.1)] focus:-translate-y-0.5 appearance-none cursor-pointer ${
               val === "" ? "text-gray-400" : "text-gray-800 font-semibold"
             }`}
           >
@@ -220,19 +267,19 @@ function Contact() {
   return (
     <PageShell mode="contact" ctaLabel="Contact Us Now">
       {/* Top Header */}
-      <ContactHero />
+      <FeatureSection />
 
       {/* Top Marquee */}
       <Marquee />
 
       {/* Main Content Area */}
-      <section id="contact-form" className="relative py-20 lg:py-28 text-black bg-[#f5f4f0] overflow-hidden">
+      <section className="relative py-32 text-black bg-[#fbfdfa] overflow-hidden">
         {/* Background Atmospheric Glow */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(233,213,255,0.38),transparent_50%),radial-gradient(ellipse_at_bottom_right,rgba(209,250,229,0.42),transparent_50%),radial-gradient(ellipse_at_center,rgba(254,243,199,0.25),transparent_45%)] pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(230,245,255,0.5),transparent_50%),radial-gradient(ellipse_at_bottom_right,rgba(240,250,255,0.6),transparent_50%)] pointer-events-none" />
 
         {/* Decorative Liquid Glass Elements */}
-        <div className="absolute -top-32 -left-20 w-96 h-96 bg-purple-100/35 rounded-full blur-3xl pointer-events-none animate-[liquid-float_10s_ease-in-out_infinite]" />
-        <div className="absolute bottom-10 right-0 w-[40rem] h-[40rem] bg-emerald-100/30 rounded-full blur-3xl pointer-events-none animate-[liquid-float_12s_ease-in-out_infinite_reverse]" />
+        <div className="absolute -top-32 -left-20 w-96 h-96 bg-blue-50/40 rounded-full blur-3xl pointer-events-none animate-[liquid-float_10s_ease-in-out_infinite]" />
+        <div className="absolute bottom-10 right-0 w-[40rem] h-[40rem] bg-cyan-50/30 rounded-full blur-3xl pointer-events-none animate-[liquid-float_12s_ease-in-out_infinite_reverse]" />
 
         {/* Acrylic Wave Blobs */}
         <div className="absolute top-1/4 -right-10 w-72 h-72 bg-white/20 rounded-[40%_60%_70%_30%] backdrop-blur-md border border-white/40 shadow-[inset_10px_10px_40px_rgba(255,255,255,0.8),0_10px_30px_rgba(0,100,255,0.05)] pointer-events-none animate-[liquid-spin_15s_linear_infinite]" />
@@ -248,14 +295,16 @@ function Contact() {
           style={{ animationDelay: "3s" }}
         />
 
-        <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1fr_0.95fr] gap-0 items-start relative z-10">
-          {/* Right: Dynamic Form */}
-          <div className="order-2 lg:order-2 bg-white p-7 sm:p-10 lg:p-12 shadow-[0_24px_60px_rgba(31,29,24,0.12)]">
-            <div className="flex items-center gap-3 text-black/60 mb-4 text-xs font-semibold tracking-[0.18em] uppercase">
-              <span className="w-7 h-px bg-[#9b835d]"></span> Contact us
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-start relative z-10">
+          {/* Left: Dynamic Form */}
+          <div>
+            <div className="flex items-center gap-3 text-black/80 mb-4 text-sm font-medium tracking-wide">
+              <span className="w-8 h-[2px] bg-black/80"></span> Contact Us
             </div>
-            <h2 className="text-3xl sm:text-4xl font-display font-semibold mb-9 leading-tight text-[#171612] tracking-tight">
-              Send a message
+            <h2 className="text-5xl lg:text-6xl font-display font-bold mb-12 leading-tight text-gray-900 tracking-tight">
+              Join Us in Creating
+              <br />
+              Something Great
             </h2>
 
             {isSubmitted ? (
@@ -278,7 +327,7 @@ function Contact() {
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-5">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 {fields.length === 0 ? (
                   <div className="p-8 text-center text-gray-400 bg-white/40 backdrop-blur-lg rounded-3xl border border-white">
                     <Loader2 className="w-8 h-8 animate-spin mx-auto mb-2 text-indigo-500" />
@@ -291,12 +340,12 @@ function Contact() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="inline-flex items-center gap-3 bg-[#171612] hover:bg-[#4b3a28] text-white font-medium px-5 py-3 transition-colors duration-300 group w-max cursor-pointer disabled:opacity-60"
+                  className="inline-flex items-center justify-between gap-6 bg-[#060c18] hover:bg-[#0a152e] text-white font-medium rounded-full h-[64px] pl-8 pr-2 transition-all duration-300 group shadow-[0_12px_30px_rgba(0,0,0,0.15),inset_0_1px_2px_rgba(255,255,255,0.2)] hover:shadow-[0_16px_40px_rgba(0,0,0,0.2),inset_0_2px_4px_rgba(255,255,255,0.3)] hover:-translate-y-0.5 w-max cursor-pointer disabled:opacity-60"
                 >
                   <span className="text-[17px]">
                     {isSubmitting ? "Sending..." : "Send Message"}
                   </span>
-                  <span className="text-[#d4bd91] flex items-center justify-center group-hover:translate-x-1 transition-transform">
+                  <span className="bg-white text-[#060c18] w-[48px] h-[48px] rounded-full flex items-center justify-center group-hover:translate-x-1 transition-transform shadow-sm">
                     {isSubmitting ? (
                       <Loader2 className="w-5 h-5 animate-spin" />
                     ) : (
@@ -308,119 +357,186 @@ function Contact() {
             )}
           </div>
 
-          {/* Left: Contact Details */}
-          <div className="relative mt-0 order-1 lg:order-1 pr-0 lg:pr-20">
+          {/* Right: Info Card */}
+          <div className="relative mt-8 lg:mt-0">
             {/* Badge overlay */}
-            <div className="hidden">
+            <div className="absolute -top-10 right-4 lg:-right-6 bg-white/60 backdrop-blur-xl text-black w-28 h-28 rounded-full flex items-center justify-center border border-white/80 z-10 hidden sm:flex shadow-[0_8px_32px_rgba(0,0,0,0.05),inset_0_2px_10px_rgba(255,255,255,0.8)]">
               <div className="absolute inset-2 border border-dashed border-black/20 rounded-full animate-[spin_12s_linear_infinite]" />
               <ArrowUpRight className="w-8 h-8 text-black/80" />
             </div>
 
-            <div className="w-full text-gray-900">
+            <AuroraBackground
+              className="h-full w-full rounded-[2.5rem] p-10 lg:p-14 shadow-[0_8px_40px_rgba(0,0,0,0.04),inset_0_2px_20px_rgba(255,255,255,0.6)] relative overflow-hidden items-start justify-start !bg-white/40 backdrop-blur-2xl border border-white/60 !text-gray-900"
+              showRadialGradient={false}
+            >
               <div className="space-y-8 relative z-10 w-full text-gray-900">
-                <div className="mb-16">
-                  <p className="text-xs font-semibold tracking-[0.18em] uppercase text-[#9b835d] mb-4">Get in touch</p>
-                  <h3 className="text-5xl sm:text-6xl font-display font-semibold mb-5 text-[#171612] leading-[0.95]">Contact me</h3>
-                  <p className="text-gray-500 max-w-md leading-relaxed text-base">
-                    Have a project in mind or simply want to say hello? Tell us what you are building and we will get back to you soon.
+                <div>
+                  <h3 className="text-2xl font-bold mb-2 text-gray-900 font-display">Address</h3>
+                  <p className="text-gray-600 font-medium leading-relaxed text-[17px] whitespace-pre-line">
+                    {primaryLoc.address}
                   </p>
                 </div>
 
-                <div className="border-t border-[#dedbd3] pt-7 pb-8">
-                  <h3 className="text-xs font-semibold tracking-[0.16em] uppercase mb-2 text-[#9b835d]">Office</h3>
-                  <p className="text-gray-600 leading-relaxed text-[17px]">
-                    DevSpectra, Valasaravakkam,
-                    <br />
-                    Chennai, Tamil Nadu, India
-                  </p>
+                <div>
+                  <h3 className="text-2xl font-bold mb-3 text-gray-900 font-display">Contact</h3>
+                  <p className="text-gray-600 font-medium text-[17px]">Phone : {primaryLoc.phone || "+0123-456-789"}</p>
+                  <p className="text-gray-600 font-medium mt-1 text-[17px]">Email : connectwithdevspectra@gmail.com</p>
                 </div>
 
-                <div className="border-t border-[#dedbd3] pt-7 pb-8">
-                  <h3 className="text-xs font-semibold tracking-[0.16em] uppercase mb-2 text-[#9b835d]">Email</h3>
-                  <p className="text-gray-600 text-[17px]">info@devspectra.com</p>
+                <div>
+                  <h3 className="text-2xl font-bold mb-3 text-gray-900 font-display">Open Time</h3>
+                  <p className="text-gray-600 font-medium text-[17px]">{primaryLoc.hours || "Monday - Friday : 10:00 - 20:00"}</p>
                 </div>
 
-                <div className="border-t border-[#dedbd3] pt-7 pb-8">
-                  <h3 className="text-xs font-semibold tracking-[0.16em] uppercase mb-2 text-[#9b835d]">Open time</h3>
-                  <p className="text-gray-600 text-[17px]">Monday - Friday : 10:00 - 20:00</p>
-                </div>
-
-                <div className="border-t border-[#dedbd3] pt-7">
-                  <h3 className="text-xs font-semibold tracking-[0.16em] uppercase mb-4 text-[#9b835d]">Follow me</h3>
-                  <div className="flex flex-wrap gap-3.5">
-                    {/* LinkedIn */}
-                    <a
-                      href="https://www.linkedin.com/company/devspectra/posts/?feedView=all"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="LinkedIn"
-                      className="w-12 h-12 bg-white/70 text-[#0077B5] backdrop-blur-xl border border-white/90 shadow-[0_4px_12px_rgba(0,0,0,0.05),inset_0_2px_8px_rgba(255,255,255,0.8)] flex items-center justify-center rounded-full hover:bg-[#0077B5] hover:text-white hover:scale-110 hover:shadow-[0_4px_15px_rgba(0,119,181,0.4)] transition-all"
-                    >
-                      <Linkedin className="w-5 h-5" />
-                    </a>
-
-                    {/* Facebook */}
-                    <a
-                      href="https://www.facebook.com/people/Devspectra/61592571971735/?rdid=LKwgeZMfC0rRrH6K&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1HgawTFf6o%2F"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="Facebook"
-                      className="w-12 h-12 bg-white/70 text-[#1877F2] backdrop-blur-xl border border-white/90 shadow-[0_4px_12px_rgba(0,0,0,0.05),inset_0_2px_8px_rgba(255,255,255,0.8)] flex items-center justify-center rounded-full hover:bg-[#1877F2] hover:text-white hover:scale-110 hover:shadow-[0_4px_15px_rgba(24,119,242,0.4)] transition-all"
-                    >
-                      <Facebook className="w-5 h-5" />
-                    </a>
-
-                    {/* Instagram */}
-                    <a
-                      href="https://www.instagram.com/_devspectra_?igsi=MW9wMW9oczAyOHg2eA%3D%3D"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="Instagram"
-                      className="w-12 h-12 bg-white/70 text-[#E4405F] backdrop-blur-xl border border-white/90 shadow-[0_4px_12px_rgba(0,0,0,0.05),inset_0_2px_8px_rgba(255,255,255,0.8)] flex items-center justify-center rounded-full hover:bg-[#E4405F] hover:text-white hover:scale-110 hover:shadow-[0_4px_15px_rgba(228,64,95,0.4)] transition-all"
-                    >
-                      <Instagram className="w-5 h-5" />
-                    </a>
-
-                    {/* YouTube */}
-                    <a
-                      href="https://www.youtube.com/@Devspectratech"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="YouTube"
-                      className="w-12 h-12 bg-white/70 text-[#FF0000] backdrop-blur-xl border border-white/90 shadow-[0_4px_12px_rgba(0,0,0,0.05),inset_0_2px_8px_rgba(255,255,255,0.8)] flex items-center justify-center rounded-full hover:bg-[#FF0000] hover:text-white hover:scale-110 hover:shadow-[0_4px_15px_rgba(255,0,0,0.4)] transition-all"
-                    >
-                      <Youtube className="w-5 h-5" />
-                    </a>
-
-                    {/* Justdial */}
-                    <a
-                      href="https://www.justdial.com/Chennai/DevSpectra-Valasaravakkam/044PXX44-XX44-251112122932-Q6Z1_BZDET?via=scode"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="Justdial"
-                      className="w-12 h-12 bg-white/70 text-[#F26522] backdrop-blur-xl border border-white/90 shadow-[0_4px_12px_rgba(0,0,0,0.05),inset_0_2px_8px_rgba(255,255,255,0.8)] flex items-center justify-center rounded-full hover:bg-[#F26522] hover:text-white hover:scale-110 hover:shadow-[0_4px_15px_rgba(242,101,34,0.4)] transition-all"
-                    >
-                      <svg
-                        viewBox="0 0 24 24"
-                        className="w-5 h-5 fill-current"
-                        xmlns="http://www.w3.org/2000/svg"
+                <div>
+                  <h3 className="text-2xl font-bold mb-4 text-gray-900 font-display">Stay Connected</h3>
+                  <div className="flex gap-4 flex-wrap">
+                    {[
+                      { icon: Facebook, href: "#" },
+                      { icon: Twitter, href: "#" },
+                      { icon: Linkedin, href: "#" },
+                      { icon: Instagram, href: "#" },
+                      { icon: Youtube, href: "#" },
+                    ].map((s, i) => (
+                      <a
+                        key={i}
+                        href={s.href}
+                        className="w-14 h-14 rounded-full bg-white/90 backdrop-blur-md border border-white flex items-center justify-center text-gray-700 hover:text-black hover:bg-white hover:scale-110 transition-all shadow-[0_8px_20px_rgba(0,0,0,0.06)]"
                       >
-                        {/* j dot */}
-                        <circle cx="6.8" cy="5.2" r="1.8" />
-                        {/* j body */}
-                        <path d="M5.3 8.8h3v6.6c0 1.4-1.1 2.6-2.5 2.6H4.4v-2.4h1.1c.4 0 .8-.4.8-.8V8.8z" />
-                        {/* d body */}
-                        <path
-                          fillRule="evenodd"
-                          clipRule="evenodd"
-                          d="M16.4 4.5h2.8V18h-2.6v-1.3c-.8.9-1.9 1.5-3.3 1.5-2.9 0-5.1-2.2-5.1-5.1s2.2-5.1 5.1-5.1c1.4 0 2.5.6 3.3 1.5V4.5zm-2.8 6.4c-1.5 0-2.7 1.1-2.7 2.6s1.2 2.6 2.7 2.6 2.7-1.1 2.7-2.6-1.2-2.6-2.7-2.6z"
-                        />
-                      </svg>
-                    </a>
+                        <s.icon className="w-5 h-5 stroke-[2]" />
+                      </a>
+                    ))}
                   </div>
                 </div>
               </div>
+            </AuroraBackground>
+          </div>
+        </div>
+      </section>
+
+      {/* Unique Interactive Map Section before Footer */}
+      <section className="relative py-20 text-black bg-gradient-to-b from-[#fbfdfa] to-slate-100/60 overflow-hidden">
+        {/* Glow Effects */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50rem] h-[25rem] bg-gradient-to-r from-blue-400/10 via-emerald-400/10 to-indigo-400/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-10 gap-6">
+            <div>
+              <div className="flex items-center gap-3 text-emerald-600 mb-3 text-sm font-semibold tracking-wider uppercase">
+                <Compass className="w-4 h-4 animate-[spin_10s_linear_infinite]" /> Interactive Radar
+              </div>
+              <h3 className="text-4xl md:text-5xl font-display font-bold text-gray-900 tracking-tight">
+                Locate DevSpectra
+              </h3>
             </div>
+
+            {/* Location Switcher Tabs */}
+            <div className="flex items-center p-1.5 bg-white/80 backdrop-blur-xl border border-gray-200/80 rounded-full shadow-[0_8px_30px_rgba(0,0,0,0.04)] gap-2 flex-wrap">
+              {safeLocations.map((loc) => (
+                <button
+                  key={loc.id}
+                  onClick={() => setActiveLocId(loc.id)}
+                  className={`flex items-center gap-2.5 px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300 cursor-pointer ${
+                    activeLocId === loc.id
+                      ? "bg-[#060c18] text-white shadow-md"
+                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-100/60"
+                  }`}
+                >
+                  <MapPin className="w-4 h-4 text-emerald-400" />
+                  <span>{loc.name}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Map Frame Outer Container with Acrylic Border */}
+          <div className="relative w-full h-[520px] rounded-[3rem] p-3 bg-white/60 backdrop-blur-2xl border border-white/80 shadow-[0_30px_80px_rgba(0,0,0,0.08),inset_0_2px_15px_rgba(255,255,255,0.9)] overflow-hidden group">
+            
+            {/* Floating Glass Control Badge Card (Top Left) */}
+            <div className="absolute top-8 left-8 z-20 max-w-sm hidden md:block animate-in fade-in slide-in-from-top-4 duration-500">
+              <div className="bg-[#060c18]/90 backdrop-blur-2xl text-white p-7 rounded-[2rem] border border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.3)] space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="relative flex h-3 w-3">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                    </span>
+                    <span className="text-xs font-bold uppercase tracking-wider text-emerald-400">
+                      {activeLoc.status || "Open Now"}
+                    </span>
+                  </div>
+                  <Sparkles className="w-4 h-4 text-blue-400" />
+                </div>
+
+                <div>
+                  <h4 className="text-xl font-bold font-display text-white mb-1">
+                    {activeLoc.name}
+                  </h4>
+                  <p className="text-xs text-gray-400 font-medium">
+                    {activeLoc.city}
+                  </p>
+                </div>
+
+                <div className="space-y-2.5 pt-2 border-t border-white/10 text-xs text-gray-300">
+                  <div className="flex items-start gap-2.5">
+                    <MapPin className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                    <span>{activeLoc.address}</span>
+                  </div>
+                  <div className="flex items-center gap-2.5">
+                    <Clock className="w-4 h-4 text-blue-400 shrink-0" />
+                    <span>{activeLoc.hours || "Mon - Fri : 10:00 - 20:00"}</span>
+                  </div>
+                  <div className="flex items-center gap-2.5">
+                    <Phone className="w-4 h-4 text-indigo-400 shrink-0" />
+                    <span>{activeLoc.phone || "+0123-456-789"}</span>
+                  </div>
+                </div>
+
+                {activeLoc.directUrl && (
+                  <a
+                    href={activeLoc.directUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full mt-2 inline-flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-medium text-xs py-3 px-5 rounded-full transition-all shadow-lg hover:shadow-blue-500/25"
+                  >
+                    <Navigation className="w-3.5 h-3.5" />
+                    <span>Get Turn-by-Turn Directions</span>
+                    <ArrowUpRight className="w-3.5 h-3.5 ml-auto" />
+                  </a>
+                )}
+              </div>
+            </div>
+
+            {/* Google Map iframe */}
+            <div className="w-full h-full rounded-[2.5rem] overflow-hidden bg-gray-900 relative">
+              <iframe
+                key={activeLoc.id || activeLoc.name}
+                src={activeLoc.embedUrl}
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="w-full h-full transition-opacity duration-500"
+              ></iframe>
+            </div>
+
+            {/* Mobile Bottom Quick Button */}
+            {activeLoc.directUrl && (
+              <div className="absolute bottom-6 right-6 left-6 z-20 md:hidden">
+                <a
+                  href={activeLoc.directUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-[#060c18] text-white text-sm font-semibold py-3.5 px-6 rounded-full shadow-xl border border-white/20"
+                >
+                  <Navigation className="w-4 h-4 text-emerald-400" />
+                  <span>Open Directions in Maps</span>
+                  <ArrowUpRight className="w-4 h-4 ml-auto" />
+                </a>
+              </div>
+            )}
           </div>
         </div>
       </section>
