@@ -14,11 +14,9 @@ export default function FeatureSection() {
 
       <div className="relative z-10 flex max-w-4xl flex-col items-center text-center">
         <h1 className="max-w-4xl text-[clamp(3.6rem,10vw,8.75rem)] font-black uppercase leading-[0.82] tracking-[-0.07em] text-black">
-          Let&apos;s build
+          Bring a team
           <br />
-          something <span className="relative inline-block">great<span aria-hidden="true" className="absolute -right-8 -top-7 text-2xl normal-case tracking-normal sm:-right-12 sm:-top-10 sm:text-4xl">↗</span></span>
-          <br />
-          together
+          together<span aria-hidden="true" className="ml-2 align-top text-2xl normal-case tracking-normal sm:ml-3 sm:text-4xl">↗</span>
         </h1>
         <p className="mt-10 max-w-xl text-sm font-medium leading-relaxed text-gray-600 sm:text-base">
           Have a question, a project in mind, or just want to say hello? Let&apos;s bring your next idea to life together.
