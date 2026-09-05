@@ -19,9 +19,11 @@ export default function FeatureSection() {
           <path d="M0 15 C40 15 30 45 70 45 C110 45 100 15 150 15" stroke="#111827" strokeWidth="2.2" strokeDasharray="7 7" strokeLinecap="round" />
         </svg>
 
-        <div className="absolute font-black leading-[0.9] tracking-tight text-neutral-900" style={{ ...pos(140, 90), fontSize: "clamp(28px, 7.2vw, 70px)" }}>bring</div>
-        <div className="absolute font-black leading-[0.9] tracking-tight text-neutral-900" style={{ ...pos(150, 180), fontSize: "clamp(28px, 7.2vw, 70px)" }}>a team</div>
-        <div className="absolute font-black leading-[0.9] tracking-tight text-neutral-900" style={{ ...pos(330, 235), fontSize: "clamp(28px, 7.2vw, 70px)" }}>together</div>
+        <h1 aria-label="Bring a team together" className="absolute inset-0">
+          <span className="absolute font-black leading-[0.9] tracking-tight text-neutral-900" style={{ ...pos(140, 90), fontSize: "clamp(28px, 7.2vw, 70px)" }}>bring</span>
+          <span className="absolute font-black leading-[0.9] tracking-tight text-neutral-900" style={{ ...pos(150, 180), fontSize: "clamp(28px, 7.2vw, 70px)" }}>a team</span>
+          <span className="absolute font-black leading-[0.9] tracking-tight text-neutral-900" style={{ ...pos(330, 235), fontSize: "clamp(28px, 7.2vw, 70px)" }}>together</span>
+        </h1>
 
         <div className="absolute hidden items-center justify-center rounded-full bg-emerald-500 shadow-lg md:flex" style={pos(330, 100, 65, 65)}>
           <span className="text-4xl leading-none text-white">↗</span>
