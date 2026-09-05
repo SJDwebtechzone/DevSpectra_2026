@@ -58,8 +58,17 @@ function Marquee() {
   );
 }
 
+const defaultContactFields = [
+  { id: "default-first-name", label: "First Name", name: "firstName", type: "text", placeholder: "First Name *", isRequired: true, halfWidth: true, order: 1 },
+  { id: "default-last-name", label: "Last Name", name: "lastName", type: "text", placeholder: "Last Name *", isRequired: true, halfWidth: true, order: 2 },
+  { id: "default-email", label: "Email", name: "email", type: "email", placeholder: "Email *", isRequired: true, halfWidth: true, order: 3 },
+  { id: "default-phone", label: "Phone Number", name: "phone", type: "tel", placeholder: "Phone Number", isRequired: false, halfWidth: true, order: 4 },
+  { id: "default-service", label: "Service Needed", name: "service", type: "select", placeholder: "Service *", options: ["Website", "Mobile App", "E-Commerce", "Digital Marketing", "SaaS Product", "Other"], isRequired: true, halfWidth: false, order: 5 },
+  { id: "default-message", label: "Message", name: "message", type: "textarea", placeholder: "Message *", isRequired: true, halfWidth: false, order: 6 },
+];
+
 function Contact() {
-  const [fields, setFields] = useState<any[]>([]);
+  const [fields, setFields] = useState<any[]>(defaultContactFields);
   const [formValues, setFormValues] = useState<Record<string, any>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -67,8 +76,10 @@ function Contact() {
   useEffect(() => {
     fetch("http://localhost:5000/contacts/fields")
       .then((res) => (res.ok ? res.json() : []))
-      .then((data) => setFields(data))
-      .catch((err) => console.error("Failed to fetch form fields", err));
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) setFields(data);
+      })
+      .catch((err) => console.error("Failed to fetch form fields, using defaults", err));
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
