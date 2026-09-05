@@ -152,7 +152,7 @@ function Contact() {
   const renderInput = (field: any) => {
     const val = formValues[field.name] || "";
     const commonClass =
-      "w-full bg-white/50 backdrop-blur-[24px] border border-white/75 rounded-[32px] px-7 h-[72px] text-gray-800 placeholder:text-gray-400 font-medium text-[18px] shadow-[0_4px_24px_rgba(0,0,0,0.02),inset_0_2px_8px_rgba(255,255,255,0.6),inset_0_-1px_3px_rgba(100,150,255,0.05)] transition-all duration-300 focus:outline-none focus:bg-white/65 focus:border-white focus:shadow-[0_8px_32px_rgba(100,180,255,0.1),inset_0_4px_10px_rgba(255,255,255,0.8),inset_0_-1px_4px_rgba(100,150,255,0.1)] focus:-translate-y-0.5";
+      "w-full bg-[#fafafa] border border-[#e7e5e0] rounded-none px-4 h-12 text-gray-800 placeholder:text-gray-400 text-sm transition-colors duration-300 focus:outline-none focus:border-[#9b835d] focus:bg-white";
 
     if (field.type === "textarea") {
       return (
@@ -162,7 +162,7 @@ function Contact() {
           value={val}
           onChange={(e) => setFormValues({ ...formValues, [field.name]: e.target.value })}
           placeholder={field.placeholder || `${field.label}${field.isRequired ? " *" : ""}`}
-          className="w-full bg-white/50 backdrop-blur-[24px] border border-white/75 rounded-[32px] px-7 py-6 h-[220px] resize-none text-gray-800 placeholder:text-gray-400 font-medium text-[18px] shadow-[0_4px_24px_rgba(0,0,0,0.02),inset_0_2px_8px_rgba(255,255,255,0.6),inset_0_-1px_3px_rgba(100,150,255,0.05)] transition-all duration-300 focus:outline-none focus:bg-white/65 focus:border-white focus:shadow-[0_8px_32px_rgba(100,180,255,0.1),inset_0_4px_10px_rgba(255,255,255,0.8),inset_0_-1px_4px_rgba(100,150,255,0.1)] focus:-translate-y-0.5"
+          className="w-full bg-[#fafafa] border border-[#e7e5e0] rounded-none px-4 py-3 h-32 resize-none text-gray-800 placeholder:text-gray-400 text-sm transition-colors duration-300 focus:outline-none focus:border-[#9b835d] focus:bg-white"
         />
       );
     }
@@ -174,7 +174,7 @@ function Contact() {
             required={field.isRequired}
             value={val}
             onChange={(e) => setFormValues({ ...formValues, [field.name]: e.target.value })}
-            className={`w-full bg-white/50 backdrop-blur-[24px] border border-white/75 rounded-[32px] px-7 h-[72px] font-medium text-[18px] shadow-[0_4px_24px_rgba(0,0,0,0.02),inset_0_2px_8px_rgba(255,255,255,0.6),inset_0_-1px_3px_rgba(100,150,255,0.05)] transition-all duration-300 focus:outline-none focus:bg-white/65 focus:border-white focus:shadow-[0_8px_32px_rgba(100,180,255,0.1),inset_0_4px_10px_rgba(255,255,255,0.8),inset_0_-1px_4px_rgba(100,150,255,0.1)] focus:-translate-y-0.5 appearance-none cursor-pointer ${
+            className={`w-full bg-[#fafafa] border border-[#e7e5e0] rounded-none px-4 h-12 text-sm transition-colors duration-300 focus:outline-none focus:border-[#9b835d] focus:bg-white appearance-none cursor-pointer ${
               val === "" ? "text-gray-400" : "text-gray-800 font-semibold"
             }`}
           >
@@ -216,7 +216,7 @@ function Contact() {
       <Marquee />
 
       {/* Main Content Area */}
-      <section className="relative py-32 text-black bg-[#fbfdfa] overflow-hidden">
+      <section className="relative py-20 lg:py-28 text-black bg-[#f1f1ef] overflow-hidden">
         {/* Background Atmospheric Glow */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(233,213,255,0.38),transparent_50%),radial-gradient(ellipse_at_bottom_right,rgba(209,250,229,0.42),transparent_50%),radial-gradient(ellipse_at_center,rgba(254,243,199,0.25),transparent_45%)] pointer-events-none" />
 
@@ -238,16 +238,14 @@ function Contact() {
           style={{ animationDelay: "3s" }}
         />
 
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-start relative z-10">
-          {/* Left: Dynamic Form */}
-          <div>
-            <div className="flex items-center gap-3 text-black/80 mb-4 text-sm font-medium tracking-wide">
-              <span className="w-8 h-[2px] bg-black/80"></span> Contact Us
+        <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1fr_0.95fr] gap-0 items-start relative z-10">
+          {/* Right: Dynamic Form */}
+          <div className="order-2 lg:order-2 bg-white p-7 sm:p-10 lg:p-12 shadow-[0_24px_60px_rgba(31,29,24,0.12)]">
+            <div className="flex items-center gap-3 text-black/60 mb-4 text-xs font-semibold tracking-[0.18em] uppercase">
+              <span className="w-7 h-px bg-[#9b835d]"></span> Contact us
             </div>
-            <h2 className="text-5xl lg:text-6xl font-display font-bold mb-12 leading-tight text-gray-900 tracking-tight">
-              Join Us in Creating
-              <br />
-              Something Great
+            <h2 className="text-3xl sm:text-4xl font-display font-semibold mb-9 leading-tight text-[#171612] tracking-tight">
+              Send a message
             </h2>
 
             {isSubmitted ? (
@@ -270,7 +268,7 @@ function Contact() {
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-5">
                 {fields.length === 0 ? (
                   <div className="p-8 text-center text-gray-400 bg-white/40 backdrop-blur-lg rounded-3xl border border-white">
                     <Loader2 className="w-8 h-8 animate-spin mx-auto mb-2 text-indigo-500" />
@@ -283,12 +281,12 @@ function Contact() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="inline-flex items-center justify-between gap-6 bg-[#060c18] hover:bg-[#0a152e] text-white font-medium rounded-full h-[64px] pl-8 pr-2 transition-all duration-300 group shadow-[0_12px_30px_rgba(0,0,0,0.15),inset_0_1px_2px_rgba(255,255,255,0.2)] hover:shadow-[0_16px_40px_rgba(0,0,0,0.2),inset_0_2px_4px_rgba(255,255,255,0.3)] hover:-translate-y-0.5 w-max cursor-pointer disabled:opacity-60"
+                  className="inline-flex items-center gap-3 bg-[#171612] hover:bg-[#4b3a28] text-white font-medium px-5 py-3 transition-colors duration-300 group w-max cursor-pointer disabled:opacity-60"
                 >
                   <span className="text-[17px]">
                     {isSubmitting ? "Sending..." : "Send Message"}
                   </span>
-                  <span className="bg-white text-[#060c18] w-[48px] h-[48px] rounded-full flex items-center justify-center group-hover:translate-x-1 transition-transform shadow-sm">
+                  <span className="text-[#d4bd91] flex items-center justify-center group-hover:translate-x-1 transition-transform">
                     {isSubmitting ? (
                       <Loader2 className="w-5 h-5 animate-spin" />
                     ) : (
@@ -300,40 +298,48 @@ function Contact() {
             )}
           </div>
 
-          {/* Right: Info Card */}
-          <div className="relative mt-8 lg:mt-0">
+          {/* Left: Contact Details */}
+          <div className="relative mt-8 lg:mt-0 order-1 lg:order-1 pr-0 lg:pr-20">
             {/* Badge overlay */}
-            <div className="absolute -top-10 right-4 lg:-right-6 bg-white/60 backdrop-blur-xl text-black w-28 h-28 rounded-full flex items-center justify-center border border-white/80 z-10 hidden sm:flex shadow-[0_8px_32px_rgba(0,0,0,0.05),inset_0_2px_10px_rgba(255,255,255,0.8)]">
+            <div className="hidden">
               <div className="absolute inset-2 border border-dashed border-black/20 rounded-full animate-[spin_12s_linear_infinite]" />
               <ArrowUpRight className="w-8 h-8 text-black/80" />
             </div>
 
             <AuroraBackground
-              className="h-full w-full rounded-[2.5rem] p-10 lg:p-14 shadow-[0_8px_40px_rgba(0,0,0,0.04),inset_0_2px_20px_rgba(255,255,255,0.6)] relative overflow-hidden items-start justify-start !bg-white/40 backdrop-blur-2xl border border-white/60 !text-gray-900"
+              className="h-full w-full p-0 relative overflow-hidden items-start justify-start !bg-transparent !shadow-none !border-0 !text-gray-900"
               showRadialGradient={false}
             >
               <div className="space-y-8 relative z-10 w-full text-gray-900">
-                <div>
-                  <h3 className="text-2xl font-bold mb-3 text-gray-900 font-display">Address</h3>
-                  <p className="text-gray-600 font-medium leading-relaxed text-[17px]">
+                <div className="mb-12">
+                  <p className="text-xs font-semibold tracking-[0.18em] uppercase text-[#9b835d] mb-4">Get in touch</p>
+                  <h3 className="text-5xl sm:text-6xl font-display font-semibold mb-5 text-[#171612] leading-[0.95]">Contact me</h3>
+                  <p className="text-gray-500 max-w-md leading-relaxed text-base">
+                    Have a project in mind or simply want to say hello? Tell us what you are building and we will get back to you soon.
+                  </p>
+                </div>
+
+                <div className="border-t border-[#dedbd3] pt-5 pb-5">
+                  <h3 className="text-xs font-semibold tracking-[0.16em] uppercase mb-2 text-[#9b835d]">Office</h3>
+                  <p className="text-gray-600 leading-relaxed text-[17px]">
                     DevSpectra, Valasaravakkam,
                     <br />
                     Chennai, Tamil Nadu, India
                   </p>
                 </div>
 
-                <div>
-                  <h3 className="text-2xl font-bold mb-3 text-gray-900 font-display">Contact</h3>
-                  <p className="text-gray-600 font-medium text-[17px]">Email : info@devspectra.com</p>
+                <div className="border-t border-[#dedbd3] pt-5 pb-5">
+                  <h3 className="text-xs font-semibold tracking-[0.16em] uppercase mb-2 text-[#9b835d]">Email</h3>
+                  <p className="text-gray-600 text-[17px]">info@devspectra.com</p>
                 </div>
 
-                <div>
-                  <h3 className="text-2xl font-bold mb-3 text-gray-900 font-display">Open Time</h3>
-                  <p className="text-gray-600 font-medium text-[17px]">Monday - Friday : 10:00 - 20:00</p>
+                <div className="border-t border-[#dedbd3] pt-5 pb-5">
+                  <h3 className="text-xs font-semibold tracking-[0.16em] uppercase mb-2 text-[#9b835d]">Open time</h3>
+                  <p className="text-gray-600 text-[17px]">Monday - Friday : 10:00 - 20:00</p>
                 </div>
 
-                <div>
-                  <h3 className="text-2xl font-bold mb-4 text-gray-900 font-display">Stay Connected</h3>
+                <div className="border-t border-[#dedbd3] pt-5">
+                  <h3 className="text-xs font-semibold tracking-[0.16em] uppercase mb-4 text-[#9b835d]">Follow me</h3>
                   <div className="flex flex-wrap gap-3.5">
                     {/* LinkedIn */}
                     <a
