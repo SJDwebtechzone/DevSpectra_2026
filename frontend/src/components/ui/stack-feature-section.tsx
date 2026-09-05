@@ -30,7 +30,7 @@ export default function FeatureSection() {
   const iconsPerOrbit = Math.ceil(iconConfigs.length / orbitCount);
 
   return (
-    <section className="relative w-full min-h-screen flex items-center justify-between overflow-hidden bg-[#fdfxff] dark:bg-slate-950 border-b border-gray-100 dark:border-gray-800">
+    <section className="relative w-full min-h-screen flex items-center justify-between overflow-hidden bg-[#b7f000] border-b border-black/10">
       {/* Background Atmospheric Lighting & Gradients */}
       <div className="hidden">
         {/* Base Atmospheric Glow */}
