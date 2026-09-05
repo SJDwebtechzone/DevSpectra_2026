@@ -430,7 +430,7 @@ function Careers() {
                 <img
                   src="/team.jpg"
                   alt="DevSpectra Support and Recruitment Team"
-                  className="w-full h-[520px] object-cover filter grayscale contrast-125 group-hover:grayscale-0 transition-all duration-700 scale-100 group-hover:scale-105"
+                  className="w-full h-[520px] object-cover transition-transform duration-700 scale-100 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-gray-950/50 via-transparent to-transparent pointer-events-none" />
               </div>
