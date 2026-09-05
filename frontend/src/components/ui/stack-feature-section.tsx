@@ -13,7 +13,7 @@ export default function FeatureSection() {
         </div>
       </div>
 
-      <h1 className="absolute bottom-[-0.12em] left-1/2 z-10 w-max -translate-x-1/2 whitespace-nowrap text-[clamp(2.8rem,10.5vw,9.5rem)] font-black uppercase leading-[0.72] tracking-[-0.07em] text-black">
+      <h1 className="absolute bottom-0 left-1/2 z-10 w-full max-w-full -translate-x-1/2 px-4 text-center text-[clamp(2.8rem,10.5vw,9.5rem)] font-black uppercase leading-[0.9] tracking-[-0.07em] text-black">
         Let&apos;s Work Together
       </h1>
     </section>
