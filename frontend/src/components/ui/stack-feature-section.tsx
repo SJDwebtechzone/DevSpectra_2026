@@ -2,7 +2,7 @@ export default function FeatureSection() {
   return (
     <section className="relative flex min-h-[52vh] w-full items-end justify-center overflow-hidden border-b border-black/10 bg-black px-5 pb-0 sm:min-h-[60vh] sm:px-8 lg:min-h-[68vh]">
       <img
-        src="/contact/contact1.jpg"
+        src="/contact/contact2.jpg"
         alt="Partners shaking hands"
         className="absolute inset-0 h-full w-full object-cover"
       />
