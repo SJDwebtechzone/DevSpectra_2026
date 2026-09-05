@@ -132,8 +132,8 @@ export default function HeroSection() {
               <h1
                 className="text-[3.5rem] sm:text-[5rem] lg:text-[5.5rem] font-black leading-[0.85] tracking-tighter text-gray-950 flex flex-col uppercase relative z-0 mt-8"
               >
-                <span>Experiences</span>
-                <span className="text-gray-950">That Drive</span>
+                <span className="text-[#7c2d12]">Experiences</span>
+                <span className="text-[#7c2d12]">That Drive</span>
                 <span
                   className="text-transparent bg-clip-text pb-2"
                   style={{
