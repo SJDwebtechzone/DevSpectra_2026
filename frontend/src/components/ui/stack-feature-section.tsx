@@ -12,23 +12,6 @@ export default function FeatureSection() {
   return (
     <div className="w-full bg-white">
       <div className="relative mx-auto w-full max-w-[1500px]" style={{ aspectRatio: `${CANVAS_W} / ${CANVAS_H}` }}>
-        <div className="absolute flex items-center gap-2" style={pos(56, 30)}>
-          <span style={{ fontSize: "clamp(14px, 2.6vw, 22px)" }}>☁️</span>
-          <span className="font-extrabold tracking-tight text-neutral-900" style={{ fontSize: "clamp(11px, 2vw, 17px)" }}>concept</span>
-        </div>
-
-        <nav className="absolute hidden items-center whitespace-nowrap font-medium text-neutral-800 md:flex" style={{ ...pos(170, 33), fontSize: "clamp(10px, 1.7vw, 15px)", gap: "clamp(14px,3vw,32px)" }}>
-          <a href="#product" className="hover:text-neutral-500">Product</a>
-          <a href="#pricing" className="hover:text-neutral-500">Pricing</a>
-          <a href="#company" className="hover:text-neutral-500">Company</a>
-          <a href="#job" className="hover:text-neutral-500">Job</a>
-        </nav>
-
-        <div className="absolute flex items-center" style={{ ...pos(605, 30), gap: "clamp(8px,1.6vw,16px)" }}>
-          <a href="#login" className="hidden whitespace-nowrap font-medium text-neutral-800 hover:text-neutral-500 sm:inline" style={{ fontSize: "clamp(10px, 1.7vw, 15px)" }}>Log In</a>
-          <a href="#signup" className="whitespace-nowrap rounded-full border border-neutral-900 px-3 py-1 font-semibold text-neutral-900 hover:bg-neutral-900 hover:text-white" style={{ fontSize: "clamp(9px, 1.5vw, 13px)" }}>Sign Up</a>
-        </div>
-
         <svg className="absolute hidden md:block" style={pos(140, 175, 130, 130)} viewBox="0 0 130 130" fill="none" aria-hidden="true">
           <path d="M60 130 C55 90 20 90 15 60 C10 30 30 15 55 5" stroke="#111827" strokeWidth="2.2" strokeDasharray="7 7" strokeLinecap="round" />
         </svg>
