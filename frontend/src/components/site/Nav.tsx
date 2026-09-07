@@ -1,6 +1,6 @@
-import { Link } from "@tanstack/react-router";
+﻿import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Sparkles } from "lucide-react";
 
 const links = [
   { to: "/", label: "Home" },
@@ -15,9 +15,10 @@ interface NavProps {
   ctaLabel?: string;
   ctaTo?: string;
   className?: string;
+  contactPage?: boolean;
 }
 
-export function Nav({ ctaLabel = "Get Free Consultation", ctaTo = "/contact", className = "" }: NavProps) {
+export function Nav({ ctaLabel = "Get Free Consultation", ctaTo = "/contact", className = "", contactPage = false }: NavProps) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -37,11 +38,11 @@ export function Nav({ ctaLabel = "Get Free Consultation", ctaTo = "/contact", cl
 
   return (
     <>
-      <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${scrolled ? "py-2" : "py-3"} ${className}`}
+      <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${contactPage ? "border-b border-white" : "border-b border-transparent"} ${scrolled ? "py-2" : "py-3"} ${className}`}
         style={{
           WebkitBackdropFilter: scrolled ? "blur(20px)" : "none",
           backdropFilter: scrolled ? "blur(20px)" : "none",
-          backgroundColor: scrolled ? "rgba(255, 255, 255, 0.5)" : "transparent",
+          backgroundColor: scrolled ? "rgba(255, 255, 255, 0.5)" : contactPage ? "rgba(238, 252, 246, 0.96)" : "transparent",
         }}
       >
         <div className="container-page">
@@ -74,9 +75,14 @@ export function Nav({ ctaLabel = "Get Free Consultation", ctaTo = "/contact", cl
             </nav>
 
             <div className="flex items-center gap-2">
-              <Link to={ctaTo} className="btn-pill btn-accent hidden sm:inline-flex">
-                {ctaLabel}
-              </Link>
+              <div className="hidden rounded-full bg-[conic-gradient(from_210deg,#111827_0deg,#111827_48deg,#2563eb_62deg,#ef4444_78deg,#facc15_92deg,#f8fafc_112deg,#f8fafc_240deg,#111827_280deg,#111827_360deg)] p-[2px] shadow-[0_8px_18px_rgba(25,35,55,0.16)] sm:inline-flex">
+                <Link
+                  to={ctaTo}
+                  className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
+                >
+                  {ctaLabel}
+                </Link>
+              </div>
               <button
                 type="button"
                 onClick={() => setOpen((v) => !v)}
@@ -118,7 +124,8 @@ export function Nav({ ctaLabel = "Get Free Consultation", ctaTo = "/contact", cl
               {l.label}
             </Link>
           ))}
-          <Link to={ctaTo} onClick={() => setOpen(false)} className="btn-pill btn-accent mt-6">
+          <Link to={ctaTo} onClick={() => setOpen(false)} className="btn-pill btn-accent mt-6 inline-flex items-center gap-2">
+            
             {ctaLabel}
           </Link>
         </div>

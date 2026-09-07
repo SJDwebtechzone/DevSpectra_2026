@@ -522,7 +522,7 @@ function Careers() {
                     </div>
 
                     {/* Row 4: File Upload & Submit Button with Spectra Styling */}
-                    <div className="pt-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-6">
+                    <div className="flex flex-col items-stretch justify-between gap-6 pt-4 sm:flex-row sm:items-start">
                       {/* Upload Box with Spectra Styling */}
                       <div className="flex-1">
                         <input
@@ -588,7 +588,7 @@ function Careers() {
                       </div>
 
                       {/* Submit Button with Iconic Spectra Pill Styling */}
-                      <SpectraButton type="submit">
+                      <SpectraButton type="submit" className="h-[52px] w-full sm:w-[180px]">
                         Submit
                       </SpectraButton>
                     </div>

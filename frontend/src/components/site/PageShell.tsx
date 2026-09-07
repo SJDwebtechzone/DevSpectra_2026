@@ -26,8 +26,9 @@ export function PageShell({ mode, ctaLabel, ctaTo, children }: PageShellProps) {
       <Nav 
         ctaLabel={ctaLabel} 
         ctaTo={ctaTo} 
+        contactPage={mode === "contact"}
       />
-      <main className="pt-24">{children}</main>
+      <main className={`pt-24 ${mode === "contact" ? "bg-[#eefcf6]" : ""}`}>{children}</main>
       <Footer />
     </div>
   );

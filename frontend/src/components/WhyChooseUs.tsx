@@ -75,28 +75,47 @@ export function WhyChooseUs() {
                 key={reason.title}
                 onMouseEnter={() => setActiveIndex(idx)}
                 onClick={() => setActiveIndex(idx)}
-                className={`relative rounded-[24px] sm:rounded-[28px] cursor-pointer transition-all duration-500 ease-out overflow-hidden border h-[340px] sm:h-[380px] lg:h-[400px] w-[240px] sm:w-[280px] shrink-0 snap-center lg:w-auto lg:shrink ${
+                className={`relative rounded-[24px] sm:rounded-[28px] cursor-pointer transition-all duration-500 ease-out h-[340px] sm:h-[380px] lg:h-[400px] w-[240px] sm:w-[280px] shrink-0 snap-center lg:w-auto lg:shrink ${
                   isActive
-                    ? "z-20 shadow-2xl border-transparent"
-                    : "z-10 bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50"
+                    ? "z-20 shadow-2xl"
+                    : "z-10 bg-white hover:bg-gray-50/80"
                 }`}
+                style={{
+                  boxShadow: isActive ? undefined : "0 8px 25px -8px rgba(0,0,0,0.08)"
+                }}
               >
-                {/* Background Image with Opacity Transition */}
-                <div
-                  className="absolute inset-0 transition-opacity duration-700 ease-in-out"
-                  style={{ opacity: isActive ? 1 : 0 }}
-                >
-                  <img
-                    src={reason.img}
-                    alt={reason.title}
-                    className={`absolute inset-0 w-full h-full object-cover transition-transform duration-1000 ${
-                      isActive ? "scale-100" : "scale-110"
-                    }`}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10" />
+                {/* Prismatic Border (Inactive State Only) */}
+                <div 
+                  className="absolute inset-0 pointer-events-none rounded-[inherit] transition-opacity duration-500"
+                  style={{
+                    opacity: isActive ? 0 : 0.8,
+                    padding: "2px",
+                    background: "linear-gradient(110deg, #ff3b3b 0%, #ffb800 15%, #3b82f6 30%, #e2e8f0 45%, #e2e8f0 55%, #3b82f6 70%, #ffb800 85%, #ff3b3b 100%)",
+                    WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                    WebkitMaskComposite: "xor",
+                    maskComposite: "exclude"
+                  }}
+                />
+
+                {/* Inner container to clip children like images */}
+                <div className="absolute inset-0 rounded-[inherit] overflow-hidden pointer-events-none">
+                  {/* Background Image with Opacity Transition */}
+                  <div
+                    className="absolute inset-0 transition-opacity duration-700 ease-in-out pointer-events-auto"
+                    style={{ opacity: isActive ? 1 : 0 }}
+                  >
+                    <img
+                      src={reason.img}
+                      alt={reason.title}
+                      className={`absolute inset-0 w-full h-full object-cover transition-transform duration-1000 ${
+                        isActive ? "scale-100" : "scale-110"
+                      }`}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10" />
+                  </div>
                 </div>
 
-                <div className={`relative z-10 flex flex-col h-full transition-all duration-500 p-6 ${isActive ? "justify-end" : "justify-between"}`}>
+                <div className={`relative z-10 flex flex-col h-full transition-all duration-500 p-6 pointer-events-auto ${isActive ? "justify-end" : "justify-between"}`}>
                   {/* Number */}
                   <span
                     className={`font-black leading-none tracking-tighter transition-colors duration-500 ${

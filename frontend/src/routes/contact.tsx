@@ -1,15 +1,15 @@
-import { createFileRoute } from "@tanstack/react-router";
+﻿import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { PageShell } from "@/components/site/PageShell";
+import ContactHero from "@/components/ContactHero";
 import {
   ArrowRight,
+  ArrowUpRight,
   Facebook,
   Twitter,
   Linkedin,
   Instagram,
   Youtube,
-  Asterisk,
-  ArrowUpRight,
   ChevronDown,
   Loader2,
   CheckCircle2,
@@ -20,8 +20,6 @@ import {
   Compass,
   Sparkles,
 } from "lucide-react";
-import { AuroraBackground } from "@/components/ui/aurora-background";
-import FeatureSection from "@/components/ui/stack-feature-section";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/contact")({
@@ -34,41 +32,11 @@ export const Route = createFileRoute("/contact")({
   component: Contact,
 });
 
-function Marquee() {
-  return (
-    <div className="flex w-full overflow-hidden relative z-20 bg-gradient-to-b from-blue-400/20 to-blue-900/20 backdrop-blur-[24px] backdrop-saturate-150 border-y border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.25),inset_0_1px_1px_rgba(255,255,255,0.4)] text-blue-950 py-4">
-      <div className="flex whitespace-nowrap animate-[marquee_20s_linear_infinite]">
-        {[...Array(4)].map((_, i) => (
-          <div
-            key={i}
-            className="flex items-center text-xl font-bold uppercase tracking-wider mx-4"
-          >
-            <span className="mx-8">Website Design</span>
-            <Asterisk className="w-8 h-8" />
-            <span className="mx-8">UX/UI Design</span>
-            <Asterisk className="w-8 h-8" />
-            <span className="mx-8">Graphics Design</span>
-            <Asterisk className="w-8 h-8" />
-            <span className="mx-8">Digital Marketing</span>
-            <Asterisk className="w-8 h-8" />
-          </div>
-        ))}
-      </div>
-      <style>{`
-        @keyframes marquee {
-          0% { transform: translateX(0%); }
-          100% { transform: translateX(-50%); }
-        }
-      `}</style>
-    </div>
-  );
-}
-
 const defaultFallbackFields = [
   { id: "1", name: "firstName", label: "First Name", type: "text", placeholder: "First Name *", isRequired: true, halfWidth: true },
   { id: "2", name: "lastName", label: "Last Name", type: "text", placeholder: "Last Name *", isRequired: true, halfWidth: true },
   { id: "3", name: "email", label: "Email", type: "email", placeholder: "Email *", isRequired: true, halfWidth: true },
-  { id: "4", name: "phone", label: "Phone Number", type: "tel", placeholder: "Phone Number *", isRequired: false, halfWidth: true },
+  { id: "4", name: "phone", label: "Phone Number", type: "tel", placeholder: "Phone Number *", isRequired: true, halfWidth: true },
   {
     id: "5",
     name: "service",
@@ -209,7 +177,7 @@ function Contact() {
   const renderInput = (field: any) => {
     const val = formValues[field.name] || "";
     const commonClass =
-      "w-full bg-white/50 backdrop-blur-[24px] border border-white/75 rounded-[32px] px-7 h-[72px] text-gray-800 placeholder:text-gray-400 font-medium text-[18px] shadow-[0_4px_24px_rgba(0,0,0,0.02),inset_0_2px_8px_rgba(255,255,255,0.6),inset_0_-1px_3px_rgba(100,150,255,0.05)] transition-all duration-300 focus:outline-none focus:bg-white/65 focus:border-white focus:shadow-[0_8px_32px_rgba(100,180,255,0.1),inset_0_4px_10px_rgba(255,255,255,0.8),inset_0_-1px_4px_rgba(100,150,255,0.1)] focus:-translate-y-0.5";
+      "w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-base font-medium text-gray-800 placeholder:text-gray-400 shadow-sm transition-all duration-200 focus:border-[#a58b60] focus:outline-none focus:ring-2 focus:ring-[#a58b60]/20";
 
     if (field.type === "textarea") {
       return (
@@ -219,7 +187,7 @@ function Contact() {
           value={val}
           onChange={(e) => setFormValues({ ...formValues, [field.name]: e.target.value })}
           placeholder={field.placeholder || `${field.label}${field.isRequired ? " *" : ""}`}
-          className="w-full bg-white/50 backdrop-blur-[24px] border border-white/75 rounded-[32px] px-7 py-6 h-[220px] resize-none text-gray-800 placeholder:text-gray-400 font-medium text-[18px] shadow-[0_4px_24px_rgba(0,0,0,0.02),inset_0_2px_8px_rgba(255,255,255,0.6),inset_0_-1px_3px_rgba(100,150,255,0.05)] transition-all duration-300 focus:outline-none focus:bg-white/65 focus:border-white focus:shadow-[0_8px_32px_rgba(100,180,255,0.1),inset_0_4px_10px_rgba(255,255,255,0.8),inset_0_-1px_4px_rgba(100,150,255,0.1)] focus:-translate-y-0.5"
+          className="min-h-40 w-full resize-none rounded-md border border-gray-300 bg-white px-4 py-3 text-base font-medium text-gray-800 placeholder:text-gray-400 shadow-sm transition-all duration-200 focus:border-[#a58b60] focus:outline-none focus:ring-2 focus:ring-[#a58b60]/20"
         />
       );
     }
@@ -231,7 +199,7 @@ function Contact() {
             required={field.isRequired}
             value={val}
             onChange={(e) => setFormValues({ ...formValues, [field.name]: e.target.value })}
-            className={`w-full bg-white/50 backdrop-blur-[24px] border border-white/75 rounded-[32px] px-7 h-[72px] font-medium text-[18px] shadow-[0_4px_24px_rgba(0,0,0,0.02),inset_0_2px_8px_rgba(255,255,255,0.6),inset_0_-1px_3px_rgba(100,150,255,0.05)] transition-all duration-300 focus:outline-none focus:bg-white/65 focus:border-white focus:shadow-[0_8px_32px_rgba(100,180,255,0.1),inset_0_4px_10px_rgba(255,255,255,0.8),inset_0_-1px_4px_rgba(100,150,255,0.1)] focus:-translate-y-0.5 appearance-none cursor-pointer ${
+            className={`w-full appearance-none cursor-pointer rounded-md border border-gray-300 bg-white px-4 py-3 pr-12 text-base font-medium text-gray-800 shadow-sm transition-all duration-200 focus:border-[#a58b60] focus:outline-none focus:ring-2 focus:ring-[#a58b60]/20 ${
               val === "" ? "text-gray-400" : "text-gray-800 font-semibold"
             }`}
           >
@@ -244,7 +212,7 @@ function Contact() {
               </option>
             ))}
           </select>
-          <div className="absolute right-7 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500">
+          <div className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-gray-500">
             <ChevronDown className="w-5 h-5" />
           </div>
         </div>
@@ -266,150 +234,76 @@ function Contact() {
 
   return (
     <PageShell mode="contact" ctaLabel="Contact Us Now">
-      {/* Top Header */}
-      <FeatureSection />
+      {/* ── Premium editorial hero ── */}
+      <ContactHero />
 
-      {/* Top Marquee */}
-      <Marquee />
+      {/* ── Contact info + form ── */}
+      <section id="contact-form" className="relative overflow-hidden bg-[#f4f3f0] py-16 text-black sm:py-24 lg:py-28">
+        <div className="absolute inset-y-0 right-0 hidden w-[42%] bg-cover bg-center lg:block" style={{ backgroundImage: "url('/contact/contact1.png')" }} />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#f4f3f0] via-[#f4f3f0]/95 to-transparent lg:w-[72%]" />
 
-      {/* Main Content Area */}
-      <section className="relative py-32 text-black bg-[#fbfdfa] overflow-hidden">
-        {/* Background Atmospheric Glow */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(230,245,255,0.5),transparent_50%),radial-gradient(ellipse_at_bottom_right,rgba(240,250,255,0.6),transparent_50%)] pointer-events-none" />
-
-        {/* Decorative Liquid Glass Elements */}
-        <div className="absolute -top-32 -left-20 w-96 h-96 bg-blue-50/40 rounded-full blur-3xl pointer-events-none animate-[liquid-float_10s_ease-in-out_infinite]" />
-        <div className="absolute bottom-10 right-0 w-[40rem] h-[40rem] bg-cyan-50/30 rounded-full blur-3xl pointer-events-none animate-[liquid-float_12s_ease-in-out_infinite_reverse]" />
-
-        {/* Acrylic Wave Blobs */}
-        <div className="absolute top-1/4 -right-10 w-72 h-72 bg-white/20 rounded-[40%_60%_70%_30%] backdrop-blur-md border border-white/40 shadow-[inset_10px_10px_40px_rgba(255,255,255,0.8),0_10px_30px_rgba(0,100,255,0.05)] pointer-events-none animate-[liquid-spin_15s_linear_infinite]" />
-        <div className="absolute bottom-1/4 -left-12 w-64 h-64 bg-white/20 rounded-[60%_40%_30%_70%] backdrop-blur-md border border-white/40 shadow-[inset_-10px_-10px_40px_rgba(255,255,255,0.7),0_10px_30px_rgba(0,100,255,0.05)] pointer-events-none animate-[liquid-spin_12s_linear_infinite_reverse]" />
-
-        {/* Small Glass Bubbles */}
-        <div
-          className="absolute top-1/3 left-1/4 w-12 h-12 rounded-full backdrop-blur-lg border border-white/50 shadow-[inset_2px_4px_10px_rgba(255,255,255,0.9),0_4px_12px_rgba(0,100,255,0.05)] pointer-events-none animate-[liquid-float_8s_ease-in-out_infinite]"
-          style={{ animationDelay: "1s" }}
-        />
-        <div
-          className="absolute bottom-1/3 right-1/3 w-8 h-8 rounded-full backdrop-blur-lg border border-white/50 shadow-[inset_2px_4px_8px_rgba(255,255,255,0.9),0_4px_12px_rgba(0,100,255,0.05)] pointer-events-none animate-[liquid-float_6s_ease-in-out_infinite]"
-          style={{ animationDelay: "3s" }}
-        />
-
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-start relative z-10">
-          {/* Left: Dynamic Form */}
-          <div>
-            <div className="flex items-center gap-3 text-black/80 mb-4 text-sm font-medium tracking-wide">
-              <span className="w-8 h-[2px] bg-black/80"></span> Contact Us
-            </div>
-            <h2 className="text-5xl lg:text-6xl font-display font-bold mb-12 leading-tight text-gray-900 tracking-tight">
+        <div className="relative z-10 mx-auto grid max-w-6xl grid-cols-1 gap-14 px-6 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
+          <div className="flex flex-col justify-center">
+            <p className="mb-5 text-sm font-semibold uppercase tracking-[0.24em] text-[#a58b60]">Contact Us</p>
+            <h2 className="max-w-lg font-display text-5xl font-bold leading-[1.05] tracking-tight text-[#171717] sm:text-6xl">
               Join Us in Creating
               <br />
               Something Great
             </h2>
 
-            {isSubmitted ? (
-              <div className="p-10 text-center bg-white/70 backdrop-blur-2xl rounded-3xl border border-emerald-200/80 shadow-[0_20px_50px_rgba(16,185,129,0.12),inset_0_2px_10px_rgba(255,255,255,0.8)] animate-in fade-in zoom-in duration-300">
-                <div className="w-20 h-20 bg-emerald-100/90 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner border border-emerald-200">
-                  <CheckCircle2 className="w-10 h-10 stroke-[2.5]" />
+            <div className="mt-12 space-y-8 text-[#535353]">
+              <div>
+                <h3 className="mb-2 font-display text-xl font-semibold text-[#252525]">Address</h3>
+                <p className="max-w-md leading-relaxed">{primaryLoc.address}</p>
+              </div>
+              <div>
+                <h3 className="mb-2 font-display text-xl font-semibold text-[#252525]">Contact</h3>
+                <p>Phone : {primaryLoc.phone || "+0123-456-789"}</p>
+                <p className="mt-1 break-words">Email : connectwithdevspectra@gmail.com</p>
+              </div>
+              <div>
+                <h3 className="mb-2 font-display text-xl font-semibold text-[#252525]">Open Time</h3>
+                <p>{primaryLoc.hours || "Mon - Fri : 10:00 - 20:00 IST"}</p>
+              </div>
+              <div>
+                <h3 className="mb-3 font-display text-xl font-semibold text-[#252525]">Stay Connected</h3>
+                <div className="flex gap-3">
+                  {[
+                    { icon: Facebook, href: "#", label: "Facebook" },
+                    { icon: Twitter, href: "#", label: "X (Twitter)" },
+                    { icon: Linkedin, href: "#", label: "LinkedIn" },
+                    { icon: Instagram, href: "#", label: "Instagram" },
+                    { icon: Youtube, href: "#", label: "YouTube" },
+                  ].map((social, index) => (
+                    <a key={index} href={social.href} aria-label={social.label} title={social.label} className="flex h-9 w-9 items-center justify-center rounded-full text-[#a58b60] transition-colors hover:bg-[#a58b60] hover:text-white">
+                      <social.icon className="h-4 w-4" />
+                    </a>
+                  ))}
                 </div>
-                <h3 className="text-3xl font-display font-bold text-gray-900 mb-3">
-                  Message Sent Successfully!
-                </h3>
-                <p className="text-gray-600 max-w-md mx-auto text-base leading-relaxed mb-8">
-                  Thank you for reaching out! Your inquiry has been sent directly to <span className="font-semibold text-gray-900">ramyashan.1010@gmail.com</span>. We will review your message and get back to you shortly.
-                </p>
-                <button
-                  onClick={() => setIsSubmitted(false)}
-                  className="inline-flex items-center gap-3 bg-[#060c18] hover:bg-[#0a152e] text-white font-medium px-8 py-4 rounded-full transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 cursor-pointer"
-                >
-                  <span>Send Another Message</span>
-                  <ArrowRight className="w-4 h-4" />
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white p-7 shadow-[0_18px_55px_rgba(25,25,25,0.14)] sm:p-10 lg:mt-2 lg:p-12">
+            <h2 className="mb-8 font-display text-3xl font-semibold text-[#171717]">Send a message</h2>
+            {isSubmitted ? (
+              <div className="py-10 text-center">
+                <CheckCircle2 className="mx-auto mb-5 h-14 w-14 text-emerald-600" />
+                <h3 className="mb-3 font-display text-2xl font-bold text-gray-900">Message Sent Successfully!</h3>
+                <p className="mb-7 text-gray-600">Thank you for reaching out. We will get back to you shortly.</p>
+                <button onClick={() => setIsSubmitted(false)} className="bg-[#171717] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[#a58b60]">
+                  Send Another Message
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {fields.length === 0 ? (
-                  <div className="p-8 text-center text-gray-400 bg-white/40 backdrop-blur-lg rounded-3xl border border-white">
-                    <Loader2 className="w-8 h-8 animate-spin mx-auto mb-2 text-indigo-500" />
-                    Loading Form Fields...
-                  </div>
-                ) : (
-                  renderFields()
-                )}
-
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="inline-flex items-center justify-between gap-6 bg-[#060c18] hover:bg-[#0a152e] text-white font-medium rounded-full h-[64px] pl-8 pr-2 transition-all duration-300 group shadow-[0_12px_30px_rgba(0,0,0,0.15),inset_0_1px_2px_rgba(255,255,255,0.2)] hover:shadow-[0_16px_40px_rgba(0,0,0,0.2),inset_0_2px_4px_rgba(255,255,255,0.3)] hover:-translate-y-0.5 w-max cursor-pointer disabled:opacity-60"
-                >
-                  <span className="text-[17px]">
-                    {isSubmitting ? "Sending..." : "Send Message"}
-                  </span>
-                  <span className="bg-white text-[#060c18] w-[48px] h-[48px] rounded-full flex items-center justify-center group-hover:translate-x-1 transition-transform shadow-sm">
-                    {isSubmitting ? (
-                      <Loader2 className="w-5 h-5 animate-spin" />
-                    ) : (
-                      <ArrowRight className="w-5 h-5" />
-                    )}
-                  </span>
+              <form onSubmit={handleSubmit} className="space-y-5">
+                {renderFields()}
+                <button type="submit" disabled={isSubmitting} className="inline-flex items-center gap-4 bg-[#171717] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[#a58b60] disabled:opacity-60">
+                  {isSubmitting ? "Sending..." : "Send Message"}
+                  {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <ArrowRight className="h-4 w-4" />}
                 </button>
               </form>
             )}
-          </div>
-
-          {/* Right: Info Card */}
-          <div className="relative mt-8 lg:mt-0">
-            {/* Badge overlay */}
-            <div className="absolute -top-10 right-4 lg:-right-6 bg-white/60 backdrop-blur-xl text-black w-28 h-28 rounded-full flex items-center justify-center border border-white/80 z-10 hidden sm:flex shadow-[0_8px_32px_rgba(0,0,0,0.05),inset_0_2px_10px_rgba(255,255,255,0.8)]">
-              <div className="absolute inset-2 border border-dashed border-black/20 rounded-full animate-[spin_12s_linear_infinite]" />
-              <ArrowUpRight className="w-8 h-8 text-black/80" />
-            </div>
-
-            <AuroraBackground
-              className="h-full w-full rounded-[2.5rem] p-10 lg:p-14 shadow-[0_8px_40px_rgba(0,0,0,0.04),inset_0_2px_20px_rgba(255,255,255,0.6)] relative overflow-hidden items-start justify-start !bg-white/40 backdrop-blur-2xl border border-white/60 !text-gray-900"
-              showRadialGradient={false}
-            >
-              <div className="space-y-8 relative z-10 w-full text-gray-900">
-                <div>
-                  <h3 className="text-2xl font-bold mb-2 text-gray-900 font-display">Address</h3>
-                  <p className="text-gray-600 font-medium leading-relaxed text-[17px] whitespace-pre-line">
-                    {primaryLoc.address}
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="text-2xl font-bold mb-3 text-gray-900 font-display">Contact</h3>
-                  <p className="text-gray-600 font-medium text-[17px]">Phone : {primaryLoc.phone || "+0123-456-789"}</p>
-                  <p className="text-gray-600 font-medium mt-1 text-[17px]">Email : connectwithdevspectra@gmail.com</p>
-                </div>
-
-                <div>
-                  <h3 className="text-2xl font-bold mb-3 text-gray-900 font-display">Open Time</h3>
-                  <p className="text-gray-600 font-medium text-[17px]">{primaryLoc.hours || "Monday - Friday : 10:00 - 20:00"}</p>
-                </div>
-
-                <div>
-                  <h3 className="text-2xl font-bold mb-4 text-gray-900 font-display">Stay Connected</h3>
-                  <div className="flex gap-4 flex-wrap">
-                    {[
-                      { icon: Facebook, href: "#" },
-                      { icon: Twitter, href: "#" },
-                      { icon: Linkedin, href: "#" },
-                      { icon: Instagram, href: "#" },
-                      { icon: Youtube, href: "#" },
-                    ].map((s, i) => (
-                      <a
-                        key={i}
-                        href={s.href}
-                        className="w-14 h-14 rounded-full bg-white/90 backdrop-blur-md border border-white flex items-center justify-center text-gray-700 hover:text-black hover:bg-white hover:scale-110 transition-all shadow-[0_8px_20px_rgba(0,0,0,0.06)]"
-                      >
-                        <s.icon className="w-5 h-5 stroke-[2]" />
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </AuroraBackground>
           </div>
         </div>
       </section>

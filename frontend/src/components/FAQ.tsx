@@ -25,6 +25,17 @@ export function FAQ() {
 
   return (
     <section className="py-24 bg-[#fafcff] relative border-b border-gray-100 overflow-hidden">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-y-0 left-0 hidden w-[58%] opacity-35 lg:block"
+        style={{
+          backgroundImage: "radial-gradient(circle, #94a3b8 1.5px, transparent 1.5px)",
+          backgroundSize: "24px 24px",
+          maskImage: "linear-gradient(to right, black 55%, transparent 100%)",
+          WebkitMaskImage: "linear-gradient(to right, black 55%, transparent 100%)",
+        }}
+      />
+
       {/* Decorative Glowing Orbs for Glass Effect */}
       <div className="absolute top-1/2 right-10 w-72 h-72 bg-purple-400 rounded-full blur-[100px] opacity-20 pointer-events-none -translate-y-1/2"></div>
       <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-blue-400 rounded-full blur-[100px] opacity-20 pointer-events-none"></div>
@@ -53,40 +64,37 @@ export function FAQ() {
           {faqs.map((faq, idx) => {
             const isOpen = openIndex === idx;
             return (
-              <div 
+              <div
                 key={idx}
-                className={`border rounded-2xl overflow-hidden transition-all duration-300 backdrop-blur-md ${
-                  isOpen 
-                    ? "border-white/60 bg-white/70 shadow-[0_8px_30px_rgb(0,0,0,0.04)]" 
-                    : "border-white/40 bg-white/40 hover:bg-white/60 shadow-sm"
-                }`}
+                className="rounded-[1.1rem] bg-[conic-gradient(from_210deg,#111827_0deg,#111827_48deg,#2563eb_62deg,#ef4444_78deg,#facc15_92deg,#f8fafc_112deg,#f8fafc_240deg,#111827_280deg,#111827_360deg)] p-[2px] shadow-[0_10px_24px_rgba(25,35,55,0.12)]"
               >
-                <button
-                  onClick={() => setOpenIndex(isOpen ? null : idx)}
-                  className="w-full flex items-center justify-between p-6 text-left"
-                >
-                  <span className="text-lg font-bold text-gray-900 pr-8">
-                    {faq.question}
-                  </span>
-                  
-                  {/* Icon */}
-                  <div className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
-                    isOpen 
-                      ? "bg-gradient-to-tr from-blue-600 via-purple-600 to-pink-500 text-white shadow-md rotate-180" 
-                      : "bg-gray-200/60 text-gray-500"
-                  }`}>
-                    <ChevronDown className="w-4 h-4" />
+                <div className="overflow-hidden rounded-[1rem] bg-white transition-all duration-300">
+                  <button
+                    onClick={() => setOpenIndex(isOpen ? null : idx)}
+                    className="flex w-full items-center justify-between p-6 text-left"
+                  >
+                    <span className="pr-8 text-lg font-bold text-gray-900">
+                      {faq.question}
+                    </span>
+
+                    <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-all duration-300 ${
+                      isOpen
+                        ? "rotate-180 bg-gradient-to-tr from-blue-600 via-purple-600 to-pink-500 text-white shadow-md"
+                        : "bg-gray-200/60 text-gray-500"
+                    }`}>
+                      <ChevronDown className="h-4 w-4" />
+                    </div>
+                  </button>
+
+                  <div
+                    className={`overflow-hidden transition-all duration-500 ease-in-out ${
+                      isOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+                    }`}
+                  >
+                    <p className="px-6 pb-6 text-justify text-[15px] font-medium leading-relaxed text-gray-500">
+                      {faq.answer}
+                    </p>
                   </div>
-                </button>
-                
-                <div 
-                  className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                    isOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
-                  }`}
-                >
-                  <p className="px-6 pb-6 text-[15px] text-gray-500 leading-relaxed font-medium text-justify">
-                    {faq.answer}
-                  </p>
                 </div>
               </div>
             );

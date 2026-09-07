@@ -115,22 +115,11 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
-              className="relative mb-10 mt-6"
+              className="relative mb-10"
             >
-              {/* Cursive overlapping text */}
-              <div 
-                className="absolute text-blue-600 z-10 -top-10 left-0 md:-top-12 md:-left-4 text-5xl md:text-7xl lowercase drop-shadow-sm" 
-                style={{ 
-                  fontFamily: "'Caveat', 'Dancing Script', 'Brush Script MT', cursive",
-                  transform: "rotate(-5deg)",
-                }}
-              >
-                We build digital
-              </div>
-              
               {/* Main uppercase text */}
               <h1
-                className="text-[3.5rem] sm:text-[5rem] lg:text-[5.5rem] font-black leading-[0.85] tracking-tighter text-gray-950 flex flex-col uppercase relative z-0 mt-8"
+                className="text-[3.5rem] sm:text-[5rem] lg:text-[5.5rem] font-black leading-[0.85] tracking-tighter text-gray-950 flex flex-col uppercase relative z-0"
               >
                 <span className="text-[#451a03]">Experiences</span>
                 <span className="text-[#451a03]">That Drive</span>
@@ -194,7 +183,7 @@ export default function HeroSection() {
                     </div>
                     
                     <div className="flex-1 bg-[#050505] rounded-sm md:rounded-md overflow-hidden relative border border-white/5 shadow-inner">
-                       <img src="/home1.png" alt="DevSpectra website view" className="absolute inset-0 w-full h-full object-cover" />
+                       <img src="/home/home1.png" alt="DevSpectra website view" className="absolute inset-0 w-full h-full object-cover" />
                     </div>
                   </div>
                   
@@ -231,7 +220,7 @@ export default function HeroSection() {
                     </div>
 
                     <div className="absolute inset-0 overflow-hidden bg-[#050505]">
-                       <img src="/home2.png" alt="DevSpectra mobile app view" className="absolute inset-0 w-full h-full object-cover" />
+                       <img src="/home/home2.png" alt="DevSpectra mobile app view" className="absolute inset-0 w-full h-full object-cover" />
                     </div>
                   </div>
                 </motion.div>

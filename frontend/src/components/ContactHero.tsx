@@ -1,145 +1,224 @@
-import { motion } from "framer-motion";
-import { ArrowUpRight, Mail, MessageCircle } from "lucide-react";
+﻿import { useRef } from "react";
+import type { Easing } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { ArrowUpRight, Command } from "lucide-react";
 
-const floatTransition = {
-  duration: 4,
-  repeat: Infinity,
-  repeatType: "mirror" as const,
-  ease: "easeInOut" as const,
-};
+const EASE: Easing = "easeInOut";
+const SPRING = { stiffness: 55, damping: 18, mass: 1 };
+
+const mkFloat = (yAmt = 10, dur = 4, delay = 0, rotAmt = 0) => ({
+  animate: {
+    y: [-yAmt / 2, yAmt / 2, -yAmt / 2],
+    ...(rotAmt ? { rotate: [-rotAmt, rotAmt, -rotAmt] } : {}),
+  },
+  transition: {
+    duration: dur,
+    delay,
+    repeat: Infinity,
+    repeatType: "mirror" as const,
+    ease: EASE,
+  },
+});
 
 export default function ContactHero() {
+  const heroRef = useRef<HTMLElement>(null);
+
+  const rawX = useMotionValue(0);
+  const rawY = useMotionValue(0);
+  const sx = useSpring(rawX, SPRING);
+  const sy = useSpring(rawY, SPRING);
+
+  const blobX = useTransform(sx, [-1, 1], [-12, 12]);
+  const blobY = useTransform(sy, [-1, 1], [-12, 12]);
+
+  function onMove(e: React.MouseEvent<HTMLElement>) {
+    const r = heroRef.current?.getBoundingClientRect();
+    if (!r) return;
+    rawX.set(((e.clientX - r.left) / r.width - 0.5) * 2);
+    rawY.set(((e.clientY - r.top) / r.height - 0.5) * 2);
+  }
+  function onLeave() { rawX.set(0); rawY.set(0); }
+
   return (
-    <section className="relative min-h-[650px] overflow-hidden bg-white px-5 pb-16 pt-8 sm:min-h-[700px] sm:px-8 sm:pb-20 sm:pt-10 lg:min-h-[760px] lg:px-12 lg:pb-24 lg:pt-12">
-      <div className="mx-auto flex min-h-[550px] max-w-7xl -translate-y-8 items-center justify-center sm:min-h-[600px] sm:-translate-y-10 lg:-translate-y-12">
-        <div className="relative w-full max-w-6xl text-center">
-          <motion.div
-            aria-hidden="true"
-            className="absolute left-[3%] top-[7%] hidden h-14 w-14 items-center justify-center rounded-full bg-[#25e84c] shadow-[0_8px_20px_rgba(37,232,76,0.2)] md:flex lg:left-[8%] lg:h-16 lg:w-16"
-            animate={{ y: [-5, 8, -5], rotate: [-3, 4, -3] }}
-            transition={floatTransition}
-          >
-            <ArrowUpRight className="h-7 w-7 text-black lg:h-[34px] lg:w-[34px]" strokeWidth={2.5} />
-          </motion.div>
+    <section
+      ref={heroRef}
+      onMouseMove={onMove}
+      onMouseLeave={onLeave}
+      aria-label="Contact hero"
+      className="relative overflow-hidden bg-gradient-to-b from-[#eefcf6] via-white to-white flex flex-col items-center pt-8 sm:pt-12 lg:pt-14 pb-20"
+      style={{ minHeight: "92vh" }}
+    >
+      {/* Ambient background blobs */}
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute -left-40 -top-40 rounded-full opacity-40"
+        style={{
+          width: 480, height: 480,
+          background: "radial-gradient(circle, #c3fbd8 0%, #dff6ff 55%, transparent 78%)",
+          x: blobX, y: blobY,
+        }}
+        animate={{ scale: [1, 1.07, 1] }}
+        transition={{ duration: 10, repeat: Infinity, ease: EASE }}
+      />
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute -bottom-32 -right-20 rounded-full opacity-30"
+        style={{
+          width: 500, height: 500,
+          background: "radial-gradient(circle, #e0d4fe 0%, #fce7f3 55%, transparent 78%)",
+          x: blobX, y: blobY,
+        }}
+        animate={{ scale: [1.06, 1, 1.06] }}
+        transition={{ duration: 12, repeat: Infinity, ease: EASE, delay: 3 }}
+      />
 
-          <motion.div
-            aria-hidden="true"
-            className="absolute right-[13%] top-[6%] hidden h-12 w-36 items-center rounded-full bg-gradient-to-r from-[#165eea] via-[#5f8feb] to-[#d7e1f7] shadow-[0_8px_20px_rgba(37,99,235,0.2)] md:flex lg:right-[17%] lg:h-[62px] lg:w-[180px]"
-            animate={{ y: [-4, 7, -4] }}
-            transition={{ ...floatTransition, duration: 5 }}
-          >
-            <div className="absolute right-2 top-1/2 h-9 w-9 -translate-y-1/2 rounded-full bg-white shadow-md lg:right-3 lg:h-12 lg:w-12">
-              <div className="absolute inset-1.5 rounded-full border border-gray-200 lg:inset-[7px]" />
-            </div>
-          </motion.div>
-
-          <motion.div
-            aria-hidden="true"
-            className="absolute right-[4%] top-[2%] hidden text-4xl md:block lg:right-[7%] lg:text-5xl"
-            animate={{ y: [-6, 8, -6], rotate: [-8, 8, -8] }}
-            transition={{ ...floatTransition, duration: 3.8 }}
-          >
-            🥳
-          </motion.div>
-
-          <motion.div
-            aria-hidden="true"
-            className="absolute left-[3%] top-[31%] hidden h-14 w-14 rounded-full bg-[#ffbd2e] shadow-[0_8px_20px_rgba(255,189,46,0.18)] md:block lg:left-[7%] lg:h-16 lg:w-16"
-            animate={{ y: [-3, 10, -3] }}
-            transition={{ ...floatTransition, duration: 4.5 }}
-          >
-            <div className="absolute left-1/2 top-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-black lg:h-3 lg:w-3" />
-          </motion.div>
-
-          <motion.div
-            aria-hidden="true"
-            className="absolute right-[2%] top-[38%] hidden h-7 w-28 items-center rounded-full border-2 border-black bg-white md:flex lg:right-[4%] lg:h-8 lg:w-36"
-            animate={{ x: [-3, 5, -3] }}
-            transition={{ ...floatTransition, duration: 4.2 }}
-          >
-            <div className="absolute left-[48%] top-1/2 h-3.5 w-3.5 -translate-y-1/2 rounded-full border border-gray-400 bg-[#25e84c] lg:h-4 lg:w-4" />
-          </motion.div>
-
-          <div className="relative z-10 mx-auto max-w-5xl">
-            <motion.h1
-              initial={{ opacity: 0, y: 35 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="font-display text-[56px] font-black leading-[0.92] tracking-[-0.06em] text-black sm:text-[76px] md:text-[100px] lg:text-[116px]"
+      <div className="relative z-10 w-full max-w-[1200px] px-4 md:px-8 flex flex-col items-center">
+        
+        {/* ROW 1 */}
+        <motion.div 
+          className="flex items-center w-full justify-start md:pl-[5%]"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <h1 className="shrink-0 font-display font-black text-black leading-none tracking-[-0.05em] text-[3.25rem] sm:text-[4.5rem] md:text-[5.75rem] lg:text-[7.25rem] mr-2 sm:mr-5">
+            Let&apos;s
+          </h1>
+          
+          <div className="flex items-center gap-2 sm:gap-4 md:gap-6 mt-2 md:mt-4">
+            <motion.div
+              className="flex items-center justify-center rounded-full bg-[#3adb5c] shadow-[0_8px_24px_rgba(58,219,92,0.38)]"
+              style={{ width: "clamp(42px, 7vw, 100px)", height: "clamp(42px, 7vw, 100px)" }}
+              {...mkFloat(9, 3.6, 0, 6)}
             >
-              bring
-              <br />
-              <span className="relative inline-block">a team</span>
-              <br />
-              <span className="relative inline-block">together</span>
-            </motion.h1>
+              <ArrowUpRight strokeWidth={3} className="text-black w-6 h-6 sm:w-10 sm:h-10 md:w-12 md:h-12" />
+            </motion.div>
 
             <motion.div
-              aria-hidden="true"
-              className="absolute left-[7%] top-[56%] hidden h-14 w-28 items-center justify-center rounded-full bg-gradient-to-r from-[#ef5caa] via-[#ad73eb] to-[#6e9be9] shadow-[0_10px_24px_rgba(173,115,235,0.2)] md:flex lg:left-[13%] lg:h-[62px] lg:w-[125px]"
-              animate={{ y: [-7, 8, -7], rotate: [-3, 3, -3] }}
-              transition={{ ...floatTransition, duration: 4.3 }}
+              className="relative flex items-center rounded-full shadow-[0_8px_28px_rgba(37,99,235,0.32)]"
+              style={{
+                width: "clamp(84px, 14vw, 200px)",
+                height: "clamp(42px, 7vw, 100px)",
+                background: "linear-gradient(110deg, #1d4ed8 0%, #6fa8f7 58%, #c7ddff 100%)",
+              }}
+              {...mkFloat(7, 5, 0.4)}
             >
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md lg:h-11 lg:w-11">
-                <MessageCircle className="h-5 w-5 text-black" strokeWidth={2.5} />
+              <div className="absolute right-[5%] top-1/2 -translate-y-1/2 rounded-full bg-white shadow-[0_4px_14px_rgba(0,0,0,0.2)] flex items-center justify-center"
+                   style={{ width: "clamp(34px, 5vw, 75px)", height: "clamp(34px, 5vw, 75px)" }}>
+                 <div className="w-[70%] h-[70%] rounded-full border border-gray-200" />
               </div>
             </motion.div>
 
             <motion.div
-              aria-hidden="true"
-              className="absolute right-[10%] top-[66%] hidden h-12 w-12 items-center justify-center rounded-full bg-[#e7e9ef] md:flex lg:right-[16%] lg:h-14 lg:w-14"
-              animate={{ y: [-5, 7, -5], rotate: [3, -3, 3] }}
-              transition={{ ...floatTransition, duration: 3.6 }}
+              className="shrink-0 select-none text-[2.5rem] sm:text-[4rem] md:text-[5.5rem]"
+              {...mkFloat(10, 3.4, 0.6, 12)}
             >
-              <Mail className="h-5 w-5 text-black lg:h-[23px] lg:w-[23px]" />
+              🥳
             </motion.div>
           </div>
+        </motion.div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.35, duration: 0.7 }}
-            className="relative z-10 mx-auto mt-10 max-w-[680px] text-[clamp(10px,3.4vw,21px)] font-medium leading-[1.5] tracking-[-0.2px] text-black/80"
+        {/* ROW 2 */}
+        <motion.div 
+          className="flex items-center w-full justify-start gap-3 md:pl-[12%] mt-0 sm:mt-[-1rem]"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.1 }}
+        >
+          <motion.div
+            className="relative flex shrink-0 items-center justify-center rounded-full bg-[#ffbd2e] shadow-[0_8px_22px_rgba(255,189,46,0.35)] mr-1 sm:mr-4 z-10"
+            style={{ width: "clamp(50px, 8vw, 110px)", height: "clamp(50px, 8vw, 110px)" }}
+            {...mkFloat(11, 4.5, 0.2)}
           >
-            <span className="block whitespace-nowrap">Have a project, idea, or question?</span>
-            <span className="block whitespace-nowrap">Connect with us and let&apos;s create something amazing together.</span>
-          </motion.p>
+            <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-black/80 absolute top-[40%]" />
+            <div className="absolute right-[6%] top-1/2 -translate-y-1/2 rounded-full bg-white/40 backdrop-blur-[4px] w-[42%] h-[72%]" />
+          </motion.div>
 
+          <h1 className="shrink-0 font-display font-black text-black leading-none tracking-[-0.05em] text-[3.25rem] sm:text-[4.5rem] md:text-[5.75rem] lg:text-[7.25rem] mr-2 sm:mr-6 z-20 relative">
+            Start
+          </h1>
+
+          <motion.div
+            className="hidden sm:flex items-center rounded-full border-[3px] border-black bg-white px-4 z-10"
+            style={{ width: "clamp(120px, 15vw, 220px)", height: "clamp(40px, 5.5vw, 75px)" }}
+            animate={{ x: [-5, 7, -5] }}
+            transition={{ duration: 4.2, repeat: Infinity, repeatType: "mirror" as const, ease: EASE, delay: 0.6 }}
+          >
+            <div className="relative flex-1">
+              <div className="h-[2px] w-full bg-gray-400" />
+              <div className="absolute left-[40%] top-1/2 w-4 h-4 sm:w-5 sm:h-5 -translate-x-1/2 -translate-y-1/2 rounded-full border border-gray-300 bg-[#3adb5c] shadow-sm" />
+            </div>
+            <div className="ml-3 w-3 h-3 sm:w-4 sm:h-4 shrink-0 rounded-full bg-[#7c3aed]" />
+          </motion.div>
+        </motion.div>
+
+        {/* ROW 3 */}
+        <motion.div 
+          className="flex items-center w-full justify-start md:pl-[25%] mt-0 sm:mt-[-1rem]"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          <motion.div
+            className="relative flex items-center justify-center mr-4 sm:mr-8 z-10"
+            style={{ width: "clamp(82px, 12vw, 165px)", height: "clamp(50px, 8vw, 110px)" }}
+            {...mkFloat(9, 4.3, 0.7, 4)}
+          >
+            <div className="absolute rounded-full bg-[#ef5caa] opacity-90" style={{ left: 0, top: 0, width: "65%", height: "100%" }} />
+            <div className="absolute rounded-full bg-[#6e9be9] opacity-90" style={{ right: 0, top: 0, width: "65%", height: "100%" }} />
+            <div className="absolute rounded-full bg-[#ad73eb] opacity-80" style={{ left: "17.5%", top: 0, width: "65%", height: "100%" }} />
+            <div className="relative z-10 flex items-center justify-center rounded-2xl bg-white/90 shadow-md w-[45%] h-[60%]">
+              <Command strokeWidth={2.5} className="text-black w-4 h-4 sm:w-6 sm:h-6" />
+            </div>
+          </motion.div>
+
+          <h1 className="shrink-0 font-display font-black text-black leading-none tracking-[-0.05em] text-[3.25rem] sm:text-[4.5rem] md:text-[5.75rem] lg:text-[7.25rem] z-20 relative">
+            Together
+          </h1>
+        </motion.div>
+      </div>
+
+      <motion.div
+        className="mt-16 sm:mt-24 flex flex-col items-center text-center px-4 relative z-20"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5, duration: 0.7 }}
+      >
+        <p className="max-w-2xl text-[16px] sm:text-[18px] md:text-[22px] font-medium leading-relaxed text-gray-800">
+          A project in mind? Let&apos;s connect everyone in the design process so the team can deliver better products faster.
+        </p>
+
+        <div className="flex gap-4 mt-8">
           <motion.a
             href="#contact-form"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.55, duration: 0.5 }}
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.96 }}
-            className="relative z-10 mx-auto mt-7 flex w-fit items-center gap-2 rounded-full bg-[#292929] px-5 py-2.5 text-[14px] font-medium text-white shadow-lg transition-shadow hover:shadow-xl"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="rounded-full bg-[#111] px-8 py-4 text-[15px] font-semibold text-white shadow-xl hover:bg-black transition-colors"
           >
-            Start a conversation
-            <ArrowUpRight className="h-[15px] w-[15px]" />
+            Get in touch
           </motion.a>
-
-          <svg className="pointer-events-none absolute inset-0 z-0 hidden h-full w-full md:block" viewBox="0 0 1000 650" fill="none" preserveAspectRatio="none" aria-hidden="true">
-            <motion.path
-              d="M72 205 C72 255 72 300 112 320 L150 320 C170 320 178 342 188 360"
-              stroke="#171717"
-              strokeWidth="2"
-              strokeDasharray="7 9"
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: 1, opacity: 1 }}
-              transition={{ duration: 1.5, delay: 0.5, ease: "easeInOut" }}
-            />
-            <motion.path
-              d="M78 475 C112 475 130 468 148 448"
-              stroke="#171717"
-              strokeWidth="2"
-              strokeDasharray="6 8"
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ duration: 1.2, delay: 0.9 }}
-            />
-          </svg>
         </div>
-      </div>
+      </motion.div>
+
+      {/* DASHED SVG PATHS OVERLAY */}
+      <svg className="pointer-events-none absolute inset-0 hidden h-full w-full lg:block z-0" viewBox="0 0 1480 760" fill="none" preserveAspectRatio="xMidYMid meet">
+        {/* Yellow circle to blob */}
+        <motion.path
+          d="M 280 400 C 280 480 320 520 400 540"
+          stroke="#111" strokeWidth="2.5" strokeDasharray="8 10" strokeLinecap="round"
+          initial={{ pathLength: 0, opacity: 0 }} animate={{ pathLength: 1, opacity: 0.4 }} transition={{ duration: 1.5, delay: 0.8, ease: EASE }}
+        />
+        {/* Slider to right edge */}
+        <motion.path
+          d="M 1080 375 L 1250 375 C 1300 375 1330 350 1330 300 C 1330 250 1350 200 1450 200"
+          stroke="#111" strokeWidth="2.5" strokeDasharray="8 10" strokeLinecap="round"
+          initial={{ pathLength: 0, opacity: 0 }} animate={{ pathLength: 1, opacity: 0.4 }} transition={{ duration: 1.8, delay: 0.9, ease: EASE }}
+        />
+        
+        {/* Dots */}
+        <motion.circle cx="400" cy="540" r="5" fill="#7c3aed" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1.5 }} />
+        <motion.circle cx="1250" cy="375" r="5" fill="#3adb5c" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1.6 }} />
+      </svg>
     </section>
   );
 }
