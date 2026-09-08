@@ -21,6 +21,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { toast } from "sonner";
+import { API_BASE_URL } from "@/lib/api";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -59,12 +60,12 @@ function Contact() {
   const [activeLocId, setActiveLocId] = useState<string>("");
 
   useEffect(() => {
-    fetch("http://localhost:5000/contacts/fields")
+    fetch(`${API_BASE_URL}/contacts/fields`)
       .then((res) => (res.ok ? res.json() : []))
       .then((data) => setFields(Array.isArray(data) ? data : []))
       .catch((err) => console.error("Failed to fetch form fields", err));
 
-    fetch("http://localhost:5000/contacts/locations")
+    fetch(`${API_BASE_URL}/contacts/locations`)
       .then((res) => (res.ok ? res.json() : []))
       .then((data) => {
         if (Array.isArray(data)) {
@@ -119,7 +120,7 @@ function Contact() {
         customData: formValues,
       };
 
-      const res = await fetch("http://localhost:5000/contacts", {
+      const res = await fetch(`${API_BASE_URL}/contacts`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

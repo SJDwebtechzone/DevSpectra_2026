@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { ExternalLink } from "lucide-react";
+import { API_BASE_URL } from "@/lib/api";
 
 export function OngoingProjects() {
   const [ongoingProjects, setOngoingProjects] = useState<any[]>([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/projects")
+    fetch(`${API_BASE_URL}/projects`)
       .then((res) => (res.ok ? res.json() : []))
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {
@@ -54,7 +55,7 @@ export function OngoingProjects() {
           <div className="h-[1px] flex-1 bg-gray-200"></div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+        <div className="grid grid-cols-2 gap-4 md:gap-6 lg:gap-8">
           {displayList.map((project, idx) => {
             const title = project.title || "Project";
             const subtitle = project.shortDescription || project.category || "In Development";
@@ -63,18 +64,18 @@ export function OngoingProjects() {
             return (
               <div
                 key={project.id || idx}
-                className="rounded-[2.15rem] bg-[conic-gradient(from_210deg,#111827_0deg,#111827_48deg,#2563eb_62deg,#ef4444_78deg,#facc15_92deg,#f8fafc_112deg,#f8fafc_240deg,#111827_280deg,#111827_360deg)] p-[2px] shadow-[0_12px_30px_rgba(25,35,55,0.12)] transition-transform duration-500 hover:-translate-y-1"
+                className="rounded-[1.5rem] md:rounded-[2.15rem] bg-[conic-gradient(from_210deg,#111827_0deg,#111827_48deg,#2563eb_62deg,#ef4444_78deg,#facc15_92deg,#f8fafc_112deg,#f8fafc_240deg,#111827_280deg,#111827_360deg)] p-[2px] shadow-[0_12px_30px_rgba(25,35,55,0.12)] transition-transform duration-500 hover:-translate-y-1"
               >
                 <a
                   href={project.liveUrl || "/portfolio"}
                   target={project.liveUrl ? "_blank" : "_self"}
                   rel="noreferrer"
-                  className="bg-white rounded-[2rem] h-[400px] md:h-[480px] overflow-hidden shadow-[0_4px_20px_rgb(0,0,0,0.03)] flex flex-col pt-8 md:pt-10 items-center text-center group cursor-pointer relative"
+                  className="bg-white rounded-[1.4rem] md:rounded-[2rem] h-[220px] md:h-[400px] overflow-hidden shadow-[0_4px_20px_rgb(0,0,0,0.03)] flex flex-col pt-5 md:pt-10 items-center text-center group cursor-pointer relative"
                 >
-                  <div className="px-6 md:px-10 max-w-md mb-6 flex-shrink-0">
-                    <h3 className="text-2xl md:text-3xl font-bold tracking-tight text-gray-900 mb-2">
+                  <div className="px-3 md:px-10 max-w-md mb-3 md:mb-6 flex-shrink-0">
+                    <h3 className="text-base sm:text-xl md:text-3xl font-bold tracking-tight text-gray-900 mb-1 md:mb-2">
                       {title}{!title.endsWith(".") ? "." : ""} <br className="hidden xl:block" />
-                      <span className="text-gray-500 font-normal block text-xl md:text-2xl mt-1">{subtitle}{!subtitle.endsWith(".") ? "." : ""}</span>
+                      <span className="text-gray-500 font-normal block text-xs sm:text-sm md:text-2xl mt-0.5 md:mt-1">{subtitle}{!subtitle.endsWith(".") ? "." : ""}</span>
                     </h3>
                   </div>
                   <div className="w-full mt-auto flex-1 bg-gray-50 flex items-end justify-center overflow-hidden border-t border-gray-100 relative">

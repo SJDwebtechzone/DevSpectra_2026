@@ -36,8 +36,8 @@ import { GoogleReview } from './google-reviews/entities/google-review.entity';
         password: configService.get<string>('database.password'),
         database: configService.get<string>('database.name'),
         entities: [User, Project, Contact, ContactField, OfficeLocation, Review, GoogleReview],
-        synchronize: process.env.NODE_ENV !== 'production', // Enable auto-synchronization in development to create missing tables
-        migrationsRun: true,
+        synchronize: false,
+        migrationsRun: false,
       }),
       inject: [ConfigService],
     }),

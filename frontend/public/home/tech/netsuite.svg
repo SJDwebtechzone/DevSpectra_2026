@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <rect width="100" height="100" rx="20" fill="#FFFFFF"/>
+  <g transform="translate(19, 19) scale(0.62)">
+    <!-- Grey background bracket -->
+    <path d="M46 3 L85 3 L85 64 L65 64 L65 24 L46 24 Z" fill="#A5B7C6"/>
+    <path d="M6 36 L26 36 L26 97 L6 97 Z" fill="#A5B7C6"/>
+    <path d="M6 76 L46 76 L46 97 L6 97 Z" fill="#A5B7C6"/>
+    
+    <!-- Dark Blue foreground bracket forming the N -->
+    <path d="M3 3 L43 3 L43 24 L24 24 L24 74 L3 74 Z" fill="#004B79"/>
+    <path d="M24 24 L44 24 L64 74 L44 74 Z" fill="#004B79"/>
+    <path d="M44 46 L88 46 L88 97 L44 97 L44 74 L67 74 L67 67 L44 67 Z" fill="#004B79"/>
+  </g>
+</svg>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { getAuthToken } from "@/lib/auth";
+import { API_BASE_URL } from "@/lib/api";
 import { Star, Loader2, CheckCircle2, XCircle, Trash2, RefreshCw } from "lucide-react";
 
 export function ReviewsTab() {
@@ -17,7 +18,7 @@ export function ReviewsTab() {
     setLoading(true);
     try {
       const token = getAuthToken();
-      const res = await fetch("http://localhost:5000/reviews/google/admin", {
+      const res = await fetch(`${API_BASE_URL}/reviews/google/admin`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -46,7 +47,7 @@ export function ReviewsTab() {
     setError("");
     try {
       const token = getAuthToken();
-      const res = await fetch("http://localhost:5000/reviews/google/sync", {
+      const res = await fetch(`${API_BASE_URL}/reviews/google/sync`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -67,7 +68,7 @@ export function ReviewsTab() {
 
   const togglePublish = async (id: string, currentStatus: boolean) => {
     try {
-      const res = await fetch(`http://localhost:5000/reviews/google/${id}/publish`, {
+      const res = await fetch(`${API_BASE_URL}/reviews/google/${id}/publish`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -84,7 +85,7 @@ export function ReviewsTab() {
   const deleteReview = async (id: string) => {
     if (!confirm("Are you sure you want to delete this review?")) return;
     try {
-      const res = await fetch(`http://localhost:5000/reviews/google/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/reviews/google/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${getAuthToken()}` },
       });

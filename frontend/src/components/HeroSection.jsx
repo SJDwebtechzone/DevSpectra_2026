@@ -73,6 +73,7 @@ export default function HeroSection() {
           className="absolute inset-0 w-full h-full"
         />
       </div>
+      
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
         <div className="flex flex-col lg:flex-row items-start gap-16">

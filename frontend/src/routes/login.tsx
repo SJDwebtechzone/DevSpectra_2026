@@ -3,6 +3,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, Lock, ArrowRight, Loader2, Eye, EyeOff } from "lucide-react";
 import { setAuthSession, isAuthenticated } from "@/lib/auth";
+import { API_BASE_URL } from "@/lib/api";
 import { toast } from "sonner"; // Sonner is available in package.json
 
 export const Route = createFileRoute("/login")({
@@ -44,7 +45,7 @@ function Login() {
 
     setIsLoading(true);
     try {
-      const response = await fetch("http://localhost:5000/auth/login", {
+      const response = await fetch(`${API_BASE_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

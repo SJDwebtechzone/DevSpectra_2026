@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <rect width="48" height="48" rx="12" fill="#15803D"/>
+  <path fill="#FFFFFF" d="M24 10l12 7v14l-12 7-12-7V17l12-7zm0 4.5l-8 4.7v9.6l8 4.7 8-4.7v-9.6l-8-4.7z"/>
+  <text x="24" y="27" fill="#FFFFFF" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="800" text-anchor="middle">JS</text>
+</svg>

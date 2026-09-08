@@ -180,13 +180,14 @@ const portfolioData = [
 ];
 
 import { AuroraBackground } from "@/components/ui/aurora-background";
+import { API_BASE_URL } from "@/lib/api";
 
 function Portfolio() {
   const [animationKey, setAnimationKey] = useState(0);
   const [dbProjects, setDbProjects] = useState<any[]>([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/projects")
+    fetch(`${API_BASE_URL}/projects`)
       .then((res) => (res.ok ? res.json() : []))
       .then((data) => setDbProjects(data))
       .catch((err) => console.error("Failed to fetch dynamic projects", err));

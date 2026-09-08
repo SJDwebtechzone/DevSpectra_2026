@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { getAuthToken, clearAuthSession, isAuthenticated, getAuthUser } from "@/lib/auth";
+import { API_BASE_URL } from "@/lib/api";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   LayoutDashboard, 
@@ -182,7 +183,7 @@ function Dashboard() {
 
   const fetchOfficeLocations = async () => {
     try {
-      const res = await fetch("http://localhost:5000/contacts/locations");
+      const res = await fetch(`${API_BASE_URL}/contacts/locations`);
       if (res.ok) {
         const data = await res.json();
         setOfficeLocations(Array.isArray(data) ? data : []);
@@ -211,7 +212,7 @@ function Dashboard() {
           `https://maps.google.com/?q=${encodeURIComponent(locationFormData.address)}`,
       };
 
-      const res = await fetch("http://localhost:5000/contacts/locations", {
+      const res = await fetch(`${API_BASE_URL}/contacts/locations`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -281,7 +282,7 @@ function Dashboard() {
           `https://maps.google.com/?q=${encodeURIComponent(editLocationFormData.address)}`,
       };
 
-      const res = await fetch(`http://localhost:5000/contacts/locations/${editingLocation.id}`, {
+      const res = await fetch(`${API_BASE_URL}/contacts/locations/${editingLocation.id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -313,7 +314,7 @@ function Dashboard() {
     if (!confirm("Are you sure you want to delete this office location?")) return;
     try {
       const token = getAuthToken();
-      const res = await fetch(`http://localhost:5000/contacts/locations/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/contacts/locations/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -328,7 +329,7 @@ function Dashboard() {
   const handleSetPrimaryLocation = async (id: string) => {
     try {
       const token = getAuthToken();
-      const res = await fetch(`http://localhost:5000/contacts/locations/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/contacts/locations/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -347,7 +348,7 @@ function Dashboard() {
   const fetchDashboardStats = async () => {
     try {
       const token = getAuthToken();
-      const res = await fetch("http://localhost:5000/dashboard", {
+      const res = await fetch(`${API_BASE_URL}/dashboard`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -372,7 +373,7 @@ function Dashboard() {
 
   const fetchProjects = async () => {
     try {
-      const res = await fetch("http://localhost:5000/projects");
+      const res = await fetch(`${API_BASE_URL}/projects`);
       if (res.ok) {
         const data = await res.json();
         setDbProjects(data);
@@ -385,7 +386,7 @@ function Dashboard() {
   const fetchContacts = async () => {
     try {
       const token = getAuthToken();
-      const res = await fetch("http://localhost:5000/contacts", {
+      const res = await fetch(`${API_BASE_URL}/contacts`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.ok) {
@@ -400,7 +401,7 @@ function Dashboard() {
   const handleDeleteContact = async (id: string) => {
     try {
       const token = getAuthToken();
-      const res = await fetch(`http://localhost:5000/contacts/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/contacts/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -417,7 +418,7 @@ function Dashboard() {
   const handleToggleReadStatus = async (id: string) => {
     try {
       const token = getAuthToken();
-      const res = await fetch(`http://localhost:5000/contacts/${id}/read`, {
+      const res = await fetch(`${API_BASE_URL}/contacts/${id}/read`, {
         method: "PATCH",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -437,7 +438,7 @@ function Dashboard() {
   const fetchFormFields = async () => {
     try {
       const token = getAuthToken();
-      const res = await fetch("http://localhost:5000/contacts/fields/admin", {
+      const res = await fetch(`${API_BASE_URL}/contacts/fields/admin`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.ok) {
@@ -473,7 +474,7 @@ function Dashboard() {
         isActive: true,
       };
 
-      const res = await fetch("http://localhost:5000/contacts/fields", {
+      const res = await fetch(`${API_BASE_URL}/contacts/fields`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -496,7 +497,7 @@ function Dashboard() {
   const handleToggleFieldStatus = async (id: string, currentActive: boolean) => {
     try {
       const token = getAuthToken();
-      const res = await fetch(`http://localhost:5000/contacts/fields/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/contacts/fields/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -518,7 +519,7 @@ function Dashboard() {
   const handleDeleteField = async (id: string) => {
     try {
       const token = getAuthToken();
-      const res = await fetch(`http://localhost:5000/contacts/fields/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/contacts/fields/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -563,7 +564,7 @@ function Dashboard() {
         halfWidth: editFieldFormData.halfWidth,
       };
 
-      const res = await fetch(`http://localhost:5000/contacts/fields/${editingField.id}`, {
+      const res = await fetch(`${API_BASE_URL}/contacts/fields/${editingField.id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -620,7 +621,7 @@ function Dashboard() {
         isOngoing: formData.status === "ongoing",
       };
 
-      const res = await fetch("http://localhost:5000/projects", {
+      const res = await fetch(`${API_BASE_URL}/projects`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -699,7 +700,7 @@ function Dashboard() {
         isOngoing: editFormData.status === "ongoing",
       };
 
-      const res = await fetch(`http://localhost:5000/projects/${editFormData.id}`, {
+      const res = await fetch(`${API_BASE_URL}/projects/${editFormData.id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -743,7 +744,7 @@ function Dashboard() {
 
     try {
       const token = getAuthToken();
-      const res = await fetch(`http://localhost:5000/projects/${project.id}`, {
+      const res = await fetch(`${API_BASE_URL}/projects/${project.id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -781,7 +782,7 @@ function Dashboard() {
     setIsSubmitting(true);
     try {
       const token = getAuthToken();
-      const res = await fetch(`http://localhost:5000/projects/${deletingProject.id}`, {
+      const res = await fetch(`${API_BASE_URL}/projects/${deletingProject.id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
