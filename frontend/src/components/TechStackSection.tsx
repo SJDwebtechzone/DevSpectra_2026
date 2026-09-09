@@ -392,99 +392,204 @@ function MobileArchitecture({
   ];
 
   return (
-    <div className="flex lg:hidden flex-col items-center gap-4 w-full">
-      <div className="w-full rounded-2xl border border-[#1E294B] bg-[#070D21]/95 p-4">
-        <div className="flex items-center justify-center gap-2 mb-3">
-          <img src="/home/tech/icon-frontend.svg" alt="Frontend" className="h-4 w-4 object-contain text-indigo-400" />
-          <span className="text-xs font-bold uppercase tracking-widest text-indigo-200">FrontEnd</span>
-        </div>
-        <div className="grid grid-cols-4 gap-2 sm:gap-3 justify-items-center">
-          {frontendStack.map((tech) => (
-            <div key={tech.name} className="flex flex-col items-center gap-1.5">
-              <div className="flex h-13 w-13 items-center justify-center rounded-xl border border-white/10 bg-[#0B132B] p-2 shadow-md">
-                <img src={tech.icon} alt={tech.name} className="h-7 w-7 object-contain" />
-              </div>
-              <span className="text-[11px] font-medium text-slate-300 text-center">{tech.name}</span>
+    <div className="flex lg:hidden flex-col items-center w-full">
+
+      {/* ── FRONTEND CARDS ── */}
+      <motion.div
+        initial={{ opacity: 0, y: -16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="grid grid-cols-4 gap-2 w-full justify-items-center"
+      >
+        {frontendStack.map((tech) => (
+          <div
+            key={tech.name}
+            className="group flex flex-col items-center gap-1 rounded-xl border border-[#1E294B] bg-[#070D21]/95 px-1.5 py-2 shadow-md backdrop-blur-md w-full min-w-0"
+          >
+            <div className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-lg border border-white/10 bg-[#0B132B]/90 p-1.5 shadow-sm">
+              <img src={tech.icon} alt={tech.name} className="h-full w-full object-contain" loading="lazy" />
             </div>
-          ))}
-        </div>
-      </div>
-
-      <svg width="2" height="24" className="overflow-visible shrink-0 block">
-        <line x1="1" y1="0" x2="1" y2="24" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
-      </svg>
-
-      <div className="flex flex-col items-center justify-center rounded-xl border-2 border-indigo-400/80 bg-gradient-to-b from-[#182352] to-[#0A1028] px-7 py-3 shadow-[0_0_30px_rgba(99,102,241,0.4)]">
-        <span className="text-lg font-black tracking-tight text-white uppercase">Stack</span>
-        <span className="text-[9px] font-semibold tracking-widest text-indigo-300 uppercase">Core Hub</span>
-      </div>
-
-      <svg width="2" height="24" className="overflow-visible shrink-0 block">
-        <line x1="1" y1="0" x2="1" y2="24" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
-      </svg>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
-        <div className="rounded-2xl border border-[#1E294B] bg-[#070D21]/95 p-4">
-          <div className="flex items-center justify-center gap-2 mb-3">
-            <img src="/home/tech/icon-backend.svg" alt="Backend" className="h-4 w-4 object-contain text-indigo-400" />
-            <span className="text-xs font-bold uppercase tracking-widest text-indigo-200">Backend</span>
+            <span className="text-[8px] sm:text-[9px] font-semibold text-slate-300 text-center truncate max-w-full">{tech.name}</span>
           </div>
-          <div className="grid grid-cols-2 gap-2.5 justify-items-center">
-            {backendStack.map((tech, idx) => (
-              <div
-                key={tech.name}
-                onClick={() => setBackendIndex(idx)}
-                className={`cursor-pointer flex items-center justify-center h-10 w-10 sm:h-11 sm:w-11 rounded-xl overflow-hidden shadow-md transition-all ${
-                  backendIndex === idx ? "ring-2 ring-indigo-400 ring-offset-2 ring-offset-[#070D21] scale-105" : ""
-                }`}
-                title={tech.name}
+        ))}
+      </motion.div>
+
+      {/* Fork connector: 8 drops → crossbar → center stem */}
+      <div className="w-full h-7 flex items-center justify-center">
+        <svg viewBox="0 0 800 28" className="w-full h-full overflow-visible" preserveAspectRatio="none">
+          <line x1="50"  y1="0" x2="50"  y2="14" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+          <line x1="150" y1="0" x2="150" y2="14" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+          <line x1="250" y1="0" x2="250" y2="14" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+          <line x1="350" y1="0" x2="350" y2="14" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+          <line x1="450" y1="0" x2="450" y2="14" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+          <line x1="550" y1="0" x2="550" y2="14" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+          <line x1="650" y1="0" x2="650" y2="14" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+          <line x1="750" y1="0" x2="750" y2="14" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+          <line x1="50"  y1="14" x2="750" y2="14" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+          <line x1="400" y1="14" x2="400" y2="28" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+        </svg>
+      </div>
+
+      {/* FrontEnd badge */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
+        className="flex items-center gap-2 rounded-xl border border-indigo-500/50 bg-gradient-to-r from-[#0E1738] to-[#121B40] px-5 py-1.5 shadow-[0_0_20px_rgba(99,102,241,0.25)]"
+      >
+        <img src="/home/tech/icon-frontend.svg" alt="Frontend" className="h-3.5 w-3.5 object-contain" />
+        <span className="text-[10px] font-bold uppercase tracking-widest text-indigo-200">FrontEnd</span>
+      </motion.div>
+
+      {/* Vertical connector: FrontEnd badge → Stack Hub */}
+      <svg width="2" height="20" className="overflow-visible shrink-0 block">
+        <line x1="1" y1="0" x2="1" y2="20" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+      </svg>
+
+      {/* ── CENTER ROW: Backend ← Stack Hub → Cloud ── */}
+      <div className="grid grid-cols-[1fr_auto_1fr] items-center w-full gap-0">
+
+        {/* Backend side */}
+        <div className="flex items-center justify-end gap-0">
+          {/* Backend Tech — single rotating icon */}
+          <motion.div
+            initial={{ opacity: 0, x: -16 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="rounded-xl border border-[#1E294B] bg-[#070D21]/95 p-2 shadow-lg flex flex-col items-center gap-1"
+          >
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={backendStack[backendIndex].name}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                transition={{ duration: 0.3 }}
+                className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-lg overflow-hidden shadow-sm ring-2 ring-indigo-400"
               >
-                <img src={tech.icon} alt={tech.name} className="h-full w-full object-cover" />
-              </div>
-            ))}
+                <img src={backendStack[backendIndex].icon} alt={backendStack[backendIndex].name} className="h-full w-full object-cover" />
+              </motion.div>
+            </AnimatePresence>
+            <span className="text-[7px] sm:text-[8px] font-semibold text-indigo-300 text-center whitespace-nowrap">{backendStack[backendIndex].name}</span>
+          </motion.div>
+          {/* horizontal line Backend box → Backend badge */}
+          <svg height="2" className="w-3 sm:w-5 overflow-visible shrink-0">
+            <line x1="0" y1="1" x2="100%" y2="1" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+          </svg>
+          {/* Backend badge */}
+          <div className="flex shrink-0 items-center gap-1 rounded-lg border border-indigo-500/50 bg-gradient-to-r from-[#0E1738] to-[#121B40] px-2.5 py-1.5 shadow-md">
+            <img src="/home/tech/icon-backend.svg" alt="Backend" className="h-3 w-3 object-contain" />
+            <span className="text-[9px] font-bold uppercase tracking-wider text-indigo-200">Backend</span>
           </div>
+          {/* horizontal line Backend badge → Hub */}
+          <svg height="2" className="w-3 sm:w-5 overflow-visible shrink-0">
+            <line x1="0" y1="1" x2="100%" y2="1" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+          </svg>
         </div>
 
-        <div className="rounded-2xl border border-[#1E294B] bg-[#070D21]/95 p-4 flex flex-col items-center justify-between">
-          <div className="flex items-center justify-center gap-2 mb-2">
-            <img src="/home/tech/icon-cloud.svg" alt="Cloud" className="h-4 w-4 object-contain text-indigo-400" />
-            <span className="text-xs font-bold uppercase tracking-widest text-indigo-200">Cloud</span>
+        {/* Stack Core Hub */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="relative z-10 flex flex-col items-center justify-center rounded-xl border-2 border-indigo-400/80 bg-gradient-to-b from-[#182352] to-[#0A1028] px-3 py-2.5 shadow-[0_0_30px_rgba(99,102,241,0.4)] ring-2 ring-indigo-400/20 shrink-0"
+        >
+          <span className="text-sm sm:text-base font-black tracking-tight text-white uppercase drop-shadow-[0_2px_10px_rgba(255,255,255,0.3)]">Stack</span>
+          <span className="text-[7px] font-semibold tracking-widest text-indigo-300 uppercase whitespace-nowrap">Core Hub</span>
+        </motion.div>
+
+        {/* Cloud side */}
+        <div className="flex items-center justify-start gap-0">
+          {/* horizontal line Hub → Cloud badge */}
+          <svg height="2" className="w-3 sm:w-5 overflow-visible shrink-0">
+            <line x1="0" y1="1" x2="100%" y2="1" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+          </svg>
+          {/* Cloud badge */}
+          <div className="flex shrink-0 items-center gap-1 rounded-lg border border-indigo-500/50 bg-gradient-to-r from-[#0E1738] to-[#121B40] px-2.5 py-1.5 shadow-md">
+            <img src="/home/tech/icon-cloud.svg" alt="Cloud" className="h-3 w-3 object-contain" />
+            <span className="text-[9px] font-bold uppercase tracking-wider text-indigo-200">Cloud</span>
           </div>
-          <div className="flex flex-col items-center py-2">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-sky-400/40 bg-[#0B132B] p-2">
-              <img src={currentCloud.icon} alt={currentCloud.name} className="h-full w-full object-contain" />
-            </div>
-            <span className="text-xs font-bold text-white mt-1.5">{currentCloud.name}</span>
-          </div>
+          {/* horizontal line Cloud badge → Cloud box */}
+          <svg height="2" className="w-3 sm:w-5 overflow-visible shrink-0">
+            <line x1="0" y1="1" x2="100%" y2="1" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+          </svg>
+          {/* Cloud logo box */}
+          <motion.div
+            initial={{ opacity: 0, x: 16 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-lg bg-white p-1.5 shadow-md"
+          >
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={currentCloud.name}
+                src={currentCloud.icon}
+                alt={currentCloud.name}
+                initial={{ opacity: 0, scale: 0.85 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.85 }}
+                transition={{ duration: 0.35 }}
+                className="h-full w-full object-contain"
+              />
+            </AnimatePresence>
+          </motion.div>
         </div>
       </div>
 
-      <div className="h-6 w-0 border-l-2 border-dashed border-indigo-400/70" />
+      {/* Vertical connector: Stack Hub → Database badge */}
+      <svg width="2" height="20" className="overflow-visible shrink-0 block">
+        <line x1="1" y1="0" x2="1" y2="20" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+      </svg>
 
-      <div className="w-full rounded-2xl border border-[#1E294B] bg-[#070D21]/95 p-4">
-        <div className="flex items-center justify-center gap-2 mb-3">
-          <img src="/home/tech/icon-database.svg" alt="Database" className="h-4 w-4 object-contain text-indigo-400" />
-          <span className="text-xs font-bold uppercase tracking-widest text-indigo-200">Database</span>
-        </div>
-        <div className="grid grid-cols-3 gap-2 justify-items-center">
-          {displayedDbStack.map((tech) => (
-            <motion.div
-              key={tech.name}
-              layout
-              transition={{ layout: { type: "spring", stiffness: 300, damping: 26 } }}
-              onClick={() => {
-                const origIdx = databaseStack.findIndex((d) => d.name === tech.name);
-                if (origIdx !== -1) setDatabaseIndex(origIdx);
-              }}
-              className="flex flex-col items-center gap-1 cursor-pointer"
-            >
-              <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-white/10 bg-[#0B132B] p-2">
-                <img src={tech.icon} alt={tech.name} className="h-full w-full object-contain" />
-              </div>
-              <span className="text-[10px] text-slate-300 text-center">{tech.name}</span>
-            </motion.div>
-          ))}
-        </div>
+      {/* Database badge */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
+        className="flex items-center gap-2 rounded-xl border border-indigo-500/50 bg-gradient-to-r from-[#0E1738] to-[#121B40] px-5 py-1.5 shadow-[0_0_20px_rgba(99,102,241,0.25)]"
+      >
+        <img src="/home/tech/icon-database.svg" alt="Database" className="h-3.5 w-3.5 object-contain" />
+        <span className="text-[10px] font-bold uppercase tracking-widest text-indigo-200">Database</span>
+      </motion.div>
+
+      {/* Fork connector: center stem → crossbar → 3 drops */}
+      <div className="w-full max-w-xs h-7 flex items-center justify-center">
+        <svg viewBox="0 0 300 28" className="w-full h-full overflow-visible" preserveAspectRatio="none">
+          <line x1="150" y1="0"  x2="150" y2="14" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+          <line x1="50"  y1="14" x2="250" y2="14" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+          <line x1="50"  y1="14" x2="50"  y2="28" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+          <line x1="150" y1="14" x2="150" y2="28" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+          <line x1="250" y1="14" x2="250" y2="28" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+        </svg>
+      </div>
+
+      {/* Database Cards */}
+      <div className="flex items-center justify-center gap-3 sm:gap-5 w-full">
+        {displayedDbStack.map((tech, posIdx) => (
+          <motion.div
+            key={tech.name}
+            layout
+            transition={{ layout: { type: "spring", stiffness: 300, damping: 26 } }}
+            onClick={() => {
+              const origIdx = databaseStack.findIndex((d) => d.name === tech.name);
+              if (origIdx !== -1) setDatabaseIndex(origIdx);
+            }}
+            className={`cursor-pointer group flex flex-col items-center gap-1.5 rounded-xl border bg-[#070D21]/95 px-3 py-2.5 backdrop-blur-md transition-all duration-300 ${
+              posIdx === 1
+                ? "border-indigo-400/80 shadow-[0_0_20px_rgba(99,102,241,0.4)] scale-[1.05]"
+                : "border-[#1E294B] shadow-md hover:border-indigo-400/50"
+            }`}
+          >
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-[#0B132B]/90 p-2 shadow-sm">
+              <img src={tech.icon} alt={tech.name} className="h-full w-full object-contain" loading="lazy" />
+            </div>
+            <span className="text-[9px] sm:text-[10px] font-semibold text-slate-200 text-center">{tech.name}</span>
+          </motion.div>
+        ))}
       </div>
     </div>
   );
