@@ -23,41 +23,76 @@ import {
 import { toast } from "sonner";
 import { API_BASE_URL } from "@/lib/api";
 
-import { buildPageMeta, buildBreadcrumbSchema, PAGE_SEO, SITE } from "@/config/seo";
+import { generateSEO, generateLocalBusinessSchema, generateBreadcrumbSchema } from "@/lib/seo";
 
 export const Route = createFileRoute("/contact")({
-  head: () => ({
-    meta: [
-      ...buildPageMeta({
-        title: PAGE_SEO.contact.title,
-        description: PAGE_SEO.contact.description,
-        canonical: PAGE_SEO.contact.canonical,
-        ogTitle: PAGE_SEO.contact.ogTitle,
-        ogDescription: PAGE_SEO.contact.ogDescription,
-        robots: PAGE_SEO.contact.robots,
-      }),
-    ],
-    links: [{ rel: "canonical", href: PAGE_SEO.contact.canonical }],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify(
-          buildBreadcrumbSchema([
-            { name: "Home", url: SITE.domain },
-            { name: "Contact", url: `${SITE.domain}/contact` },
-          ]),
-        ),
-      },
-    ],
-  }),
+  head: () => {
+    const seo = generateSEO({
+      title: "Contact Us",
+      description:
+        "Contact DevSpectra for custom web development, mobile apps, and digital marketing solutions. Get in touch with our team in Chennai.",
+      url: "/contact",
+    });
+    return {
+      meta: seo.meta,
+      links: seo.links,
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify(generateLocalBusinessSchema("Chennai")),
+        },
+        {
+          type: "application/ld+json",
+          children: JSON.stringify(
+            generateBreadcrumbSchema([
+              { name: "Home", url: "/" },
+              { name: "Contact", url: "/contact" },
+            ]),
+          ),
+        },
+      ],
+    };
+  },
   component: Contact,
 });
 
 const defaultFallbackFields = [
-  { id: "1", name: "firstName", label: "First Name", type: "text", placeholder: "First Name *", isRequired: true, halfWidth: true },
-  { id: "2", name: "lastName", label: "Last Name", type: "text", placeholder: "Last Name *", isRequired: true, halfWidth: true },
-  { id: "3", name: "email", label: "Email", type: "email", placeholder: "Email *", isRequired: true, halfWidth: true },
-  { id: "4", name: "phone", label: "Phone Number", type: "tel", placeholder: "Phone Number *", isRequired: true, halfWidth: true },
+  {
+    id: "1",
+    name: "firstName",
+    label: "First Name",
+    type: "text",
+    placeholder: "First Name *",
+    isRequired: true,
+    halfWidth: true,
+  },
+  {
+    id: "2",
+    name: "lastName",
+    label: "Last Name",
+    type: "text",
+    placeholder: "Last Name *",
+    isRequired: true,
+    halfWidth: true,
+  },
+  {
+    id: "3",
+    name: "email",
+    label: "Email",
+    type: "email",
+    placeholder: "Email *",
+    isRequired: true,
+    halfWidth: true,
+  },
+  {
+    id: "4",
+    name: "phone",
+    label: "Phone Number",
+    type: "tel",
+    placeholder: "Phone Number *",
+    isRequired: true,
+    halfWidth: true,
+  },
   {
     id: "5",
     name: "service",
@@ -66,9 +101,25 @@ const defaultFallbackFields = [
     placeholder: "Service *",
     isRequired: true,
     halfWidth: false,
-    options: ["Website", "Mobile App", "E-Commerce", "UI/UX Design", "Digital Marketing", "SaaS Product", "Other"],
+    options: [
+      "Website",
+      "Mobile App",
+      "E-Commerce",
+      "UI/UX Design",
+      "Digital Marketing",
+      "SaaS Product",
+      "Other",
+    ],
   },
-  { id: "6", name: "message", label: "Message", type: "textarea", placeholder: "Message *", isRequired: true, halfWidth: false },
+  {
+    id: "6",
+    name: "message",
+    label: "Message",
+    type: "textarea",
+    placeholder: "Message *",
+    isRequired: true,
+    halfWidth: false,
+  },
 ];
 
 function Contact() {
@@ -102,18 +153,19 @@ function Contact() {
   const safeLocations = Array.isArray(locations) ? locations : [];
   const activeFields = Array.isArray(fields) && fields.length > 0 ? fields : defaultFallbackFields;
 
-  const activeLoc = safeLocations.find((l) => l && l.id === activeLocId) || safeLocations[0] || {
-    name: "Chennai Headquarters",
-    city: "Chennai, Tamil Nadu",
-    address: "18, 2nd St, Vani Nagar, Jai Nagar, Valasaravakkam, Chennai, Tamil Nadu 600087",
-    phone: "+0123-456-789",
-    hours: "Mon - Fri : 10:00 - 20:00 IST",
-    status: "Open Now",
-    embedUrl:
-      "https://maps.google.com/maps?q=18,+2nd+St,+Vani+Nagar,+Jai+Nagar,+Valasaravakkam,+Chennai,+Tamil+Nadu+600087&t=&z=15&ie=UTF8&iwloc=&output=embed",
-    directUrl:
-      "https://maps.google.com/?q=18,+2nd+St,+Vani+Nagar,+Jai+Nagar,+Valasaravakkam,+Chennai,+Tamil+Nadu+600087",
-  };
+  const activeLoc = safeLocations.find((l) => l && l.id === activeLocId) ||
+    safeLocations[0] || {
+      name: "Chennai Headquarters",
+      city: "Chennai, Tamil Nadu",
+      address: "18, 2nd St, Vani Nagar, Jai Nagar, Valasaravakkam, Chennai, Tamil Nadu 600087",
+      phone: "+0123-456-789",
+      hours: "Mon - Fri : 10:00 - 20:00 IST",
+      status: "Open Now",
+      embedUrl:
+        "https://maps.google.com/maps?q=18,+2nd+St,+Vani+Nagar,+Jai+Nagar,+Valasaravakkam,+Chennai,+Tamil+Nadu+600087&t=&z=15&ie=UTF8&iwloc=&output=embed",
+      directUrl:
+        "https://maps.google.com/?q=18,+2nd+St,+Vani+Nagar,+Jai+Nagar,+Valasaravakkam,+Chennai,+Tamil+Nadu+600087",
+    };
 
   const primaryLoc = safeLocations.find((l) => l && l.isPrimary) || activeLoc;
 
@@ -121,7 +173,9 @@ function Contact() {
     e.preventDefault();
 
     // Check required fields
-    const missing = activeFields.filter((f) => f.isRequired && (!formValues[f.name] || !String(formValues[f.name]).trim()));
+    const missing = activeFields.filter(
+      (f) => f.isRequired && (!formValues[f.name] || !String(formValues[f.name]).trim()),
+    );
     if (missing.length > 0) {
       toast.error(`Please fill in required field: ${missing[0].label}`);
       return;
@@ -129,7 +183,10 @@ function Contact() {
 
     setIsSubmitting(true);
     try {
-      const fullName = `${formValues.firstName || ""} ${formValues.lastName || ""}`.trim() || formValues.name || "Anonymous";
+      const fullName =
+        `${formValues.firstName || ""} ${formValues.lastName || ""}`.trim() ||
+        formValues.name ||
+        "Anonymous";
       const payload = {
         name: fullName,
         email: formValues.email || "",
@@ -259,13 +316,21 @@ function Contact() {
       <ContactHero />
 
       {/* ── Contact info + form ── */}
-      <section id="contact-form" className="relative overflow-hidden bg-[#f4f3f0] py-16 text-black sm:py-24 lg:py-28">
-        <div className="absolute inset-y-0 right-0 hidden w-[42%] bg-cover bg-center lg:block" style={{ backgroundImage: "url('/contact/contact1.png')" }} />
+      <section
+        id="contact-form"
+        className="relative overflow-hidden bg-[#f4f3f0] py-16 text-black sm:py-24 lg:py-28"
+      >
+        <div
+          className="absolute inset-y-0 right-0 hidden w-[42%] bg-cover bg-center lg:block"
+          style={{ backgroundImage: "url('/contact/contact1.png')" }}
+        />
         <div className="absolute inset-0 bg-gradient-to-r from-[#f4f3f0] via-[#f4f3f0]/95 to-transparent lg:w-[72%]" />
 
         <div className="relative z-10 mx-auto grid max-w-6xl grid-cols-1 gap-14 px-6 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
           <div className="flex flex-col justify-center">
-            <p className="mb-5 text-sm font-semibold uppercase tracking-[0.24em] text-[#a58b60]">Contact Us</p>
+            <p className="mb-5 text-sm font-semibold uppercase tracking-[0.24em] text-[#a58b60]">
+              Contact Us
+            </p>
             <h2 className="max-w-lg font-display text-5xl font-bold leading-[1.05] tracking-tight text-[#171717] sm:text-6xl">
               Join Us in Creating
               <br />
@@ -283,11 +348,15 @@ function Contact() {
                 <p className="mt-1 break-words">Email : connectwithdevspectra@gmail.com</p>
               </div>
               <div>
-                <h3 className="mb-2 font-display text-xl font-semibold text-[#252525]">Open Time</h3>
+                <h3 className="mb-2 font-display text-xl font-semibold text-[#252525]">
+                  Open Time
+                </h3>
                 <p>{primaryLoc.hours || "Mon - Fri : 10:00 - 20:00 IST"}</p>
               </div>
               <div>
-                <h3 className="mb-3 font-display text-xl font-semibold text-[#252525]">Stay Connected</h3>
+                <h3 className="mb-3 font-display text-xl font-semibold text-[#252525]">
+                  Stay Connected
+                </h3>
                 <div className="flex gap-3">
                   {[
                     { icon: Facebook, href: "#", label: "Facebook" },
@@ -296,7 +365,13 @@ function Contact() {
                     { icon: Instagram, href: "#", label: "Instagram" },
                     { icon: Youtube, href: "#", label: "YouTube" },
                   ].map((social, index) => (
-                    <a key={index} href={social.href} aria-label={social.label} title={social.label} className="flex h-9 w-9 items-center justify-center rounded-full text-[#a58b60] transition-colors hover:bg-[#a58b60] hover:text-white">
+                    <a
+                      key={index}
+                      href={social.href}
+                      aria-label={social.label}
+                      title={social.label}
+                      className="flex h-9 w-9 items-center justify-center rounded-full text-[#a58b60] transition-colors hover:bg-[#a58b60] hover:text-white"
+                    >
                       <social.icon className="h-4 w-4" />
                     </a>
                   ))}
@@ -306,22 +381,39 @@ function Contact() {
           </div>
 
           <div className="bg-white p-7 shadow-[0_18px_55px_rgba(25,25,25,0.14)] sm:p-10 lg:mt-2 lg:p-12">
-            <h2 className="mb-8 font-display text-3xl font-semibold text-[#171717]">Send a message</h2>
+            <h2 className="mb-8 font-display text-3xl font-semibold text-[#171717]">
+              Send a message
+            </h2>
             {isSubmitted ? (
               <div className="py-10 text-center">
                 <CheckCircle2 className="mx-auto mb-5 h-14 w-14 text-emerald-600" />
-                <h3 className="mb-3 font-display text-2xl font-bold text-gray-900">Message Sent Successfully!</h3>
-                <p className="mb-7 text-gray-600">Thank you for reaching out. We will get back to you shortly.</p>
-                <button onClick={() => setIsSubmitted(false)} className="bg-[#171717] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[#a58b60]">
+                <h3 className="mb-3 font-display text-2xl font-bold text-gray-900">
+                  Message Sent Successfully!
+                </h3>
+                <p className="mb-7 text-gray-600">
+                  Thank you for reaching out. We will get back to you shortly.
+                </p>
+                <button
+                  onClick={() => setIsSubmitted(false)}
+                  className="bg-[#171717] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[#a58b60]"
+                >
                   Send Another Message
                 </button>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5">
                 {renderFields()}
-                <button type="submit" disabled={isSubmitting} className="inline-flex items-center gap-4 bg-[#171717] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[#a58b60] disabled:opacity-60">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="inline-flex items-center gap-4 bg-[#171717] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[#a58b60] disabled:opacity-60"
+                >
                   {isSubmitting ? "Sending..." : "Send Message"}
-                  {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <ArrowRight className="h-4 w-4" />}
+                  {isSubmitting ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <ArrowRight className="h-4 w-4" />
+                  )}
                 </button>
               </form>
             )}
@@ -366,7 +458,6 @@ function Contact() {
 
           {/* Map Frame Outer Container with Acrylic Border */}
           <div className="relative w-full h-[520px] rounded-[3rem] p-3 bg-white/60 backdrop-blur-2xl border border-white/80 shadow-[0_30px_80px_rgba(0,0,0,0.08),inset_0_2px_15px_rgba(255,255,255,0.9)] overflow-hidden group">
-            
             {/* Floating Glass Control Badge Card (Top Left) */}
             <div className="absolute top-8 left-8 z-20 max-w-sm hidden md:block animate-in fade-in slide-in-from-top-4 duration-500">
               <div className="bg-[#060c18]/90 backdrop-blur-2xl text-white p-7 rounded-[2rem] border border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.3)] space-y-4">
@@ -387,9 +478,7 @@ function Contact() {
                   <h4 className="text-xl font-bold font-display text-white mb-1">
                     {activeLoc.name}
                   </h4>
-                  <p className="text-xs text-gray-400 font-medium">
-                    {activeLoc.city}
-                  </p>
+                  <p className="text-xs text-gray-400 font-medium">{activeLoc.city}</p>
                 </div>
 
                 <div className="space-y-2.5 pt-2 border-t border-white/10 text-xs text-gray-300">

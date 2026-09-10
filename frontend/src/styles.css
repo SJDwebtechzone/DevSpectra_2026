@@ -179,8 +179,6 @@
   --page-border: oklch(0.3 0 0);
 }
 
-
-
 .mode-contact {
   --page-bg: linear-gradient(135deg, #f4efff 0%, #eaf5ff 38%, #e8fffb 68%, #fff7e8 100%);
   --page-fg: #000000;
@@ -190,8 +188,6 @@
   --page-surface: rgba(255, 255, 255, 0.3);
   --page-border: rgba(255, 255, 255, 0.4);
 }
-
-
 
 @layer base {
   * {
@@ -298,22 +294,22 @@
   background: #ffffff !important;
   color: #4a4a4a !important;
   border: none !important;
-  box-shadow: 
-    0 8px 20px -6px rgba(0,0,0,0.1),
-    inset 0 0 0 1px rgba(255,255,255,0.8) !important;
+  box-shadow:
+    0 8px 20px -6px rgba(0, 0, 0, 0.1),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.8) !important;
   position: relative;
   z-index: 1;
   font-weight: 500 !important;
 
   &:hover {
     transform: translateY(-1px);
-    box-shadow: 
-      0 12px 25px -6px rgba(0,0,0,0.15),
-      inset 0 0 0 1px rgba(255,255,255,1) !important;
+    box-shadow:
+      0 12px 25px -6px rgba(0, 0, 0, 0.15),
+      inset 0 0 0 1px rgba(255, 255, 255, 1) !important;
   }
-  
+
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
     border-radius: inherit;
@@ -329,7 +325,9 @@
       #ffb800 85%,
       #ff3b3b 100%
     );
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     pointer-events: none;

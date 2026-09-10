@@ -20,10 +20,30 @@ const frontendStack: TechItem[] = [
 ];
 
 const backendStack: TechItem[] = [
-  { name: "Node.js", icon: "/home/tech/nodejs.svg", color: "#539E43", description: "V8 JavaScript Runtime Engine" },
-  { name: "Express.js", icon: "/home/tech/express.svg", color: "#FFFFFF", description: "Minimalist Web Framework" },
-  { name: "Next.js", icon: "/home/tech/nextjs.svg", color: "#FFFFFF", description: "Full-Stack React Framework" },
-  { name: "Nest.js", icon: "/home/tech/nestjs.svg", color: "#E0234E", description: "Progressive Enterprise Node.js Architecture" },
+  {
+    name: "Node.js",
+    icon: "/home/tech/nodejs.svg",
+    color: "#539E43",
+    description: "V8 JavaScript Runtime Engine",
+  },
+  {
+    name: "Express.js",
+    icon: "/home/tech/express.svg",
+    color: "#FFFFFF",
+    description: "Minimalist Web Framework",
+  },
+  {
+    name: "Next.js",
+    icon: "/home/tech/nextjs.svg",
+    color: "#FFFFFF",
+    description: "Full-Stack React Framework",
+  },
+  {
+    name: "Nest.js",
+    icon: "/home/tech/nestjs.svg",
+    color: "#E0234E",
+    description: "Progressive Enterprise Node.js Architecture",
+  },
 ];
 
 const databaseStack: TechItem[] = [
@@ -33,9 +53,24 @@ const databaseStack: TechItem[] = [
 ];
 
 const cloudStack: TechItem[] = [
-  { name: "AWS", icon: "/home/tech/aws.svg", color: "#FF9900", description: "Amazon Web Services Cloud Infrastructure" },
-  { name: "Azure", icon: "/home/tech/azure.svg", color: "#0078D4", description: "Microsoft Azure Enterprise Cloud" },
-  { name: "Google Cloud", icon: "/home/tech/gcp.svg", color: "#4285F4", description: "Google Cloud Platform Services" },
+  {
+    name: "AWS",
+    icon: "/home/tech/aws.svg",
+    color: "#FF9900",
+    description: "Amazon Web Services Cloud Infrastructure",
+  },
+  {
+    name: "Azure",
+    icon: "/home/tech/azure.svg",
+    color: "#0078D4",
+    description: "Microsoft Azure Enterprise Cloud",
+  },
+  {
+    name: "Google Cloud",
+    icon: "/home/tech/gcp.svg",
+    color: "#4285F4",
+    description: "Google Cloud Platform Services",
+  },
 ];
 
 function FrontendGroup() {
@@ -71,22 +106,116 @@ function FrontendGroup() {
 
       {/* 8-Branch Fork Connector Connecting Cards to FrontEnd Badge */}
       <div className="w-full max-w-5xl h-8 flex items-center justify-center">
-        <svg viewBox="0 0 800 32" className="w-full h-full overflow-visible" preserveAspectRatio="none">
+        <svg
+          viewBox="0 0 800 32"
+          className="w-full h-full overflow-visible"
+          preserveAspectRatio="none"
+        >
           {/* 8 Vertical drops coming down from each of the 8 cards */}
-          <line x1="50" y1="0" x2="50" y2="16" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
-          <line x1="150" y1="0" x2="150" y2="16" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
-          <line x1="250" y1="0" x2="250" y2="16" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
-          <line x1="350" y1="0" x2="350" y2="16" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
-          <line x1="450" y1="0" x2="450" y2="16" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
-          <line x1="550" y1="0" x2="550" y2="16" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
-          <line x1="650" y1="0" x2="650" y2="16" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
-          <line x1="750" y1="0" x2="750" y2="16" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+          <line
+            x1="50"
+            y1="0"
+            x2="50"
+            y2="16"
+            stroke="#818cf8"
+            strokeWidth="2"
+            strokeDasharray="4 4"
+            strokeLinecap="round"
+          />
+          <line
+            x1="150"
+            y1="0"
+            x2="150"
+            y2="16"
+            stroke="#818cf8"
+            strokeWidth="2"
+            strokeDasharray="4 4"
+            strokeLinecap="round"
+          />
+          <line
+            x1="250"
+            y1="0"
+            x2="250"
+            y2="16"
+            stroke="#818cf8"
+            strokeWidth="2"
+            strokeDasharray="4 4"
+            strokeLinecap="round"
+          />
+          <line
+            x1="350"
+            y1="0"
+            x2="350"
+            y2="16"
+            stroke="#818cf8"
+            strokeWidth="2"
+            strokeDasharray="4 4"
+            strokeLinecap="round"
+          />
+          <line
+            x1="450"
+            y1="0"
+            x2="450"
+            y2="16"
+            stroke="#818cf8"
+            strokeWidth="2"
+            strokeDasharray="4 4"
+            strokeLinecap="round"
+          />
+          <line
+            x1="550"
+            y1="0"
+            x2="550"
+            y2="16"
+            stroke="#818cf8"
+            strokeWidth="2"
+            strokeDasharray="4 4"
+            strokeLinecap="round"
+          />
+          <line
+            x1="650"
+            y1="0"
+            x2="650"
+            y2="16"
+            stroke="#818cf8"
+            strokeWidth="2"
+            strokeDasharray="4 4"
+            strokeLinecap="round"
+          />
+          <line
+            x1="750"
+            y1="0"
+            x2="750"
+            y2="16"
+            stroke="#818cf8"
+            strokeWidth="2"
+            strokeDasharray="4 4"
+            strokeLinecap="round"
+          />
 
           {/* Horizontal cross-bar */}
-          <line x1="50" y1="16" x2="750" y2="16" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+          <line
+            x1="50"
+            y1="16"
+            x2="750"
+            y2="16"
+            stroke="#818cf8"
+            strokeWidth="2"
+            strokeDasharray="4 4"
+            strokeLinecap="round"
+          />
 
           {/* Center stem connecting down to the FrontEnd Badge */}
-          <line x1="400" y1="16" x2="400" y2="32" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+          <line
+            x1="400"
+            y1="16"
+            x2="400"
+            y2="32"
+            stroke="#818cf8"
+            strokeWidth="2"
+            strokeDasharray="4 4"
+            strokeLinecap="round"
+          />
         </svg>
       </div>
 
@@ -97,13 +226,28 @@ function FrontendGroup() {
         viewport={{ once: true }}
         className="flex items-center gap-2.5 rounded-xl border border-indigo-500/50 bg-gradient-to-r from-[#0E1738] to-[#121B40] px-6 py-2 shadow-[0_0_20px_rgba(99,102,241,0.25)]"
       >
-        <img src="/home/tech/icon-frontend.svg" alt="Frontend" className="h-4.5 w-4.5 object-contain text-indigo-400" />
-        <span className="text-xs font-bold uppercase tracking-widest text-indigo-200">FrontEnd</span>
+        <img
+          src="/home/tech/icon-frontend.svg"
+          alt="Frontend"
+          className="h-4.5 w-4.5 object-contain text-indigo-400"
+        />
+        <span className="text-xs font-bold uppercase tracking-widest text-indigo-200">
+          FrontEnd
+        </span>
       </motion.div>
 
       {/* Dotted connector to Stack */}
       <svg width="2" height="28" className="overflow-visible shrink-0 block">
-        <line x1="1" y1="0" x2="1" y2="28" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+        <line
+          x1="1"
+          y1="0"
+          x2="1"
+          y2="28"
+          stroke="#818cf8"
+          strokeWidth="2"
+          strokeDasharray="4 4"
+          strokeLinecap="round"
+        />
       </svg>
     </div>
   );
@@ -149,7 +293,16 @@ function BackendCard({
 
       {/* Connector between Backend Tech Box and Backend Badge */}
       <svg height="2" className="w-8 xl:w-14 overflow-visible shrink-0 block">
-        <line x1="0" y1="1" x2="100%" y2="1" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+        <line
+          x1="0"
+          y1="1"
+          x2="100%"
+          y2="1"
+          stroke="#818cf8"
+          strokeWidth="2"
+          strokeDasharray="4 4"
+          strokeLinecap="round"
+        />
       </svg>
 
       {/* Backend Badge Node */}
@@ -159,30 +312,48 @@ function BackendCard({
         viewport={{ once: true }}
         className="flex shrink-0 items-center gap-2 rounded-xl border border-indigo-500/50 bg-gradient-to-r from-[#0E1738] to-[#121B40] px-4 py-2 shadow-[0_0_20px_rgba(99,102,241,0.25)]"
       >
-        <img src="/home/tech/icon-backend.svg" alt="Backend" className="h-4 w-4 object-contain text-indigo-400" />
+        <img
+          src="/home/tech/icon-backend.svg"
+          alt="Backend"
+          className="h-4 w-4 object-contain text-indigo-400"
+        />
         <span className="text-xs font-bold uppercase tracking-widest text-indigo-200">Backend</span>
       </motion.div>
 
       {/* Connector between Backend Badge and Stack Node */}
       <svg height="2" className="w-8 xl:w-14 overflow-visible shrink-0 block">
-        <line x1="0" y1="1" x2="100%" y2="1" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+        <line
+          x1="0"
+          y1="1"
+          x2="100%"
+          y2="1"
+          stroke="#818cf8"
+          strokeWidth="2"
+          strokeDasharray="4 4"
+          strokeLinecap="round"
+        />
       </svg>
     </div>
   );
 }
 
-function CloudCard({
-  cloudIndex,
-}: {
-  cloudIndex: number;
-}) {
+function CloudCard({ cloudIndex }: { cloudIndex: number }) {
   const currentCloud = cloudStack[cloudIndex];
 
   return (
     <div className="flex items-center justify-start w-full">
       {/* Connector between Stack Node and Cloud Badge */}
       <svg height="2" className="w-8 xl:w-14 overflow-visible shrink-0 block">
-        <line x1="0" y1="1" x2="100%" y2="1" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+        <line
+          x1="0"
+          y1="1"
+          x2="100%"
+          y2="1"
+          stroke="#818cf8"
+          strokeWidth="2"
+          strokeDasharray="4 4"
+          strokeLinecap="round"
+        />
       </svg>
 
       {/* Cloud Badge Node */}
@@ -192,13 +363,26 @@ function CloudCard({
         viewport={{ once: true }}
         className="flex shrink-0 items-center gap-2 rounded-xl border border-indigo-500/50 bg-gradient-to-r from-[#0E1738] to-[#121B40] px-4 py-2 shadow-[0_0_20px_rgba(99,102,241,0.25)]"
       >
-        <img src="/home/tech/icon-cloud.svg" alt="Cloud" className="h-4 w-4 object-contain text-indigo-400" />
+        <img
+          src="/home/tech/icon-cloud.svg"
+          alt="Cloud"
+          className="h-4 w-4 object-contain text-indigo-400"
+        />
         <span className="text-xs font-bold uppercase tracking-widest text-indigo-200">Cloud</span>
       </motion.div>
 
       {/* Connector between Cloud Badge and Cloud Box */}
       <svg height="2" className="w-8 xl:w-14 overflow-visible shrink-0 block">
-        <line x1="0" y1="1" x2="100%" y2="1" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+        <line
+          x1="0"
+          y1="1"
+          x2="100%"
+          y2="1"
+          stroke="#818cf8"
+          strokeWidth="2"
+          strokeDasharray="4 4"
+          strokeLinecap="round"
+        />
       </svg>
 
       {/* Clean White Rounded Box with Auto-changing Logo */}
@@ -248,7 +432,16 @@ function DatabaseGroup({
     <div className="flex flex-col items-center">
       {/* Connector from Stack Node to Database Badge */}
       <svg width="2" height="28" className="overflow-visible shrink-0 block">
-        <line x1="1" y1="0" x2="1" y2="28" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+        <line
+          x1="1"
+          y1="0"
+          x2="1"
+          y2="28"
+          stroke="#818cf8"
+          strokeWidth="2"
+          strokeDasharray="4 4"
+          strokeLinecap="round"
+        />
       </svg>
 
       <motion.div
@@ -257,23 +450,78 @@ function DatabaseGroup({
         viewport={{ once: true }}
         className="flex items-center gap-2 rounded-xl border border-indigo-500/50 bg-gradient-to-r from-[#0E1738] to-[#121B40] px-5 py-1.5 shadow-[0_0_20px_rgba(99,102,241,0.25)]"
       >
-        <img src="/home/tech/icon-database.svg" alt="Database" className="h-4 w-4 object-contain text-indigo-400" />
-        <span className="text-xs font-bold uppercase tracking-widest text-indigo-200">Database</span>
+        <img
+          src="/home/tech/icon-database.svg"
+          alt="Database"
+          className="h-4 w-4 object-contain text-indigo-400"
+        />
+        <span className="text-xs font-bold uppercase tracking-widest text-indigo-200">
+          Database
+        </span>
       </motion.div>
 
       {/* 3 branch seamless SVG fork connector */}
       <div className="w-[340px] sm:w-[390px] h-8 flex items-center justify-center">
-        <svg viewBox="0 0 390 32" className="w-full h-full overflow-visible" preserveAspectRatio="none">
+        <svg
+          viewBox="0 0 390 32"
+          className="w-full h-full overflow-visible"
+          preserveAspectRatio="none"
+        >
           {/* Top vertical stem starting right at the edge of Database badge */}
-          <line x1="195" y1="0" x2="195" y2="16" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+          <line
+            x1="195"
+            y1="0"
+            x2="195"
+            y2="16"
+            stroke="#818cf8"
+            strokeWidth="2"
+            strokeDasharray="4 4"
+            strokeLinecap="round"
+          />
           {/* Horizontal cross-bar */}
-          <line x1="62" y1="16" x2="328" y2="16" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+          <line
+            x1="62"
+            y1="16"
+            x2="328"
+            y2="16"
+            stroke="#818cf8"
+            strokeWidth="2"
+            strokeDasharray="4 4"
+            strokeLinecap="round"
+          />
           {/* Left drop connecting to left card */}
-          <line x1="62" y1="16" x2="62" y2="32" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+          <line
+            x1="62"
+            y1="16"
+            x2="62"
+            y2="32"
+            stroke="#818cf8"
+            strokeWidth="2"
+            strokeDasharray="4 4"
+            strokeLinecap="round"
+          />
           {/* Middle drop connecting to center card */}
-          <line x1="195" y1="16" x2="195" y2="32" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+          <line
+            x1="195"
+            y1="16"
+            x2="195"
+            y2="32"
+            stroke="#818cf8"
+            strokeWidth="2"
+            strokeDasharray="4 4"
+            strokeLinecap="round"
+          />
           {/* Right drop connecting to right card */}
-          <line x1="328" y1="16" x2="328" y2="32" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+          <line
+            x1="328"
+            y1="16"
+            x2="328"
+            y2="32"
+            stroke="#818cf8"
+            strokeWidth="2"
+            strokeDasharray="4 4"
+            strokeLinecap="round"
+          />
         </svg>
       </div>
 
@@ -313,7 +561,6 @@ function DatabaseGroup({
     </div>
   );
 }
-
 
 function DesktopArchitecture({
   backendIndex,
@@ -370,7 +617,6 @@ function DesktopArchitecture({
   );
 }
 
-
 function MobileArchitecture({
   backendIndex,
   setBackendIndex,
@@ -393,7 +639,6 @@ function MobileArchitecture({
 
   return (
     <div className="flex lg:hidden flex-col items-center w-full">
-
       {/* ── FRONTEND CARDS ── */}
       <motion.div
         initial={{ opacity: 0, y: -16 }}
@@ -408,26 +653,127 @@ function MobileArchitecture({
             className="group flex flex-col items-center gap-1 rounded-xl border border-[#1E294B] bg-[#070D21]/95 px-1.5 py-2 shadow-md backdrop-blur-md w-full min-w-0"
           >
             <div className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-lg border border-white/10 bg-[#0B132B]/90 p-1.5 shadow-sm">
-              <img src={tech.icon} alt={tech.name} className="h-full w-full object-contain" loading="lazy" />
+              <img
+                src={tech.icon}
+                alt={tech.name}
+                className="h-full w-full object-contain"
+                loading="lazy"
+              />
             </div>
-            <span className="text-[8px] sm:text-[9px] font-semibold text-slate-300 text-center truncate max-w-full">{tech.name}</span>
+            <span className="text-[8px] sm:text-[9px] font-semibold text-slate-300 text-center truncate max-w-full">
+              {tech.name}
+            </span>
           </div>
         ))}
       </motion.div>
 
       {/* Fork connector: 8 drops → crossbar → center stem */}
       <div className="w-full h-7 flex items-center justify-center">
-        <svg viewBox="0 0 800 28" className="w-full h-full overflow-visible" preserveAspectRatio="none">
-          <line x1="50"  y1="0" x2="50"  y2="14" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
-          <line x1="150" y1="0" x2="150" y2="14" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
-          <line x1="250" y1="0" x2="250" y2="14" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
-          <line x1="350" y1="0" x2="350" y2="14" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
-          <line x1="450" y1="0" x2="450" y2="14" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
-          <line x1="550" y1="0" x2="550" y2="14" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
-          <line x1="650" y1="0" x2="650" y2="14" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
-          <line x1="750" y1="0" x2="750" y2="14" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
-          <line x1="50"  y1="14" x2="750" y2="14" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
-          <line x1="400" y1="14" x2="400" y2="28" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+        <svg
+          viewBox="0 0 800 28"
+          className="w-full h-full overflow-visible"
+          preserveAspectRatio="none"
+        >
+          <line
+            x1="50"
+            y1="0"
+            x2="50"
+            y2="14"
+            stroke="#818cf8"
+            strokeWidth="2"
+            strokeDasharray="4 4"
+            strokeLinecap="round"
+          />
+          <line
+            x1="150"
+            y1="0"
+            x2="150"
+            y2="14"
+            stroke="#818cf8"
+            strokeWidth="2"
+            strokeDasharray="4 4"
+            strokeLinecap="round"
+          />
+          <line
+            x1="250"
+            y1="0"
+            x2="250"
+            y2="14"
+            stroke="#818cf8"
+            strokeWidth="2"
+            strokeDasharray="4 4"
+            strokeLinecap="round"
+          />
+          <line
+            x1="350"
+            y1="0"
+            x2="350"
+            y2="14"
+            stroke="#818cf8"
+            strokeWidth="2"
+            strokeDasharray="4 4"
+            strokeLinecap="round"
+          />
+          <line
+            x1="450"
+            y1="0"
+            x2="450"
+            y2="14"
+            stroke="#818cf8"
+            strokeWidth="2"
+            strokeDasharray="4 4"
+            strokeLinecap="round"
+          />
+          <line
+            x1="550"
+            y1="0"
+            x2="550"
+            y2="14"
+            stroke="#818cf8"
+            strokeWidth="2"
+            strokeDasharray="4 4"
+            strokeLinecap="round"
+          />
+          <line
+            x1="650"
+            y1="0"
+            x2="650"
+            y2="14"
+            stroke="#818cf8"
+            strokeWidth="2"
+            strokeDasharray="4 4"
+            strokeLinecap="round"
+          />
+          <line
+            x1="750"
+            y1="0"
+            x2="750"
+            y2="14"
+            stroke="#818cf8"
+            strokeWidth="2"
+            strokeDasharray="4 4"
+            strokeLinecap="round"
+          />
+          <line
+            x1="50"
+            y1="14"
+            x2="750"
+            y2="14"
+            stroke="#818cf8"
+            strokeWidth="2"
+            strokeDasharray="4 4"
+            strokeLinecap="round"
+          />
+          <line
+            x1="400"
+            y1="14"
+            x2="400"
+            y2="28"
+            stroke="#818cf8"
+            strokeWidth="2"
+            strokeDasharray="4 4"
+            strokeLinecap="round"
+          />
         </svg>
       </div>
 
@@ -438,18 +784,32 @@ function MobileArchitecture({
         viewport={{ once: true }}
         className="flex items-center gap-2 rounded-xl border border-indigo-500/50 bg-gradient-to-r from-[#0E1738] to-[#121B40] px-5 py-1.5 shadow-[0_0_20px_rgba(99,102,241,0.25)]"
       >
-        <img src="/home/tech/icon-frontend.svg" alt="Frontend" className="h-3.5 w-3.5 object-contain" />
-        <span className="text-[10px] font-bold uppercase tracking-widest text-indigo-200">FrontEnd</span>
+        <img
+          src="/home/tech/icon-frontend.svg"
+          alt="Frontend"
+          className="h-3.5 w-3.5 object-contain"
+        />
+        <span className="text-[10px] font-bold uppercase tracking-widest text-indigo-200">
+          FrontEnd
+        </span>
       </motion.div>
 
       {/* Vertical connector: FrontEnd badge → Stack Hub */}
       <svg width="2" height="20" className="overflow-visible shrink-0 block">
-        <line x1="1" y1="0" x2="1" y2="20" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+        <line
+          x1="1"
+          y1="0"
+          x2="1"
+          y2="20"
+          stroke="#818cf8"
+          strokeWidth="2"
+          strokeDasharray="4 4"
+          strokeLinecap="round"
+        />
       </svg>
 
       {/* ── CENTER ROW: Backend ← Stack Hub → Cloud ── */}
       <div className="grid grid-cols-[1fr_auto_1fr] items-center w-full gap-0">
-
         {/* Backend side */}
         <div className="flex items-center justify-end gap-0">
           {/* Backend Tech — single rotating icon */}
@@ -469,23 +829,53 @@ function MobileArchitecture({
                 transition={{ duration: 0.3 }}
                 className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-lg overflow-hidden shadow-sm ring-2 ring-indigo-400"
               >
-                <img src={backendStack[backendIndex].icon} alt={backendStack[backendIndex].name} className="h-full w-full object-cover" />
+                <img
+                  src={backendStack[backendIndex].icon}
+                  alt={backendStack[backendIndex].name}
+                  className="h-full w-full object-cover"
+                />
               </motion.div>
             </AnimatePresence>
-            <span className="text-[7px] sm:text-[8px] font-semibold text-indigo-300 text-center whitespace-nowrap">{backendStack[backendIndex].name}</span>
+            <span className="text-[7px] sm:text-[8px] font-semibold text-indigo-300 text-center whitespace-nowrap">
+              {backendStack[backendIndex].name}
+            </span>
           </motion.div>
           {/* horizontal line Backend box → Backend badge */}
           <svg height="2" className="w-3 sm:w-5 overflow-visible shrink-0">
-            <line x1="0" y1="1" x2="100%" y2="1" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+            <line
+              x1="0"
+              y1="1"
+              x2="100%"
+              y2="1"
+              stroke="#818cf8"
+              strokeWidth="2"
+              strokeDasharray="4 4"
+              strokeLinecap="round"
+            />
           </svg>
           {/* Backend badge */}
           <div className="flex shrink-0 items-center gap-1 rounded-lg border border-indigo-500/50 bg-gradient-to-r from-[#0E1738] to-[#121B40] px-2.5 py-1.5 shadow-md">
-            <img src="/home/tech/icon-backend.svg" alt="Backend" className="h-3 w-3 object-contain" />
-            <span className="text-[9px] font-bold uppercase tracking-wider text-indigo-200">Backend</span>
+            <img
+              src="/home/tech/icon-backend.svg"
+              alt="Backend"
+              className="h-3 w-3 object-contain"
+            />
+            <span className="text-[9px] font-bold uppercase tracking-wider text-indigo-200">
+              Backend
+            </span>
           </div>
           {/* horizontal line Backend badge → Hub */}
           <svg height="2" className="w-3 sm:w-5 overflow-visible shrink-0">
-            <line x1="0" y1="1" x2="100%" y2="1" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+            <line
+              x1="0"
+              y1="1"
+              x2="100%"
+              y2="1"
+              stroke="#818cf8"
+              strokeWidth="2"
+              strokeDasharray="4 4"
+              strokeLinecap="round"
+            />
           </svg>
         </div>
 
@@ -497,24 +887,48 @@ function MobileArchitecture({
           transition={{ duration: 0.5 }}
           className="relative z-10 flex flex-col items-center justify-center rounded-xl border-2 border-indigo-400/80 bg-gradient-to-b from-[#182352] to-[#0A1028] px-3 py-2.5 shadow-[0_0_30px_rgba(99,102,241,0.4)] ring-2 ring-indigo-400/20 shrink-0"
         >
-          <span className="text-sm sm:text-base font-black tracking-tight text-white uppercase drop-shadow-[0_2px_10px_rgba(255,255,255,0.3)]">Stack</span>
-          <span className="text-[7px] font-semibold tracking-widest text-indigo-300 uppercase whitespace-nowrap">Core Hub</span>
+          <span className="text-sm sm:text-base font-black tracking-tight text-white uppercase drop-shadow-[0_2px_10px_rgba(255,255,255,0.3)]">
+            Stack
+          </span>
+          <span className="text-[7px] font-semibold tracking-widest text-indigo-300 uppercase whitespace-nowrap">
+            Core Hub
+          </span>
         </motion.div>
 
         {/* Cloud side */}
         <div className="flex items-center justify-start gap-0">
           {/* horizontal line Hub → Cloud badge */}
           <svg height="2" className="w-3 sm:w-5 overflow-visible shrink-0">
-            <line x1="0" y1="1" x2="100%" y2="1" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+            <line
+              x1="0"
+              y1="1"
+              x2="100%"
+              y2="1"
+              stroke="#818cf8"
+              strokeWidth="2"
+              strokeDasharray="4 4"
+              strokeLinecap="round"
+            />
           </svg>
           {/* Cloud badge */}
           <div className="flex shrink-0 items-center gap-1 rounded-lg border border-indigo-500/50 bg-gradient-to-r from-[#0E1738] to-[#121B40] px-2.5 py-1.5 shadow-md">
             <img src="/home/tech/icon-cloud.svg" alt="Cloud" className="h-3 w-3 object-contain" />
-            <span className="text-[9px] font-bold uppercase tracking-wider text-indigo-200">Cloud</span>
+            <span className="text-[9px] font-bold uppercase tracking-wider text-indigo-200">
+              Cloud
+            </span>
           </div>
           {/* horizontal line Cloud badge → Cloud box */}
           <svg height="2" className="w-3 sm:w-5 overflow-visible shrink-0">
-            <line x1="0" y1="1" x2="100%" y2="1" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+            <line
+              x1="0"
+              y1="1"
+              x2="100%"
+              y2="1"
+              stroke="#818cf8"
+              strokeWidth="2"
+              strokeDasharray="4 4"
+              strokeLinecap="round"
+            />
           </svg>
           {/* Cloud logo box */}
           <motion.div
@@ -542,7 +956,16 @@ function MobileArchitecture({
 
       {/* Vertical connector: Stack Hub → Database badge */}
       <svg width="2" height="20" className="overflow-visible shrink-0 block">
-        <line x1="1" y1="0" x2="1" y2="20" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+        <line
+          x1="1"
+          y1="0"
+          x2="1"
+          y2="20"
+          stroke="#818cf8"
+          strokeWidth="2"
+          strokeDasharray="4 4"
+          strokeLinecap="round"
+        />
       </svg>
 
       {/* Database badge */}
@@ -552,18 +975,73 @@ function MobileArchitecture({
         viewport={{ once: true }}
         className="flex items-center gap-2 rounded-xl border border-indigo-500/50 bg-gradient-to-r from-[#0E1738] to-[#121B40] px-5 py-1.5 shadow-[0_0_20px_rgba(99,102,241,0.25)]"
       >
-        <img src="/home/tech/icon-database.svg" alt="Database" className="h-3.5 w-3.5 object-contain" />
-        <span className="text-[10px] font-bold uppercase tracking-widest text-indigo-200">Database</span>
+        <img
+          src="/home/tech/icon-database.svg"
+          alt="Database"
+          className="h-3.5 w-3.5 object-contain"
+        />
+        <span className="text-[10px] font-bold uppercase tracking-widest text-indigo-200">
+          Database
+        </span>
       </motion.div>
 
       {/* Fork connector: center stem → crossbar → 3 drops */}
       <div className="w-full max-w-xs h-7 flex items-center justify-center">
-        <svg viewBox="0 0 300 28" className="w-full h-full overflow-visible" preserveAspectRatio="none">
-          <line x1="150" y1="0"  x2="150" y2="14" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
-          <line x1="50"  y1="14" x2="250" y2="14" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
-          <line x1="50"  y1="14" x2="50"  y2="28" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
-          <line x1="150" y1="14" x2="150" y2="28" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
-          <line x1="250" y1="14" x2="250" y2="28" stroke="#818cf8" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" />
+        <svg
+          viewBox="0 0 300 28"
+          className="w-full h-full overflow-visible"
+          preserveAspectRatio="none"
+        >
+          <line
+            x1="150"
+            y1="0"
+            x2="150"
+            y2="14"
+            stroke="#818cf8"
+            strokeWidth="2"
+            strokeDasharray="4 4"
+            strokeLinecap="round"
+          />
+          <line
+            x1="50"
+            y1="14"
+            x2="250"
+            y2="14"
+            stroke="#818cf8"
+            strokeWidth="2"
+            strokeDasharray="4 4"
+            strokeLinecap="round"
+          />
+          <line
+            x1="50"
+            y1="14"
+            x2="50"
+            y2="28"
+            stroke="#818cf8"
+            strokeWidth="2"
+            strokeDasharray="4 4"
+            strokeLinecap="round"
+          />
+          <line
+            x1="150"
+            y1="14"
+            x2="150"
+            y2="28"
+            stroke="#818cf8"
+            strokeWidth="2"
+            strokeDasharray="4 4"
+            strokeLinecap="round"
+          />
+          <line
+            x1="250"
+            y1="14"
+            x2="250"
+            y2="28"
+            stroke="#818cf8"
+            strokeWidth="2"
+            strokeDasharray="4 4"
+            strokeLinecap="round"
+          />
         </svg>
       </div>
 
@@ -585,17 +1063,22 @@ function MobileArchitecture({
             }`}
           >
             <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-[#0B132B]/90 p-2 shadow-sm">
-              <img src={tech.icon} alt={tech.name} className="h-full w-full object-contain" loading="lazy" />
+              <img
+                src={tech.icon}
+                alt={tech.name}
+                className="h-full w-full object-contain"
+                loading="lazy"
+              />
             </div>
-            <span className="text-[9px] sm:text-[10px] font-semibold text-slate-200 text-center">{tech.name}</span>
+            <span className="text-[9px] sm:text-[10px] font-semibold text-slate-200 text-center">
+              {tech.name}
+            </span>
           </motion.div>
         ))}
       </div>
     </div>
   );
 }
-
-
 
 export function TechStackSection() {
   const [cloudIndex, setCloudIndex] = useState(0);

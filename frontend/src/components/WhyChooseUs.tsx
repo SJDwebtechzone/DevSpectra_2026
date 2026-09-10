@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 const reasons = [
   {
@@ -48,10 +48,15 @@ export function WhyChooseUs() {
   return (
     <section className="py-24 bg-white relative border-b border-gray-100 overflow-hidden">
       {/* Dotted Background */}
-      <div className="absolute inset-0 pointer-events-none opacity-40" style={{ backgroundImage: "radial-gradient(#d1d5db 1.5px, transparent 1.5px)", backgroundSize: "32px 32px" }}></div>
+      <div
+        className="absolute inset-0 pointer-events-none opacity-40"
+        style={{
+          backgroundImage: "radial-gradient(#d1d5db 1.5px, transparent 1.5px)",
+          backgroundSize: "32px 32px",
+        }}
+      ></div>
 
       <div className="container-page max-w-7xl mx-auto px-6 relative z-10">
-
         {/* Header Section */}
         <div className="flex items-center gap-6 mb-16 lg:mb-20">
           <h2 className="text-4xl md:text-5xl font-black text-[#4A3628] leading-[1.1] tracking-tight uppercase bg-white pr-4 py-1">
@@ -76,24 +81,23 @@ export function WhyChooseUs() {
                 onMouseEnter={() => setActiveIndex(idx)}
                 onClick={() => setActiveIndex(idx)}
                 className={`relative rounded-[24px] sm:rounded-[28px] cursor-pointer transition-all duration-500 ease-out h-[340px] sm:h-[380px] lg:h-[400px] w-[240px] sm:w-[280px] shrink-0 snap-center lg:w-auto lg:shrink ${
-                  isActive
-                    ? "z-20 shadow-2xl"
-                    : "z-10 bg-white hover:bg-gray-50/80"
+                  isActive ? "z-20 shadow-2xl" : "z-10 bg-white hover:bg-gray-50/80"
                 }`}
                 style={{
-                  boxShadow: isActive ? undefined : "0 8px 25px -8px rgba(0,0,0,0.08)"
+                  boxShadow: isActive ? undefined : "0 8px 25px -8px rgba(0,0,0,0.08)",
                 }}
               >
                 {/* Prismatic Border (Inactive State Only) */}
-                <div 
+                <div
                   className="absolute inset-0 pointer-events-none rounded-[inherit] transition-opacity duration-500"
                   style={{
                     opacity: isActive ? 0 : 0.8,
                     padding: "2px",
-                    background: "linear-gradient(110deg, #ff3b3b 0%, #ffb800 15%, #3b82f6 30%, #e2e8f0 45%, #e2e8f0 55%, #3b82f6 70%, #ffb800 85%, #ff3b3b 100%)",
+                    background:
+                      "linear-gradient(110deg, #ff3b3b 0%, #ffb800 15%, #3b82f6 30%, #e2e8f0 45%, #e2e8f0 55%, #3b82f6 70%, #ffb800 85%, #ff3b3b 100%)",
                     WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
                     WebkitMaskComposite: "xor",
-                    maskComposite: "exclude"
+                    maskComposite: "exclude",
                   }}
                 />
 
@@ -115,7 +119,9 @@ export function WhyChooseUs() {
                   </div>
                 </div>
 
-                <div className={`relative z-10 flex flex-col h-full transition-all duration-500 p-6 pointer-events-auto ${isActive ? "justify-end" : "justify-between"}`}>
+                <div
+                  className={`relative z-10 flex flex-col h-full transition-all duration-500 p-6 pointer-events-auto ${isActive ? "justify-end" : "justify-between"}`}
+                >
                   {/* Number */}
                   <span
                     className={`font-black leading-none tracking-tighter transition-colors duration-500 ${
@@ -128,7 +134,7 @@ export function WhyChooseUs() {
                   </span>
 
                   {/* Dotted separator (active only) */}
-                  <div 
+                  <div
                     className={`flex flex-col gap-1.5 mb-4 transition-all duration-500 overflow-hidden ${
                       isActive ? "h-6 opacity-100" : "h-0 opacity-0"
                     }`}
@@ -139,10 +145,14 @@ export function WhyChooseUs() {
                   </div>
 
                   <div>
-                    <h3 className={`font-bold mb-3 transition-colors duration-500 ${isActive ? "text-2xl text-white" : "text-lg md:text-xl text-gray-900"}`}>
+                    <h3
+                      className={`font-bold mb-3 transition-colors duration-500 ${isActive ? "text-2xl text-white" : "text-lg md:text-xl text-gray-900"}`}
+                    >
                       {reason.title}
                     </h3>
-                    <p className={`leading-relaxed mb-6 transition-colors duration-500 ${isActive ? "text-sm text-white/90" : "text-sm text-gray-500"}`}>
+                    <p
+                      className={`leading-relaxed mb-6 transition-colors duration-500 ${isActive ? "text-sm text-white/90" : "text-sm text-gray-500"}`}
+                    >
                       {reason.description}
                     </p>
                   </div>
@@ -151,10 +161,7 @@ export function WhyChooseUs() {
             );
           })}
         </div>
-
       </div>
     </section>
   );
 }
-
-

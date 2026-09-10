@@ -3,13 +3,13 @@ import { useEffect, useState } from "react";
 import { getAuthToken, clearAuthSession, isAuthenticated, getAuthUser } from "@/lib/auth";
 import { API_BASE_URL } from "@/lib/api";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  LayoutDashboard, 
-  LogOut, 
-  Loader2, 
-  Users, 
-  FolderKanban, 
-  Mail, 
+import {
+  LayoutDashboard,
+  LogOut,
+  Loader2,
+  Users,
+  FolderKanban,
+  Mail,
   Star,
   ChevronDown,
   Globe,
@@ -27,21 +27,25 @@ import {
   Power,
   Upload,
   Image as ImageIcon,
-  MapPin
+  MapPin,
 } from "lucide-react";
 import { ReviewsTab } from "@/components/dashboard/ReviewsTab";
 import { toast } from "sonner";
 
-import { PAGE_SEO } from "@/config/seo";
+import { generateSEO } from "@/lib/seo";
 
 export const Route = createFileRoute("/dashboard")({
-  head: () => ({
-    meta: [
-      { title: PAGE_SEO.dashboard.title },
-      { name: "robots", content: PAGE_SEO.dashboard.robots },
-    ],
-    links: [{ rel: "canonical", href: PAGE_SEO.dashboard.canonical }],
-  }),
+  head: () => {
+    const seo = generateSEO({
+      title: "Dashboard",
+      noindex: true,
+      url: "/dashboard",
+    });
+    return {
+      meta: seo.meta,
+      links: seo.links,
+    };
+  },
   component: Dashboard,
 });
 
@@ -94,7 +98,9 @@ function Dashboard() {
   const [stats, setStats] = useState<any>(null);
   const [dbProjects, setDbProjects] = useState<any[]>([]);
   const [contacts, setContacts] = useState<any[]>([]);
-  const [contactSubTab, setContactSubTab] = useState<"submissions" | "builder" | "locations">("submissions");
+  const [contactSubTab, setContactSubTab] = useState<"submissions" | "builder" | "locations">(
+    "submissions",
+  );
   const [formFields, setFormFields] = useState<any[]>([]);
   const [isAddFieldModalOpen, setIsAddFieldModalOpen] = useState(false);
   const [fieldFormData, setFieldFormData] = useState({
@@ -237,7 +243,9 @@ function Dashboard() {
           throw new Error("Session expired. Please log in again.");
         }
         const errData = await res.json().catch(() => ({}));
-        const errMsg = Array.isArray(errData.message) ? errData.message.join(", ") : errData.message;
+        const errMsg = Array.isArray(errData.message)
+          ? errData.message.join(", ")
+          : errData.message;
         throw new Error(errMsg || "Failed to create location");
       }
 
@@ -307,7 +315,9 @@ function Dashboard() {
           throw new Error("Session expired. Please log in again.");
         }
         const errData = await res.json().catch(() => ({}));
-        const errMsg = Array.isArray(errData.message) ? errData.message.join(", ") : errData.message;
+        const errMsg = Array.isArray(errData.message)
+          ? errData.message.join(", ")
+          : errData.message;
         throw new Error(errMsg || "Failed to update location");
       }
 
@@ -435,7 +445,7 @@ function Dashboard() {
         const updated = await res.json();
         toast.success(updated.isRead ? "Marked as Read" : "Marked as Unread");
         setContacts((prev) =>
-          prev.map((c) => (c.id === id ? { ...c, isRead: updated.isRead } : c))
+          prev.map((c) => (c.id === id ? { ...c, isRead: updated.isRead } : c)),
         );
         fetchDashboardStats();
       }
@@ -476,7 +486,9 @@ function Dashboard() {
       const payload = {
         label: fieldFormData.label,
         type: fieldFormData.type,
-        placeholder: fieldFormData.placeholder || `${fieldFormData.label}${fieldFormData.isRequired ? " *" : ""}`,
+        placeholder:
+          fieldFormData.placeholder ||
+          `${fieldFormData.label}${fieldFormData.isRequired ? " *" : ""}`,
         options: fieldFormData.type === "select" ? optionsArray : undefined,
         isRequired: fieldFormData.isRequired,
         halfWidth: fieldFormData.halfWidth,
@@ -496,7 +508,14 @@ function Dashboard() {
 
       toast.success("New form field added!");
       setIsAddFieldModalOpen(false);
-      setFieldFormData({ label: "", type: "text", placeholder: "", optionsStr: "", isRequired: true, halfWidth: false });
+      setFieldFormData({
+        label: "",
+        type: "text",
+        placeholder: "",
+        optionsStr: "",
+        isRequired: true,
+        halfWidth: false,
+      });
       fetchFormFields();
     } catch (err: any) {
       toast.error(err.message || "Failed to add field");
@@ -517,7 +536,7 @@ function Dashboard() {
       if (res.ok) {
         toast.success(`Field marked as ${!currentActive ? "Active" : "Inactive"}`);
         setFormFields((prev) =>
-          prev.map((f) => (f.id === id ? { ...f, isActive: !currentActive } : f))
+          prev.map((f) => (f.id === id ? { ...f, isActive: !currentActive } : f)),
         );
       }
     } catch (err) {
@@ -613,7 +632,8 @@ function Dashboard() {
         const cat = (catName || "").toLowerCase();
         if (cat.includes("mobile")) return "/portfolio/mobile-1.jpg";
         if (cat.includes("commerce")) return "/portfolio/ecommerce-1.jpg";
-        if (cat.includes("ui") || cat.includes("ux") || cat.includes("design")) return "/portfolio/uiux-1.jpg";
+        if (cat.includes("ui") || cat.includes("ux") || cat.includes("design"))
+          return "/portfolio/uiux-1.jpg";
         if (cat.includes("marketing")) return "/portfolio/digital-1.jpg";
         return "/portfolio/website-1.jpg";
       };
@@ -676,7 +696,7 @@ function Dashboard() {
       title: project.title || "",
       category: project.category || "Website",
       description: project.desc || project.description || "",
-      technologies: Array.isArray(project.rawTechnologies) 
+      technologies: Array.isArray(project.rawTechnologies)
         ? project.rawTechnologies.join(", ")
         : project.tech || "",
       imageUrl: project.img || project.thumbnail || "",
@@ -725,10 +745,8 @@ function Dashboard() {
 
       const updated = await res.json();
       toast.success("Portfolio item updated!");
-      
-      setDbProjects((prev) =>
-        prev.map((item) => (item.id === updated.id ? updated : item))
-      );
+
+      setDbProjects((prev) => prev.map((item) => (item.id === updated.id ? updated : item)));
       setEditingProject(null);
       fetchDashboardStats();
     } catch (err: any) {
@@ -740,12 +758,13 @@ function Dashboard() {
 
   // Quick Toggle Active / Inactive
   const toggleActiveStatus = async (project: any) => {
-    const isCurrentlyActive = (project.status || "published") === "published" || (project.status === "active");
+    const isCurrentlyActive =
+      (project.status || "published") === "published" || project.status === "active";
     const newStatus = isCurrentlyActive ? "inactive" : "published";
 
     if (!project.id) {
       setDbProjects((prev) =>
-        prev.map((item) => (item.title === project.title ? { ...item, status: newStatus } : item))
+        prev.map((item) => (item.title === project.title ? { ...item, status: newStatus } : item)),
       );
       toast.success(newStatus === "published" ? "Item set to Active" : "Item set to Inactive");
       return;
@@ -765,13 +784,11 @@ function Dashboard() {
       if (!res.ok) throw new Error("Failed to update status");
 
       const updated = await res.json();
-      setDbProjects((prev) =>
-        prev.map((item) => (item.id === updated.id ? updated : item))
-      );
+      setDbProjects((prev) => prev.map((item) => (item.id === updated.id ? updated : item)));
       toast.success(
         newStatus === "published"
           ? "Item Active (Visible on website)"
-          : "Item Inactive (Hidden from website)"
+          : "Item Inactive (Hidden from website)",
       );
     } catch (err: any) {
       toast.error(err.message || "Could not toggle status");
@@ -824,9 +841,7 @@ function Dashboard() {
     );
   }
 
-  const currentCategorySlug = activeTab.startsWith("portfolio:")
-    ? activeTab.split(":")[1]
-    : "all";
+  const currentCategorySlug = activeTab.startsWith("portfolio:") ? activeTab.split(":")[1] : "all";
 
   // Combine DB projects and static projects
   const allDisplayProjects = [
@@ -837,12 +852,12 @@ function Dashboard() {
         p.category === "Mobile App"
           ? "mobile-app"
           : p.category === "Digital Marketing"
-          ? "digital-marketing"
-          : p.category === "UI/UX Design"
-          ? "uiux-design"
-          : p.category === "E-Commerce"
-          ? "e-commerce"
-          : "website",
+            ? "digital-marketing"
+            : p.category === "UI/UX Design"
+              ? "uiux-design"
+              : p.category === "E-Commerce"
+                ? "e-commerce"
+                : "website",
       category: p.category,
       desc: p.description,
       img: p.thumbnail || "/portfolio/website-1.jpg",
@@ -1048,14 +1063,17 @@ function Dashboard() {
                   return p.slug === currentCategorySlug;
                 })
                 .map((project, idx) => {
-                  const isActive = (project.status || "published") === "published" || project.status === "active";
+                  const isActive =
+                    (project.status || "published") === "published" || project.status === "active";
                   return (
                     <motion.div
                       key={project.id || idx}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       className={`bg-white/5 border rounded-2xl overflow-hidden transition-all flex flex-col group relative ${
-                        isActive ? "border-white/10 hover:border-indigo-500/50" : "border-red-500/20 opacity-75"
+                        isActive
+                          ? "border-white/10 hover:border-indigo-500/50"
+                          : "border-red-500/20 opacity-75"
                       }`}
                     >
                       <div className="h-44 bg-zinc-900 overflow-hidden relative">
@@ -1071,14 +1089,20 @@ function Dashboard() {
                           <button
                             type="button"
                             onClick={() => toggleActiveStatus(project)}
-                            title={isActive ? "Click to set Inactive (hide from website)" : "Click to set Active (show on website)"}
+                            title={
+                              isActive
+                                ? "Click to set Inactive (hide from website)"
+                                : "Click to set Active (show on website)"
+                            }
                             className={`px-3 py-1 rounded-full text-[10px] font-extrabold tracking-wider uppercase flex items-center gap-1.5 backdrop-blur-md cursor-pointer transition-all duration-200 shadow-xl ${
                               isActive
                                 ? "bg-black/90 text-emerald-400 border border-emerald-500/70 hover:bg-emerald-950/90"
                                 : "bg-black/90 text-rose-400 border border-rose-500/70 hover:bg-rose-950/90"
                             }`}
                           >
-                            <span className={`w-2 h-2 rounded-full ${isActive ? "bg-emerald-400 shadow-[0_0_8px_#34d399] animate-pulse" : "bg-rose-500 shadow-[0_0_8px_#f43f5e]"}`} />
+                            <span
+                              className={`w-2 h-2 rounded-full ${isActive ? "bg-emerald-400 shadow-[0_0_8px_#34d399] animate-pulse" : "bg-rose-500 shadow-[0_0_8px_#f43f5e]"}`}
+                            />
                             <span>{isActive ? "ACTIVE" : "INACTIVE"}</span>
                           </button>
 
@@ -1119,7 +1143,9 @@ function Dashboard() {
                           <div className="flex items-center justify-between gap-2 mb-1">
                             <h3 className="font-semibold text-lg text-white">{project.title}</h3>
                           </div>
-                          <p className="text-xs text-zinc-400 leading-relaxed mb-4">{project.desc}</p>
+                          <p className="text-xs text-zinc-400 leading-relaxed mb-4">
+                            {project.desc}
+                          </p>
                         </div>
 
                         <div className="flex items-center justify-between pt-3 border-t border-white/10 text-xs">
@@ -1169,7 +1195,8 @@ function Dashboard() {
                   Contact Form Builder
                 </h2>
                 <p className="text-zinc-400 text-sm mt-1">
-                  Add, edit, toggle, or delete fields that appear on your website Contact Us page. All inquiries are sent directly to your client email.
+                  Add, edit, toggle, or delete fields that appear on your website Contact Us page.
+                  All inquiries are sent directly to your client email.
                 </p>
               </div>
 
@@ -1207,7 +1234,8 @@ function Dashboard() {
                     </div>
 
                     <p className="text-xs font-mono text-zinc-400">
-                      Placeholder: <span className="text-zinc-300">{field.placeholder || "Default"}</span>
+                      Placeholder:{" "}
+                      <span className="text-zinc-300">{field.placeholder || "Default"}</span>
                     </p>
 
                     {field.options && field.options.length > 0 && (
@@ -1215,7 +1243,10 @@ function Dashboard() {
                         Dropdown Options:
                         <div className="flex flex-wrap gap-1 mt-1">
                           {field.options.map((opt: string, i: number) => (
-                            <span key={i} className="bg-black/40 text-zinc-300 px-2 py-0.5 rounded text-[11px] border border-white/10">
+                            <span
+                              key={i}
+                              className="bg-black/40 text-zinc-300 px-2 py-0.5 rounded text-[11px] border border-white/10"
+                            >
                               {opt}
                             </span>
                           ))}
@@ -1269,7 +1300,9 @@ function Dashboard() {
                     Office Locations & Google Maps Manager
                   </h2>
                   <p className="text-zinc-400 text-sm mt-1">
-                    Manage your dynamic office branches (Chennai, Kanchipuram, or new locations). Change addresses, map embeds, or select which location appears in your website footer map.
+                    Manage your dynamic office branches (Chennai, Kanchipuram, or new locations).
+                    Change addresses, map embeds, or select which location appears in your website
+                    footer map.
                   </p>
                 </div>
 
@@ -1287,7 +1320,9 @@ function Dashboard() {
                   <div
                     key={loc.id}
                     className={`bg-white/5 border rounded-2xl p-6 flex flex-col justify-between gap-5 transition-all relative ${
-                      loc.isPrimary ? "border-emerald-500/50 bg-emerald-950/10" : "border-white/10 hover:border-white/20"
+                      loc.isPrimary
+                        ? "border-emerald-500/50 bg-emerald-950/10"
+                        : "border-white/10 hover:border-white/20"
                     }`}
                   >
                     <div className="space-y-3">
@@ -1318,9 +1353,17 @@ function Dashboard() {
                       </div>
 
                       <div className="space-y-1.5 text-xs text-zinc-300 bg-black/40 p-3.5 rounded-xl border border-white/5 font-mono">
-                        <p><span className="text-zinc-500">Address:</span> {loc.address}</p>
-                        <p><span className="text-zinc-500">Phone:</span> {loc.phone || "+0123-456-789"}</p>
-                        <p><span className="text-zinc-500">Hours:</span> {loc.hours || "Mon - Fri : 10:00 - 20:00"}</p>
+                        <p>
+                          <span className="text-zinc-500">Address:</span> {loc.address}
+                        </p>
+                        <p>
+                          <span className="text-zinc-500">Phone:</span>{" "}
+                          {loc.phone || "+0123-456-789"}
+                        </p>
+                        <p>
+                          <span className="text-zinc-500">Hours:</span>{" "}
+                          {loc.hours || "Mon - Fri : 10:00 - 20:00"}
+                        </p>
                       </div>
                     </div>
 
@@ -1445,7 +1488,9 @@ function Dashboard() {
                       className="w-full bg-black/50 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors cursor-pointer"
                     >
                       <option value="published">Active (Visible on website)</option>
-                      <option value="ongoing">Ongoing Project (Visible under Ongoing Projects)</option>
+                      <option value="ongoing">
+                        Ongoing Project (Visible under Ongoing Projects)
+                      </option>
                       <option value="inactive">Inactive (Hidden from website)</option>
                     </select>
                   </div>
@@ -1481,9 +1526,11 @@ function Dashboard() {
                 <div>
                   <label className="block text-xs font-medium text-zinc-300 mb-1.5 flex justify-between items-center">
                     <span>Upload Template Image *</span>
-                    <span className="text-[10px] text-zinc-500">Image displayed on website showcase card</span>
+                    <span className="text-[10px] text-zinc-500">
+                      Image displayed on website showcase card
+                    </span>
                   </label>
-                  
+
                   <div className="flex flex-col sm:flex-row gap-3.5 items-start sm:items-center bg-black/50 border border-dashed border-white/20 rounded-xl p-3.5 hover:border-indigo-500/50 transition-colors">
                     {/* Live Image Preview Thumbnail */}
                     <div className="w-20 h-16 rounded-lg bg-zinc-900 border border-white/10 overflow-hidden shrink-0 relative flex items-center justify-center">
@@ -1632,7 +1679,9 @@ function Dashboard() {
                     </label>
                     <select
                       value={editFormData.category}
-                      onChange={(e) => setEditFormData({ ...editFormData, category: e.target.value })}
+                      onChange={(e) =>
+                        setEditFormData({ ...editFormData, category: e.target.value })
+                      }
                       className="w-full bg-black/50 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors cursor-pointer"
                     >
                       <option value="Website">Website</option>
@@ -1653,7 +1702,9 @@ function Dashboard() {
                       className="w-full bg-black/50 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors cursor-pointer"
                     >
                       <option value="published">Active (Visible on website)</option>
-                      <option value="ongoing">Ongoing Project (Visible under Ongoing Projects)</option>
+                      <option value="ongoing">
+                        Ongoing Project (Visible under Ongoing Projects)
+                      </option>
                       <option value="inactive">Inactive (Hidden from website)</option>
                     </select>
                   </div>
@@ -1667,7 +1718,9 @@ function Dashboard() {
                     required
                     rows={3}
                     value={editFormData.description}
-                    onChange={(e) => setEditFormData({ ...editFormData, description: e.target.value })}
+                    onChange={(e) =>
+                      setEditFormData({ ...editFormData, description: e.target.value })
+                    }
                     className="w-full bg-black/50 border border-white/10 rounded-xl px-3.5 py-2.5 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-indigo-500 transition-colors resize-none"
                   />
                 </div>
@@ -1688,9 +1741,11 @@ function Dashboard() {
                 <div>
                   <label className="block text-xs font-medium text-zinc-300 mb-1.5 flex justify-between items-center">
                     <span>Upload Template Image *</span>
-                    <span className="text-[10px] text-zinc-500">Image displayed on website showcase card</span>
+                    <span className="text-[10px] text-zinc-500">
+                      Image displayed on website showcase card
+                    </span>
                   </label>
-                  
+
                   <div className="flex flex-col sm:flex-row gap-3.5 items-start sm:items-center bg-black/50 border border-dashed border-white/20 rounded-xl p-3.5 hover:border-indigo-500/50 transition-colors">
                     {/* Live Image Preview Thumbnail */}
                     <div className="w-20 h-16 rounded-lg bg-zinc-900 border border-white/10 overflow-hidden shrink-0 relative flex items-center justify-center">
@@ -1811,7 +1866,9 @@ function Dashboard() {
               </div>
 
               <p className="text-sm text-zinc-300 mb-6 bg-white/5 p-3 rounded-xl border border-white/10">
-                Are you sure you want to delete <span className="font-semibold text-white">"{deletingProject.title}"</span> from your portfolio database?
+                Are you sure you want to delete{" "}
+                <span className="font-semibold text-white">"{deletingProject.title}"</span> from
+                your portfolio database?
               </p>
 
               <div className="flex items-center justify-end gap-3">
@@ -1916,7 +1973,9 @@ function Dashboard() {
                     </label>
                     <select
                       value={fieldFormData.halfWidth ? "half" : "full"}
-                      onChange={(e) => setFieldFormData({ ...fieldFormData, halfWidth: e.target.value === "half" })}
+                      onChange={(e) =>
+                        setFieldFormData({ ...fieldFormData, halfWidth: e.target.value === "half" })
+                      }
                       className="w-full bg-[#161b26] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors cursor-pointer"
                     >
                       <option value="full">Full Width (100%)</option>
@@ -1934,7 +1993,9 @@ function Dashboard() {
                       type="text"
                       required={fieldFormData.type === "select"}
                       value={fieldFormData.optionsStr}
-                      onChange={(e) => setFieldFormData({ ...fieldFormData, optionsStr: e.target.value })}
+                      onChange={(e) =>
+                        setFieldFormData({ ...fieldFormData, optionsStr: e.target.value })
+                      }
                       placeholder="e.g. $5k-$10k, $10k-$25k, $25k+"
                       className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
                     />
@@ -1951,7 +2012,9 @@ function Dashboard() {
                   <input
                     type="text"
                     value={fieldFormData.placeholder}
-                    onChange={(e) => setFieldFormData({ ...fieldFormData, placeholder: e.target.value })}
+                    onChange={(e) =>
+                      setFieldFormData({ ...fieldFormData, placeholder: e.target.value })
+                    }
                     placeholder={`e.g. ${fieldFormData.label || "Enter value"} *`}
                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
                   />
@@ -1962,10 +2025,15 @@ function Dashboard() {
                     type="checkbox"
                     id="isRequiredCheck"
                     checked={fieldFormData.isRequired}
-                    onChange={(e) => setFieldFormData({ ...fieldFormData, isRequired: e.target.checked })}
+                    onChange={(e) =>
+                      setFieldFormData({ ...fieldFormData, isRequired: e.target.checked })
+                    }
                     className="w-4 h-4 rounded text-indigo-600 focus:ring-0 cursor-pointer"
                   />
-                  <label htmlFor="isRequiredCheck" className="text-xs font-medium text-zinc-300 cursor-pointer">
+                  <label
+                    htmlFor="isRequiredCheck"
+                    className="text-xs font-medium text-zinc-300 cursor-pointer"
+                  >
                     Required Field (Users must fill before submitting)
                   </label>
                 </div>
@@ -2032,7 +2100,9 @@ function Dashboard() {
                     type="text"
                     required
                     value={editFieldFormData.label}
-                    onChange={(e) => setEditFieldFormData({ ...editFieldFormData, label: e.target.value })}
+                    onChange={(e) =>
+                      setEditFieldFormData({ ...editFieldFormData, label: e.target.value })
+                    }
                     placeholder="e.g. Service Needed, Budget Range"
                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
                   />
@@ -2045,7 +2115,9 @@ function Dashboard() {
                     </label>
                     <select
                       value={editFieldFormData.type}
-                      onChange={(e) => setEditFieldFormData({ ...editFieldFormData, type: e.target.value })}
+                      onChange={(e) =>
+                        setEditFieldFormData({ ...editFieldFormData, type: e.target.value })
+                      }
                       className="w-full bg-[#161b26] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors cursor-pointer"
                     >
                       <option value="text">Text Input</option>
@@ -2062,7 +2134,12 @@ function Dashboard() {
                     </label>
                     <select
                       value={editFieldFormData.halfWidth ? "half" : "full"}
-                      onChange={(e) => setEditFieldFormData({ ...editFieldFormData, halfWidth: e.target.value === "half" })}
+                      onChange={(e) =>
+                        setEditFieldFormData({
+                          ...editFieldFormData,
+                          halfWidth: e.target.value === "half",
+                        })
+                      }
                       className="w-full bg-[#161b26] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors cursor-pointer"
                     >
                       <option value="full">Full Width (100%)</option>
@@ -2080,7 +2157,9 @@ function Dashboard() {
                       rows={3}
                       required={editFieldFormData.type === "select"}
                       value={editFieldFormData.optionsStr}
-                      onChange={(e) => setEditFieldFormData({ ...editFieldFormData, optionsStr: e.target.value })}
+                      onChange={(e) =>
+                        setEditFieldFormData({ ...editFieldFormData, optionsStr: e.target.value })
+                      }
                       placeholder="e.g. Website, Mobile App, E-Commerce, UI/UX Design, Digital Marketing, SaaS Product, Cloud Consulting, Other"
                       className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors resize-none"
                     />
@@ -2097,7 +2176,9 @@ function Dashboard() {
                   <input
                     type="text"
                     value={editFieldFormData.placeholder}
-                    onChange={(e) => setEditFieldFormData({ ...editFieldFormData, placeholder: e.target.value })}
+                    onChange={(e) =>
+                      setEditFieldFormData({ ...editFieldFormData, placeholder: e.target.value })
+                    }
                     placeholder={`e.g. ${editFieldFormData.label || "Enter value"} *`}
                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
                   />
@@ -2108,10 +2189,15 @@ function Dashboard() {
                     type="checkbox"
                     id="editIsRequiredCheck"
                     checked={editFieldFormData.isRequired}
-                    onChange={(e) => setEditFieldFormData({ ...editFieldFormData, isRequired: e.target.checked })}
+                    onChange={(e) =>
+                      setEditFieldFormData({ ...editFieldFormData, isRequired: e.target.checked })
+                    }
                     className="w-4 h-4 rounded text-indigo-600 focus:ring-0 cursor-pointer"
                   />
-                  <label htmlFor="editIsRequiredCheck" className="text-xs font-medium text-zinc-300 cursor-pointer">
+                  <label
+                    htmlFor="editIsRequiredCheck"
+                    className="text-xs font-medium text-zinc-300 cursor-pointer"
+                  >
                     Required Field (Users must fill before submitting)
                   </label>
                 </div>
@@ -2178,7 +2264,9 @@ function Dashboard() {
                     type="text"
                     required
                     value={locationFormData.name}
-                    onChange={(e) => setLocationFormData({ ...locationFormData, name: e.target.value })}
+                    onChange={(e) =>
+                      setLocationFormData({ ...locationFormData, name: e.target.value })
+                    }
                     placeholder="e.g. Coimbatore Branch, Madurai Office"
                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors"
                   />
@@ -2192,7 +2280,9 @@ function Dashboard() {
                     type="text"
                     required
                     value={locationFormData.city}
-                    onChange={(e) => setLocationFormData({ ...locationFormData, city: e.target.value })}
+                    onChange={(e) =>
+                      setLocationFormData({ ...locationFormData, city: e.target.value })
+                    }
                     placeholder="e.g. Coimbatore, Tamil Nadu"
                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors"
                   />
@@ -2206,7 +2296,9 @@ function Dashboard() {
                     rows={2}
                     required
                     value={locationFormData.address}
-                    onChange={(e) => setLocationFormData({ ...locationFormData, address: e.target.value })}
+                    onChange={(e) =>
+                      setLocationFormData({ ...locationFormData, address: e.target.value })
+                    }
                     placeholder="e.g. Door No. 12, Main Road, Gandhipuram, Coimbatore 641012"
                     className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors resize-none"
                   />
@@ -2220,7 +2312,9 @@ function Dashboard() {
                     <input
                       type="text"
                       value={locationFormData.phone}
-                      onChange={(e) => setLocationFormData({ ...locationFormData, phone: e.target.value })}
+                      onChange={(e) =>
+                        setLocationFormData({ ...locationFormData, phone: e.target.value })
+                      }
                       placeholder="+0123-456-789"
                       className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors"
                     />
@@ -2233,7 +2327,9 @@ function Dashboard() {
                     <input
                       type="text"
                       value={locationFormData.hours}
-                      onChange={(e) => setLocationFormData({ ...locationFormData, hours: e.target.value })}
+                      onChange={(e) =>
+                        setLocationFormData({ ...locationFormData, hours: e.target.value })
+                      }
                       placeholder="Mon - Fri : 10:00 - 20:00 IST"
                       className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors"
                     />
@@ -2247,7 +2343,9 @@ function Dashboard() {
                   <input
                     type="text"
                     value={locationFormData.embedUrl}
-                    onChange={(e) => setLocationFormData({ ...locationFormData, embedUrl: e.target.value })}
+                    onChange={(e) =>
+                      setLocationFormData({ ...locationFormData, embedUrl: e.target.value })
+                    }
                     placeholder="Auto-generated from address if empty"
                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors"
                   />
@@ -2258,10 +2356,15 @@ function Dashboard() {
                     type="checkbox"
                     id="isPrimaryLocCheck"
                     checked={locationFormData.isPrimary}
-                    onChange={(e) => setLocationFormData({ ...locationFormData, isPrimary: e.target.checked })}
+                    onChange={(e) =>
+                      setLocationFormData({ ...locationFormData, isPrimary: e.target.checked })
+                    }
                     className="w-4 h-4 rounded text-emerald-600 focus:ring-0 cursor-pointer"
                   />
-                  <label htmlFor="isPrimaryLocCheck" className="text-xs font-medium text-zinc-300 cursor-pointer">
+                  <label
+                    htmlFor="isPrimaryLocCheck"
+                    className="text-xs font-medium text-zinc-300 cursor-pointer"
+                  >
                     Set as Primary Footer Map (Appears in website footer)
                   </label>
                 </div>
@@ -2328,7 +2431,9 @@ function Dashboard() {
                     type="text"
                     required
                     value={editLocationFormData.name}
-                    onChange={(e) => setEditLocationFormData({ ...editLocationFormData, name: e.target.value })}
+                    onChange={(e) =>
+                      setEditLocationFormData({ ...editLocationFormData, name: e.target.value })
+                    }
                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors"
                   />
                 </div>
@@ -2341,7 +2446,9 @@ function Dashboard() {
                     type="text"
                     required
                     value={editLocationFormData.city}
-                    onChange={(e) => setEditLocationFormData({ ...editLocationFormData, city: e.target.value })}
+                    onChange={(e) =>
+                      setEditLocationFormData({ ...editLocationFormData, city: e.target.value })
+                    }
                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors"
                   />
                 </div>
@@ -2354,7 +2461,9 @@ function Dashboard() {
                     rows={2}
                     required
                     value={editLocationFormData.address}
-                    onChange={(e) => setEditLocationFormData({ ...editLocationFormData, address: e.target.value })}
+                    onChange={(e) =>
+                      setEditLocationFormData({ ...editLocationFormData, address: e.target.value })
+                    }
                     className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors resize-none"
                   />
                 </div>
@@ -2367,7 +2476,9 @@ function Dashboard() {
                     <input
                       type="text"
                       value={editLocationFormData.phone}
-                      onChange={(e) => setEditLocationFormData({ ...editLocationFormData, phone: e.target.value })}
+                      onChange={(e) =>
+                        setEditLocationFormData({ ...editLocationFormData, phone: e.target.value })
+                      }
                       className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors"
                     />
                   </div>
@@ -2379,7 +2490,9 @@ function Dashboard() {
                     <input
                       type="text"
                       value={editLocationFormData.hours}
-                      onChange={(e) => setEditLocationFormData({ ...editLocationFormData, hours: e.target.value })}
+                      onChange={(e) =>
+                        setEditLocationFormData({ ...editLocationFormData, hours: e.target.value })
+                      }
                       className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors"
                     />
                   </div>
@@ -2392,7 +2505,9 @@ function Dashboard() {
                   <input
                     type="text"
                     value={editLocationFormData.embedUrl}
-                    onChange={(e) => setEditLocationFormData({ ...editLocationFormData, embedUrl: e.target.value })}
+                    onChange={(e) =>
+                      setEditLocationFormData({ ...editLocationFormData, embedUrl: e.target.value })
+                    }
                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors"
                   />
                 </div>
@@ -2402,10 +2517,18 @@ function Dashboard() {
                     type="checkbox"
                     id="editIsPrimaryLocCheck"
                     checked={editLocationFormData.isPrimary}
-                    onChange={(e) => setEditLocationFormData({ ...editLocationFormData, isPrimary: e.target.checked })}
+                    onChange={(e) =>
+                      setEditLocationFormData({
+                        ...editLocationFormData,
+                        isPrimary: e.target.checked,
+                      })
+                    }
                     className="w-4 h-4 rounded text-emerald-600 focus:ring-0 cursor-pointer"
                   />
-                  <label htmlFor="editIsPrimaryLocCheck" className="text-xs font-medium text-zinc-300 cursor-pointer">
+                  <label
+                    htmlFor="editIsPrimaryLocCheck"
+                    className="text-xs font-medium text-zinc-300 cursor-pointer"
+                  >
                     Set as Primary Footer Map (Appears in website footer)
                   </label>
                 </div>
@@ -2555,7 +2678,9 @@ function NavItem({
     <button
       onClick={onClick}
       className={`w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl transition-all cursor-pointer ${
-        active ? "bg-indigo-600/10 text-indigo-400 font-semibold" : "text-zinc-400 hover:text-zinc-200 hover:bg-white/5"
+        active
+          ? "bg-indigo-600/10 text-indigo-400 font-semibold"
+          : "text-zinc-400 hover:text-zinc-200 hover:bg-white/5"
       }`}
     >
       {icon}

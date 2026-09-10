@@ -23,11 +23,7 @@ export function PageShell({ mode, ctaLabel, ctaTo, children }: PageShellProps) {
       className={`mode-${mode} min-h-screen`}
       style={{ background: "var(--color-page-bg)", color: "var(--color-page-fg)" }}
     >
-      <Nav 
-        ctaLabel={ctaLabel} 
-        ctaTo={ctaTo} 
-        contactPage={mode === "contact"}
-      />
+      <Nav ctaLabel={ctaLabel} ctaTo={ctaTo} contactPage={mode === "contact"} />
       <main className={`pt-24 ${mode === "contact" ? "bg-[#eefcf6]" : ""}`}>{children}</main>
       <Footer />
     </div>

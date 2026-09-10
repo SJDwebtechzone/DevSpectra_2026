@@ -14,13 +14,17 @@ function PhoneFrame({ src, alt }: { src: string; alt: string }) {
       <div className="absolute top-0 inset-x-0 h-6 md:h-7 flex justify-center z-20">
         <div className="w-24 md:w-32 h-5 md:h-6 bg-gray-800 rounded-b-xl md:rounded-b-2xl"></div>
       </div>
-      
+
       {/* Status Bar */}
       <div className="absolute top-0 w-full h-7 md:h-8 flex justify-between items-center px-5 md:px-6 text-white text-[9px] md:text-[10px] font-bold z-30 pt-1">
         <span>9:41</span>
         <div className="flex gap-1 md:gap-1.5 items-center">
-          <svg className="w-2.5 h-2.5 md:w-3 md:h-3" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"></path></svg>
-          <svg className="w-2.5 h-2.5 md:w-3 md:h-3" viewBox="0 0 24 24" fill="currentColor"><path d="M21 4h-2v16h2V4zm-4 4h-2v12h2V8zm-4 4h-2v8h2v-8zm-4 4H7v4h2v-4z"></path></svg>
+          <svg className="w-2.5 h-2.5 md:w-3 md:h-3" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"></path>
+          </svg>
+          <svg className="w-2.5 h-2.5 md:w-3 md:h-3" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M21 4h-2v16h2V4zm-4 4h-2v12h2V8zm-4 4h-2v8h2v-8zm-4 4H7v4h2v-4z"></path>
+          </svg>
         </div>
       </div>
 
@@ -70,7 +74,6 @@ export function PhoneCarousel({ images }: { images: ImageItem[] }) {
 
   return (
     <div className="relative w-full max-w-[800px] h-[600px] flex items-center justify-center overflow-visible group">
-      
       {/* Render each phone */}
       <div className="relative w-full h-full flex items-center justify-center">
         {images.map((image, index) => {
@@ -108,7 +111,10 @@ export function PhoneCarousel({ images }: { images: ImageItem[] }) {
           <button onClick={prev} className="text-white hover:text-gray-300 transition-colors">
             <ChevronLeft size={20} />
           </button>
-          <button onClick={() => setIsPlaying(!isPlaying)} className="text-[#d5ff00] hover:text-white transition-colors">
+          <button
+            onClick={() => setIsPlaying(!isPlaying)}
+            className="text-[#d5ff00] hover:text-white transition-colors"
+          >
             {isPlaying ? <Pause size={20} /> : <Play size={20} />}
           </button>
           <button onClick={next} className="text-white hover:text-gray-300 transition-colors">

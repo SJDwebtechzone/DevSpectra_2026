@@ -2,33 +2,22 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState, useRef } from "react";
 import { PageShell } from "@/components/site/PageShell";
 import { ArrowRight, MapPin, Mail, Phone, CheckCircle2, UploadCloud } from "lucide-react";
-import { buildPageMeta, buildBreadcrumbSchema, PAGE_SEO, SITE } from "@/config/seo";
+
+import { generateSEO } from "@/lib/seo";
 
 export const Route = createFileRoute("/careers")({
-  head: () => ({
-    meta: [
-      ...buildPageMeta({
-        title: PAGE_SEO.careers.title,
-        description: PAGE_SEO.careers.description,
-        canonical: PAGE_SEO.careers.canonical,
-        ogTitle: PAGE_SEO.careers.ogTitle,
-        ogDescription: PAGE_SEO.careers.ogDescription,
-        robots: PAGE_SEO.careers.robots,
-      }),
-    ],
-    links: [{ rel: "canonical", href: PAGE_SEO.careers.canonical }],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify(
-          buildBreadcrumbSchema([
-            { name: "Home", url: SITE.domain },
-            { name: "Careers", url: `${SITE.domain}/careers` },
-          ]),
-        ),
-      },
-    ],
-  }),
+  head: () => {
+    const seo = generateSEO({
+      title: "Careers",
+      description:
+        "Begin your career at DevSpectra. Explore open positions for web developers, mobile app developers, and digital marketing experts in Chennai.",
+      url: "/careers",
+    });
+    return {
+      meta: seo.meta,
+      links: seo.links,
+    };
+  },
   component: Careers,
 });
 
@@ -40,22 +29,61 @@ interface JobPosition {
 }
 
 const openPositions: JobPosition[] = [
-  { id: "marketing-expert", title: "Marketing Expert", location: "Remote - US/Canada", type: "Full Time" },
-  { id: "graphic-designer", title: "Graphic Designer", location: "Remote - UK/Italy", type: "Full Time" },
-  { id: "project-manager", title: "Project Manager", location: "Remote - Australia", type: "Full Time" },
+  {
+    id: "marketing-expert",
+    title: "Marketing Expert",
+    location: "Remote - US/Canada",
+    type: "Full Time",
+  },
+  {
+    id: "graphic-designer",
+    title: "Graphic Designer",
+    location: "Remote - UK/Italy",
+    type: "Full Time",
+  },
+  {
+    id: "project-manager",
+    title: "Project Manager",
+    location: "Remote - Australia",
+    type: "Full Time",
+  },
   { id: "seo-specialist", title: "SEO Specialist", location: "Remote - France", type: "Full Time" },
-  { id: "senior-developer", title: "Senior Developer", location: "Remote - US/Canada", type: "Full Time" },
+  {
+    id: "senior-developer",
+    title: "Senior Developer",
+    location: "Remote - US/Canada",
+    type: "Full Time",
+  },
   { id: "ui-designer", title: "UI Designer", location: "Remote - Canada", type: "Full Time" },
-  { id: "digital-marketing-analyst", title: "Digital Marketing Analyst", location: "Remote - US/Canada", type: "Full Time" },
+  {
+    id: "digital-marketing-analyst",
+    title: "Digital Marketing Analyst",
+    location: "Remote - US/Canada",
+    type: "Full Time",
+  },
   { id: "ui-ux-designer", title: "UI/UX Designer", location: "Remote - Canada", type: "Full Time" },
-  { id: "full-stack-developer", title: "Full Stack Developer", location: "Remote - US/Canada", type: "Full Time" },
+  {
+    id: "full-stack-developer",
+    title: "Full Stack Developer",
+    location: "Remote - US/Canada",
+    type: "Full Time",
+  },
 ];
 
-const LOGO_GRADIENT_H = "linear-gradient(90deg, #5B21B6 0%, #2563EB 20%, #00B4D8 40%, #10B981 60%, #F59E0B 80%, #EF4444 100%)";
-const LOGO_GRADIENT_V = "linear-gradient(180deg, #5B21B6 0%, #2563EB 20%, #00B4D8 40%, #10B981 60%, #F59E0B 80%, #EF4444 100%)";
-const LOGO_GRADIENT_DIAG = "linear-gradient(135deg, #5B21B6 0%, #2563EB 20%, #00B4D8 40%, #10B981 60%, #F59E0B 80%, #EF4444 100%)";
+const LOGO_GRADIENT_H =
+  "linear-gradient(90deg, #5B21B6 0%, #2563EB 20%, #00B4D8 40%, #10B981 60%, #F59E0B 80%, #EF4444 100%)";
+const LOGO_GRADIENT_V =
+  "linear-gradient(180deg, #5B21B6 0%, #2563EB 20%, #00B4D8 40%, #10B981 60%, #F59E0B 80%, #EF4444 100%)";
+const LOGO_GRADIENT_DIAG =
+  "linear-gradient(135deg, #5B21B6 0%, #2563EB 20%, #00B4D8 40%, #10B981 60%, #F59E0B 80%, #EF4444 100%)";
 
-function SpectraIcon({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+function SpectraIcon({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
   return (
     <div className={`relative shrink-0 ${className}`}>
       {/* Ambient Spectra Glow */}
@@ -227,7 +255,8 @@ function Careers() {
 
             <div className="lg:max-w-md lg:border-l lg:border-gray-200 lg:pl-6">
               <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
-                Discover rewarding career opportunities, build state-of-the-art digital products, and grow alongside our collaborative team of creators and builders.
+                Discover rewarding career opportunities, build state-of-the-art digital products,
+                and grow alongside our collaborative team of creators and builders.
               </p>
             </div>
           </div>
@@ -272,7 +301,12 @@ function Careers() {
                             isHovered ? "opacity-[0.45]" : "opacity-0"
                           }`}
                         >
-                          <svg width="100%" height="100%" viewBox="0 0 600 100" preserveAspectRatio="none">
+                          <svg
+                            width="100%"
+                            height="100%"
+                            viewBox="0 0 600 100"
+                            preserveAspectRatio="none"
+                          >
                             <path
                               d="M0,50 Q150,10 300,50 T600,50 M0,65 Q150,25 300,65 T600,65"
                               stroke="url(#job-card-wave-grad)"
@@ -280,7 +314,13 @@ function Careers() {
                               strokeWidth="0.6"
                             />
                             <defs>
-                              <linearGradient id="job-card-wave-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                              <linearGradient
+                                id="job-card-wave-grad"
+                                x1="0%"
+                                y1="0%"
+                                x2="100%"
+                                y2="0%"
+                              >
                                 <stop offset="0%" stopColor="#5B21B6" />
                                 <stop offset="25%" stopColor="#2563EB" />
                                 <stop offset="50%" stopColor="#00B4D8" />
@@ -364,11 +404,10 @@ function Careers() {
                   >
                     Direct Inquiries
                   </span>
-                  <h3 className="text-xl font-black text-gray-950 mb-2">
-                    Get In Touch With Us
-                  </h3>
+                  <h3 className="text-xl font-black text-gray-950 mb-2">Get In Touch With Us</h3>
                   <p className="text-xs sm:text-sm text-gray-500 leading-relaxed">
-                    Have questions regarding our culture, hiring process, or open roles? Reach out directly to our talent team.
+                    Have questions regarding our culture, hiring process, or open roles? Reach out
+                    directly to our talent team.
                   </p>
                 </div>
 
@@ -468,7 +507,8 @@ function Careers() {
                     <div>
                       <h4 className="font-bold text-base">Application Submitted Successfully!</h4>
                       <p className="text-sm text-slate-600 mt-1">
-                        Our recruiting team will review your application and get in touch within 24 hours.
+                        Our recruiting team will review your application and get in touch within 24
+                        hours.
                       </p>
                     </div>
                   </div>
@@ -524,8 +564,18 @@ function Careers() {
                           ))}
                         </select>
                         <div className="absolute right-0 bottom-3 pointer-events-none text-gray-400">
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                          <svg
+                            className="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M19 9l-7 7-7-7"
+                            />
                           </svg>
                         </div>
                       </div>
@@ -566,7 +616,12 @@ function Careers() {
                             <div className="relative bg-white rounded-2xl px-4 py-3 flex items-center gap-3 overflow-hidden shadow-sm">
                               {/* Wavy Background Pattern */}
                               <div className="absolute inset-0 opacity-[0.35] pointer-events-none">
-                                <svg width="100%" height="100%" viewBox="0 0 300 60" preserveAspectRatio="none">
+                                <svg
+                                  width="100%"
+                                  height="100%"
+                                  viewBox="0 0 300 60"
+                                  preserveAspectRatio="none"
+                                >
                                   <path
                                     d="M0,30 Q75,10 150,30 T300,30"
                                     stroke="url(#upload-wave-grad)"
@@ -574,7 +629,13 @@ function Careers() {
                                     strokeWidth="0.6"
                                   />
                                   <defs>
-                                    <linearGradient id="upload-wave-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <linearGradient
+                                      id="upload-wave-grad"
+                                      x1="0%"
+                                      y1="0%"
+                                      x2="100%"
+                                      y2="0%"
+                                    >
                                       <stop offset="0%" stopColor="#5B21B6" />
                                       <stop offset="50%" stopColor="#00B4D8" />
                                       <stop offset="100%" stopColor="#EF4444" />
@@ -584,9 +645,7 @@ function Careers() {
                               </div>
 
                               {/* Mini Pill Browse Button in Navy Blue */}
-                              <div
-                                className="relative z-10 px-3.5 py-1.5 rounded-full bg-[#0B192C] hover:bg-[#1E293B] text-white text-xs font-bold shrink-0 shadow-md shadow-[#0B192C]/20 flex items-center gap-1.5 transition-all duration-300 group-hover:scale-105"
-                              >
+                              <div className="relative z-10 px-3.5 py-1.5 rounded-full bg-[#0B192C] hover:bg-[#1E293B] text-white text-xs font-bold shrink-0 shadow-md shadow-[#0B192C]/20 flex items-center gap-1.5 transition-all duration-300 group-hover:scale-105">
                                 <UploadCloud className="w-3.5 h-3.5 text-white" />
                                 Browse Files
                               </div>

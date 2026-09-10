@@ -7,8 +7,8 @@ interface IridescentWaveBackgroundProps {
   subtitle?: string;
   buttonText?: string;
   onButtonClick?: () => void;
-  speed?: number;         // flow speed, default 0.35
-  intensity?: number;     // color/contrast intensity, default 1.0
+  speed?: number; // flow speed, default 0.35
+  intensity?: number; // color/contrast intensity, default 1.0
   className?: string;
   showText?: boolean;
 }
@@ -205,9 +205,11 @@ export function IridescentWaveBackground({
   }, [speed, intensity]);
 
   return (
-    <div className={`relative w-full h-full overflow-hidden flex items-center justify-center ${className}`}>
+    <div
+      className={`relative w-full h-full overflow-hidden flex items-center justify-center ${className}`}
+    >
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
-      
+
       {showText && (
         <div className="relative z-10 max-w-3xl mx-auto px-6 text-center">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight text-slate-800 mb-4 drop-shadow-sm">

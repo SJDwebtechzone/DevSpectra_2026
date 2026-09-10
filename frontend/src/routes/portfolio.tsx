@@ -3,33 +3,40 @@ import { PageShell } from "@/components/site/PageShell";
 import { ArrowUpRight } from "lucide-react";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { buildPageMeta, buildBreadcrumbSchema, PAGE_SEO, SITE } from "@/config/seo";
+
+import { generateSEO, generateBreadcrumbSchema } from "@/lib/seo";
 
 export const Route = createFileRoute("/portfolio")({
-  head: () => ({
-    meta: [
-      ...buildPageMeta({
-        title: PAGE_SEO.portfolio.title,
-        description: PAGE_SEO.portfolio.description,
-        canonical: PAGE_SEO.portfolio.canonical,
-        ogTitle: PAGE_SEO.portfolio.ogTitle,
-        ogDescription: PAGE_SEO.portfolio.ogDescription,
-        robots: PAGE_SEO.portfolio.robots,
-      }),
-    ],
-    links: [{ rel: "canonical", href: PAGE_SEO.portfolio.canonical }],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify(
-          buildBreadcrumbSchema([
-            { name: "Home", url: SITE.domain },
-            { name: "Portfolio", url: `${SITE.domain}/portfolio` },
-          ]),
-        ),
-      },
-    ],
-  }),
+  head: () => {
+    const seo = generateSEO({
+      title: "Portfolio",
+      description: "Explore our portfolio of web applications, mobile apps, e-commerce stores, and SaaS products built by DevSpectra.",
+      url: "/portfolio",
+    });
+    return {
+      meta: seo.meta,
+      links: seo.links,
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify(generateBreadcrumbSchema([
+            { name: "Home", url: "/" },
+            { name: "Portfolio", url: "/portfolio" }
+          ])),
+        },
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            name: "DevSpectra Portfolio",
+            description: "Explore our portfolio of web applications, mobile apps, e-commerce stores, and SaaS products built by DevSpectra.",
+            url: "https://devspectra.com/portfolio"
+          }),
+        }
+      ]
+    };
+  },
   component: Portfolio,
 });
 

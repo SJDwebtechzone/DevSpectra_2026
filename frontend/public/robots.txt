@@ -1,16 +1,6 @@
-# ============================================================
-# DevSpectra — robots.txt
-# Domain: https://devspectra.in
-# ============================================================
-
 User-agent: *
 Allow: /
-
-# Private / admin routes — do NOT index
-Disallow: /dashboard/
 Disallow: /dashboard
-Disallow: /login/
 Disallow: /login
 
-# XML sitemap location
-Sitemap: https://devspectra.in/sitemap.xml
+Sitemap: https://devspectra.com/sitemap.xml

@@ -9,10 +9,7 @@ export function OrbitingTechLogos() {
       {/* Container for the concentric rings, centered on the right edge */}
       <div className="absolute right-[-300px] top-1/2 -translate-y-1/2 w-[800px] h-[800px] flex items-center justify-center">
         {/* Outer Ring */}
-        <div
-          className="absolute w-[700px] h-[700px] border border-dashed border-white/40 rounded-full animate-[spin_60s_linear_infinite]"
-          
-        >
+        <div className="absolute w-[700px] h-[700px] border border-dashed border-white/40 rounded-full animate-[spin_60s_linear_infinite]">
           {/* Icons positioned along the outer ring */}
 
           {/* GraphQL */}
@@ -38,10 +35,7 @@ export function OrbitingTechLogos() {
         </div>
 
         {/* Middle Ring */}
-        <div
-          className="absolute w-[450px] h-[450px] border border-dashed border-white/50 rounded-full animate-[spin_40s_linear_infinite_reverse]"
-          
-        >
+        <div className="absolute w-[450px] h-[450px] border border-dashed border-white/50 rounded-full animate-[spin_40s_linear_infinite_reverse]">
           {/* Icons positioned along the middle ring */}
 
           {/* React */}
@@ -67,10 +61,7 @@ export function OrbitingTechLogos() {
         </div>
 
         {/* Inner Ring */}
-        <div
-          className="absolute w-[250px] h-[250px] border border-dashed border-white/60 rounded-full animate-[spin_20s_linear_infinite]"
-          
-        >
+        <div className="absolute w-[250px] h-[250px] border border-dashed border-white/60 rounded-full animate-[spin_20s_linear_infinite]">
           {/* Empty inner ring for depth */}
         </div>
       </div>

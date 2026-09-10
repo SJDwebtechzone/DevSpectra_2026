@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ChevronDown, Hash } from 'lucide-react';
+import React, { useState } from "react";
+import { ChevronDown, Hash } from "lucide-react";
 
 export function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
@@ -7,20 +7,24 @@ export function FAQ() {
   const faqs = [
     {
       question: "What exactly does DevSpectra do?",
-      answer: "DevSpectra is a full-service digital agency. We design, build, and scale high-performance websites, web applications, mobile apps, and custom SaaS platforms tailored to your business needs."
+      answer:
+        "DevSpectra is a full-service digital agency. We design, build, and scale high-performance websites, web applications, mobile apps, and custom SaaS platforms tailored to your business needs.",
     },
     {
       question: "How long does a typical project take?",
-      answer: "Project timelines vary based on complexity. A standard website might take 4-6 weeks, while a complex custom SaaS platform or mobile app could take 3-6 months. We provide detailed timelines during our initial strategy phase."
+      answer:
+        "Project timelines vary based on complexity. A standard website might take 4-6 weeks, while a complex custom SaaS platform or mobile app could take 3-6 months. We provide detailed timelines during our initial strategy phase.",
     },
     {
       question: "Do you provide ongoing support?",
-      answer: "Yes, we offer dedicated maintenance and support retainers to ensure your digital products remain secure, up-to-date, and performant long after the initial launch."
+      answer:
+        "Yes, we offer dedicated maintenance and support retainers to ensure your digital products remain secure, up-to-date, and performant long after the initial launch.",
     },
     {
       question: "Can you integrate with our existing systems?",
-      answer: "Absolutely. We specialize in seamless API integrations, connecting your new digital platform with your existing CRM, ERP, payment gateways, and third-party tools without disruption."
-    }
+      answer:
+        "Absolutely. We specialize in seamless API integrations, connecting your new digital platform with your existing CRM, ERP, payment gateways, and third-party tools without disruption.",
+    },
   ];
 
   return (
@@ -41,10 +45,8 @@ export function FAQ() {
       <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-blue-400 rounded-full blur-[100px] opacity-20 pointer-events-none"></div>
 
       <div className="max-w-[1200px] mx-auto px-6 md:px-12 flex flex-col lg:flex-row gap-16 lg:gap-24 relative z-10">
-        
         {/* Left Side: Header */}
         <div className="flex-1 lg:max-w-md mt-4">
-          
           {/* Heading */}
           <h2 className="text-4xl md:text-[2.75rem] font-black text-[#4A3628] leading-[1.1] mb-6 tracking-tight uppercase">
             Frequently asked <br />
@@ -52,10 +54,11 @@ export function FAQ() {
               questions
             </span>
           </h2>
-          
+
           {/* Description */}
           <p className="text-lg md:text-xl text-gray-600 leading-relaxed font-medium max-w-lg text-justify">
-            Have questions about our work? Here are the most common things clients ask before getting started with us.
+            Have questions about our work? Here are the most common things clients ask before
+            getting started with us.
           </p>
         </div>
 
@@ -73,15 +76,15 @@ export function FAQ() {
                     onClick={() => setOpenIndex(isOpen ? null : idx)}
                     className="flex w-full items-center justify-between p-6 text-left"
                   >
-                    <span className="pr-8 text-lg font-bold text-gray-900">
-                      {faq.question}
-                    </span>
+                    <span className="pr-8 text-lg font-bold text-gray-900">{faq.question}</span>
 
-                    <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-all duration-300 ${
-                      isOpen
-                        ? "rotate-180 bg-gradient-to-tr from-blue-600 via-purple-600 to-pink-500 text-white shadow-md"
-                        : "bg-gray-200/60 text-gray-500"
-                    }`}>
+                    <div
+                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-all duration-300 ${
+                        isOpen
+                          ? "rotate-180 bg-gradient-to-tr from-blue-600 via-purple-600 to-pink-500 text-white shadow-md"
+                          : "bg-gray-200/60 text-gray-500"
+                      }`}
+                    >
                       <ChevronDown className="h-4 w-4" />
                     </div>
                   </button>
@@ -100,7 +103,6 @@ export function FAQ() {
             );
           })}
         </div>
-
       </div>
     </section>
   );

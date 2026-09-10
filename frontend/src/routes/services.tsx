@@ -83,46 +83,22 @@ const SpectraIcon = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-import { buildPageMeta, buildBreadcrumbSchema, buildServiceSchema, PAGE_SEO, SITE } from "@/config/seo";
+import { generateSEO } from "@/lib/seo";
 
 export const Route = createFileRoute("/services")({
-  head: () => ({
-    meta: [
-      ...buildPageMeta({
-        title: PAGE_SEO.services.title,
-        description: PAGE_SEO.services.description,
-        canonical: PAGE_SEO.services.canonical,
-        ogTitle: PAGE_SEO.services.ogTitle,
-        ogDescription: PAGE_SEO.services.ogDescription,
-        robots: PAGE_SEO.services.robots,
-      }),
-    ],
-    links: [{ rel: "canonical", href: PAGE_SEO.services.canonical }],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify(
-          buildBreadcrumbSchema([
-            { name: "Home", url: SITE.domain },
-            { name: "Services", url: `${SITE.domain}/services` },
-          ]),
-        ),
-      },
-      {
-        type: "application/ld+json",
-        children: JSON.stringify(
-          buildServiceSchema({
-            name: "Web Development & Digital Marketing Services",
-            description: PAGE_SEO.services.description,
-            url: PAGE_SEO.services.canonical,
-          }),
-        ),
-      },
-    ],
-  }),
+  head: () => {
+    const seo = generateSEO({
+      title: "Services",
+      description: "Explore DevSpectra's professional services: Web Development, Mobile App Development, E-commerce, SaaS, and Digital Marketing in Chennai.",
+      url: "/services",
+    });
+    return {
+      meta: seo.meta,
+      links: seo.links,
+    };
+  },
   component: Services,
 });
-
 
 function Services() {
   return (

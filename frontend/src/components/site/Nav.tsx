@@ -18,7 +18,12 @@ interface NavProps {
   contactPage?: boolean;
 }
 
-export function Nav({ ctaLabel = "Get Free Consultation", ctaTo = "/contact", className = "", contactPage = false }: NavProps) {
+export function Nav({
+  ctaLabel = "Get Free Consultation",
+  ctaTo = "/contact",
+  className = "",
+  contactPage = false,
+}: NavProps) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -38,11 +43,16 @@ export function Nav({ ctaLabel = "Get Free Consultation", ctaTo = "/contact", cl
 
   return (
     <>
-      <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${contactPage ? "border-b border-white" : "border-b border-transparent"} ${scrolled ? "py-2" : "py-3"} ${className}`}
+      <header
+        className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${contactPage ? "border-b border-white" : "border-b border-transparent"} ${scrolled ? "py-2" : "py-3"} ${className}`}
         style={{
           WebkitBackdropFilter: scrolled ? "blur(20px)" : "none",
           backdropFilter: scrolled ? "blur(20px)" : "none",
-          backgroundColor: scrolled ? "rgba(255, 255, 255, 0.5)" : contactPage ? "rgba(238, 252, 246, 0.96)" : "transparent",
+          backgroundColor: scrolled
+            ? "rgba(255, 255, 255, 0.5)"
+            : contactPage
+              ? "rgba(238, 252, 246, 0.96)"
+              : "transparent",
         }}
       >
         <div className="container-page">
@@ -65,8 +75,7 @@ export function Nav({ ctaLabel = "Get Free Consultation", ctaTo = "/contact", cl
                   className="rounded-full px-4 py-2 text-[15px] font-medium text-white/80 transition-colors hover:text-white"
                   activeOptions={{ exact: l.to === "/" }}
                   activeProps={{
-                    className:
-                      "!text-white bg-white/15",
+                    className: "!text-white bg-white/15",
                   }}
                 >
                   {l.label}
@@ -124,8 +133,11 @@ export function Nav({ ctaLabel = "Get Free Consultation", ctaTo = "/contact", cl
               {l.label}
             </Link>
           ))}
-          <Link to={ctaTo} onClick={() => setOpen(false)} className="btn-pill btn-accent mt-6 inline-flex items-center gap-2">
-            
+          <Link
+            to={ctaTo}
+            onClick={() => setOpen(false)}
+            className="btn-pill btn-accent mt-6 inline-flex items-center gap-2"
+          >
             {ctaLabel}
           </Link>
         </div>

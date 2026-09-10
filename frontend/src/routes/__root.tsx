@@ -11,7 +11,6 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { buildOrganizationSchema, buildWebSiteSchema, SITE } from "../config/seo";
 
 function NotFoundComponent() {
   return (
@@ -22,24 +21,12 @@ function NotFoundComponent() {
         <p className="mt-2 text-sm text-muted-foreground">
           The page you're looking for doesn't exist or has been moved.
         </p>
-        <div className="mt-6 flex flex-wrap justify-center gap-3">
+        <div className="mt-6">
           <Link
             to="/"
             className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
             Go home
-          </Link>
-          <Link
-            to="/services"
-            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
-          >
-            Our services
-          </Link>
-          <Link
-            to="/contact"
-            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
-          >
-            Contact us
           </Link>
         </div>
       </div>
@@ -85,41 +72,46 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   );
 }
 
+import { generateSEO, generateOrganizationSchema, generateWebSiteSchema } from "../lib/seo";
+
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  head: () => ({
-    meta: [
-      { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { name: "author", content: SITE.name },
-      { name: "theme-color", content: "#0A0A0A" },
-      { property: "og:site_name", content: SITE.name },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: SITE.twitterHandle },
-      { name: "twitter:image", content: SITE.defaultOgImage },
-    ],
-    links: [
-      { rel: "icon", href: "/favicon.png", type: "image/png" },
-      { rel: "apple-touch-icon", href: "/favicon.png" },
-      { rel: "stylesheet", href: appCss },
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif&display=swap",
-      },
-    ],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify(buildOrganizationSchema()),
-      },
-      {
-        type: "application/ld+json",
-        children: JSON.stringify(buildWebSiteSchema()),
-      },
-    ],
-  }),
+  head: () => {
+    const seo = generateSEO({
+      url: "/", // Root route, child routes can override
+    });
+
+    return {
+      meta: [
+        { charSet: "utf-8" },
+        { name: "viewport", content: "width=device-width, initial-scale=1" },
+        { name: "author", content: "DevSpectra" },
+        { name: "theme-color", content: "#0A0A0A" },
+        ...seo.meta,
+      ],
+      links: [
+        { rel: "icon", href: "/favicon.png", type: "image/png" },
+        { rel: "apple-touch-icon", href: "/favicon.png" },
+        { rel: "stylesheet", href: appCss },
+        { rel: "preconnect", href: "https://fonts.googleapis.com" },
+        { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+        {
+          rel: "stylesheet",
+          href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif&display=swap",
+        },
+        ...seo.links,
+      ],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify(generateOrganizationSchema()),
+        },
+        {
+          type: "application/ld+json",
+          children: JSON.stringify(generateWebSiteSchema()),
+        },
+      ],
+    };
+  },
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,

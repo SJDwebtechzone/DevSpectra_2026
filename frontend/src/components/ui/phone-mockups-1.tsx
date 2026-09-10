@@ -1,8 +1,5 @@
 import React from "react";
-import {
-  ImageItem,
-  PhoneCarousel,
-} from "@/components/ui/phone-mockups-1-utils/phone-carousel";
+import { ImageItem, PhoneCarousel } from "@/components/ui/phone-mockups-1-utils/phone-carousel";
 
 const exampleImages: ImageItem[] = [
   {

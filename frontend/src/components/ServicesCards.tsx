@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { ArrowUpRight } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 
@@ -10,7 +10,7 @@ export function ServicesCards() {
       type: "Website",
       img: "/portfolio/website-2.jpg",
       bg: "bg-[#f3f4f6]",
-      id: "web-development"
+      id: "web-development",
     },
     {
       title: "Mobile Application",
@@ -18,7 +18,7 @@ export function ServicesCards() {
       type: "Mobile",
       img: "/portfolio/mobile-1.jpg",
       bg: "bg-black text-white",
-      id: "mobile-application"
+      id: "mobile-application",
     },
     {
       title: "E-Commerce",
@@ -26,7 +26,7 @@ export function ServicesCards() {
       type: "E-Commerce",
       img: "/portfolio/ecommerce-1.jpg",
       bg: "bg-white text-black",
-      id: "e-commerce"
+      id: "e-commerce",
     },
     {
       title: "SaaS Products",
@@ -34,7 +34,7 @@ export function ServicesCards() {
       type: "SAAS",
       img: "/portfolio/uiux-4.jpg",
       bg: "bg-[#1e1e1e] text-white",
-      id: "saas-products"
+      id: "saas-products",
     },
     {
       title: "Digital Marketing",
@@ -42,8 +42,8 @@ export function ServicesCards() {
       type: "Marketing",
       img: "/portfolio/digital-1.jpg",
       bg: "bg-white text-black",
-      id: "digital-marketing"
-    }
+      id: "digital-marketing",
+    },
   ];
 
   return (
@@ -63,7 +63,8 @@ export function ServicesCards() {
           {services.map((project, idx) => (
             <Link
               key={idx}
-              to={`/services#${project.id}`}
+              to="/services"
+              hash={project.id}
               className={`block snap-center shrink-0 h-[380px] sm:h-[420px] md:h-[480px] ${
                 project.type === "Mobile"
                   ? "w-[210px] sm:w-[230px] md:w-[240px]"
@@ -158,8 +159,18 @@ export function ServicesCards() {
                       </p>
                     </div>
                     <div className="w-9 h-9 rounded-full bg-gray-50 flex items-center justify-center border border-gray-100">
-                      <svg className="w-4 h-4 text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                      <svg
+                        className="w-4 h-4 text-gray-900"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+                        />
                       </svg>
                     </div>
                   </div>
@@ -172,7 +183,9 @@ export function ServicesCards() {
                   </div>
                   <div className="p-5 flex items-center justify-between bg-white relative z-10">
                     <div>
-                      <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Starting at</p>
+                      <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">
+                        Starting at
+                      </p>
                       <p className="text-lg font-bold text-gray-900 leading-none mt-1">$4,999</p>
                     </div>
                     <button className="bg-black text-white px-5 py-2.5 rounded-full text-sm font-semibold flex items-center gap-2 group-hover:bg-gray-800 transition-colors">
@@ -225,12 +238,16 @@ export function ServicesCards() {
                       </div>
                     </div>
                     <div className="flex items-center gap-4 text-gray-400">
-                      <div className="w-6 h-6 rounded-full bg-blue-500 text-white flex items-center justify-center text-[9px] font-bold">DS</div>
+                      <div className="w-6 h-6 rounded-full bg-blue-500 text-white flex items-center justify-center text-[9px] font-bold">
+                        DS
+                      </div>
                     </div>
                   </div>
                   <div className="flex-1 flex overflow-hidden">
                     <div className="w-32 bg-[#252525] border-r border-[#111] hidden sm:flex flex-col p-3 gap-1.5 shrink-0">
-                      <div className="text-[9px] text-gray-500 font-bold uppercase tracking-wider mb-2">Layers</div>
+                      <div className="text-[9px] text-gray-500 font-bold uppercase tracking-wider mb-2">
+                        Layers
+                      </div>
                       <div className="text-[10px] text-gray-300 bg-[#3a3a3a] rounded px-2 py-1.5 truncate flex items-center gap-1.5">
                         <span className="font-bold">#</span> Dashboard
                       </div>

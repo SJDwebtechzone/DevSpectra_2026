@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { ExternalLink } from "lucide-react";
 import { API_BASE_URL } from "@/lib/api";
 
@@ -10,14 +10,12 @@ export function OngoingProjects() {
       .then((res) => (res.ok ? res.json() : []))
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {
-          const ongoing = data.filter(
-            (p: any) => p.isOngoing || p.status === "ongoing"
-          );
+          const ongoing = data.filter((p: any) => p.isOngoing || p.status === "ongoing");
           if (ongoing.length > 0) {
             setOngoingProjects(ongoing);
           } else {
             const active = data.filter(
-              (p: any) => p.status === "published" || p.status === "active" || !p.status
+              (p: any) => p.status === "published" || p.status === "active" || !p.status,
             );
             setOngoingProjects(active.length > 0 ? active.slice(0, 2) : data.slice(0, 2));
           }
@@ -26,24 +24,27 @@ export function OngoingProjects() {
       .catch((err) => console.error("Failed to fetch dynamic ongoing projects", err));
   }, []);
 
-  const displayList = ongoingProjects.length > 0 ? ongoingProjects : [
-    {
-      id: "1",
-      title: "Silicon Vista.",
-      shortDescription: "Learning Platform.",
-      category: "Website",
-      thumbnail: "/portfolio/website-4.jpg",
-      liveUrl: "https://devspectra.com"
-    },
-    {
-      id: "2",
-      title: "DevSpectra.",
-      shortDescription: "Boutique Engineering Studio.",
-      category: "Website",
-      thumbnail: "/portfolio/website-2.jpg",
-      liveUrl: "https://devspectra.com"
-    }
-  ];
+  const displayList =
+    ongoingProjects.length > 0
+      ? ongoingProjects
+      : [
+          {
+            id: "1",
+            title: "Silicon Vista.",
+            shortDescription: "Learning Platform.",
+            category: "Website",
+            thumbnail: "/portfolio/website-4.jpg",
+            liveUrl: "https://devspectra.com",
+          },
+          {
+            id: "2",
+            title: "DevSpectra.",
+            shortDescription: "Boutique Engineering Studio.",
+            category: "Website",
+            thumbnail: "/portfolio/website-2.jpg",
+            liveUrl: "https://devspectra.com",
+          },
+        ];
 
   return (
     <section className="py-24 bg-[#fafcff] relative z-10">
@@ -74,8 +75,12 @@ export function OngoingProjects() {
                 >
                   <div className="px-3 md:px-10 max-w-md mb-3 md:mb-6 flex-shrink-0">
                     <h3 className="text-base sm:text-xl md:text-3xl font-bold tracking-tight text-gray-900 mb-1 md:mb-2">
-                      {title}{!title.endsWith(".") ? "." : ""} <br className="hidden xl:block" />
-                      <span className="text-gray-500 font-normal block text-xs sm:text-sm md:text-2xl mt-0.5 md:mt-1">{subtitle}{!subtitle.endsWith(".") ? "." : ""}</span>
+                      {title}
+                      {!title.endsWith(".") ? "." : ""} <br className="hidden xl:block" />
+                      <span className="text-gray-500 font-normal block text-xs sm:text-sm md:text-2xl mt-0.5 md:mt-1">
+                        {subtitle}
+                        {!subtitle.endsWith(".") ? "." : ""}
+                      </span>
                     </h3>
                   </div>
                   <div className="w-full mt-auto flex-1 bg-gray-50 flex items-end justify-center overflow-hidden border-t border-gray-100 relative">

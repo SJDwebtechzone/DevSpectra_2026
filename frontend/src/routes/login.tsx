@@ -5,17 +5,21 @@ import { Mail, Lock, ArrowRight, Loader2, Eye, EyeOff } from "lucide-react";
 import { setAuthSession, isAuthenticated } from "@/lib/auth";
 import { API_BASE_URL } from "@/lib/api";
 import { toast } from "sonner"; // Sonner is available in package.json
-import { PAGE_SEO } from "@/config/seo";
+
+import { generateSEO } from "@/lib/seo";
 
 export const Route = createFileRoute("/login")({
-  head: () => ({
-    meta: [
-      { title: PAGE_SEO.login.title },
-      { name: "description", content: PAGE_SEO.login.description },
-      { name: "robots", content: PAGE_SEO.login.robots },
-    ],
-    links: [{ rel: "canonical", href: PAGE_SEO.login.canonical }],
-  }),
+  head: () => {
+    const seo = generateSEO({
+      title: "Login",
+      noindex: true,
+      url: "/login",
+    });
+    return {
+      meta: seo.meta,
+      links: seo.links,
+    };
+  },
   component: Login,
   beforeLoad: () => {
     // If already authenticated, go to dashboard
@@ -131,11 +135,7 @@ function Login() {
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute inset-y-0 right-0 pr-3 flex items-center text-zinc-500 hover:text-zinc-300 focus:outline-none"
                 >
-                  {showPassword ? (
-                    <EyeOff className="h-5 w-5" />
-                  ) : (
-                    <Eye className="h-5 w-5" />
-                  )}
+                  {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                 </button>
               </div>
             </div>

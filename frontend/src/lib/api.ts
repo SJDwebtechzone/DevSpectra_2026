@@ -1,15 +1,14 @@
-import { getAuthToken } from './auth';
+import { getAuthToken } from "./auth";
 
 export const API_BASE_URL =
-  (typeof import.meta !== 'undefined' && import.meta.env?.VITE_API_URL) ||
-  'http://localhost:5000';
+  (typeof import.meta !== "undefined" && import.meta.env?.VITE_API_URL) || "http://localhost:5000";
 
 export function getFullApiUrl(endpoint: string): string {
-  if (endpoint.startsWith('http://') || endpoint.startsWith('https://')) {
+  if (endpoint.startsWith("http://") || endpoint.startsWith("https://")) {
     return endpoint;
   }
-  const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
-  return `${API_BASE_URL.replace(/\/+$/, '')}${cleanEndpoint}`;
+  const cleanEndpoint = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
+  return `${API_BASE_URL.replace(/\/+$/, "")}${cleanEndpoint}`;
 }
 
 export function getAuthHeaders(contentType: boolean = true): HeadersInit {
@@ -17,11 +16,11 @@ export function getAuthHeaders(contentType: boolean = true): HeadersInit {
   const headers: Record<string, string> = {};
 
   if (contentType) {
-    headers['Content-Type'] = 'application/json';
+    headers["Content-Type"] = "application/json";
   }
 
   if (token) {
-    headers['Authorization'] = `Bearer ${token}`;
+    headers["Authorization"] = `Bearer ${token}`;
   }
 
   return headers;
@@ -32,13 +31,13 @@ export async function apiFetch(endpoint: string, options: RequestInit = {}): Pro
   const token = getAuthToken();
 
   const headers = new Headers(options.headers || {});
-  
-  if (token && !headers.has('Authorization')) {
-    headers.set('Authorization', `Bearer ${token}`);
+
+  if (token && !headers.has("Authorization")) {
+    headers.set("Authorization", `Bearer ${token}`);
   }
 
-  if (!headers.has('Content-Type') && options.body && typeof options.body === 'string') {
-    headers.set('Content-Type', 'application/json');
+  if (!headers.has("Content-Type") && options.body && typeof options.body === "string") {
+    headers.set("Content-Type", "application/json");
   }
 
   return fetch(url, {
@@ -49,7 +48,7 @@ export async function apiFetch(endpoint: string, options: RequestInit = {}): Pro
 
 export async function apiGet<T = any>(endpoint: string, options: RequestInit = {}): Promise<T> {
   const res = await apiFetch(endpoint, {
-    method: 'GET',
+    method: "GET",
     ...options,
   });
 
@@ -67,9 +66,13 @@ export async function apiGet<T = any>(endpoint: string, options: RequestInit = {
   return res.json();
 }
 
-export async function apiPost<T = any>(endpoint: string, body?: any, options: RequestInit = {}): Promise<T> {
+export async function apiPost<T = any>(
+  endpoint: string,
+  body?: any,
+  options: RequestInit = {},
+): Promise<T> {
   const res = await apiFetch(endpoint, {
-    method: 'POST',
+    method: "POST",
     body: body ? JSON.stringify(body) : undefined,
     ...options,
   });
@@ -88,9 +91,13 @@ export async function apiPost<T = any>(endpoint: string, body?: any, options: Re
   return res.json();
 }
 
-export async function apiPatch<T = any>(endpoint: string, body?: any, options: RequestInit = {}): Promise<T> {
+export async function apiPatch<T = any>(
+  endpoint: string,
+  body?: any,
+  options: RequestInit = {},
+): Promise<T> {
   const res = await apiFetch(endpoint, {
-    method: 'PATCH',
+    method: "PATCH",
     body: body ? JSON.stringify(body) : undefined,
     ...options,
   });
@@ -111,7 +118,7 @@ export async function apiPatch<T = any>(endpoint: string, body?: any, options: R
 
 export async function apiDelete<T = any>(endpoint: string, options: RequestInit = {}): Promise<T> {
   const res = await apiFetch(endpoint, {
-    method: 'DELETE',
+    method: "DELETE",
     ...options,
   });
 
