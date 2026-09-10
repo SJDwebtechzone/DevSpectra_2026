@@ -5,8 +5,17 @@ import { Mail, Lock, ArrowRight, Loader2, Eye, EyeOff } from "lucide-react";
 import { setAuthSession, isAuthenticated } from "@/lib/auth";
 import { API_BASE_URL } from "@/lib/api";
 import { toast } from "sonner"; // Sonner is available in package.json
+import { PAGE_SEO } from "@/config/seo";
 
 export const Route = createFileRoute("/login")({
+  head: () => ({
+    meta: [
+      { title: PAGE_SEO.login.title },
+      { name: "description", content: PAGE_SEO.login.description },
+      { name: "robots", content: PAGE_SEO.login.robots },
+    ],
+    links: [{ rel: "canonical", href: PAGE_SEO.login.canonical }],
+  }),
   component: Login,
   beforeLoad: () => {
     // If already authenticated, go to dashboard

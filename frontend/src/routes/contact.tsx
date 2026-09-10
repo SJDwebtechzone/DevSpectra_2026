@@ -1,4 +1,4 @@
-﻿import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { PageShell } from "@/components/site/PageShell";
 import ContactHero from "@/components/ContactHero";
@@ -23,11 +23,31 @@ import {
 import { toast } from "sonner";
 import { API_BASE_URL } from "@/lib/api";
 
+import { buildPageMeta, buildBreadcrumbSchema, PAGE_SEO, SITE } from "@/config/seo";
+
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact Us — Digital Agency" },
-      { name: "description", content: "Join Us in Creating Something Great" },
+      ...buildPageMeta({
+        title: PAGE_SEO.contact.title,
+        description: PAGE_SEO.contact.description,
+        canonical: PAGE_SEO.contact.canonical,
+        ogTitle: PAGE_SEO.contact.ogTitle,
+        ogDescription: PAGE_SEO.contact.ogDescription,
+        robots: PAGE_SEO.contact.robots,
+      }),
+    ],
+    links: [{ rel: "canonical", href: PAGE_SEO.contact.canonical }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify(
+          buildBreadcrumbSchema([
+            { name: "Home", url: SITE.domain },
+            { name: "Contact", url: `${SITE.domain}/contact` },
+          ]),
+        ),
+      },
     ],
   }),
   component: Contact,

@@ -3,12 +3,31 @@ import { PageShell } from "@/components/site/PageShell";
 import { ArrowUpRight } from "lucide-react";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { buildPageMeta, buildBreadcrumbSchema, PAGE_SEO, SITE } from "@/config/seo";
 
 export const Route = createFileRoute("/portfolio")({
   head: () => ({
     meta: [
-      { title: "Portfolio — DevSpectra" },
-      { name: "description", content: "Work that shipped and stayed." },
+      ...buildPageMeta({
+        title: PAGE_SEO.portfolio.title,
+        description: PAGE_SEO.portfolio.description,
+        canonical: PAGE_SEO.portfolio.canonical,
+        ogTitle: PAGE_SEO.portfolio.ogTitle,
+        ogDescription: PAGE_SEO.portfolio.ogDescription,
+        robots: PAGE_SEO.portfolio.robots,
+      }),
+    ],
+    links: [{ rel: "canonical", href: PAGE_SEO.portfolio.canonical }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify(
+          buildBreadcrumbSchema([
+            { name: "Home", url: SITE.domain },
+            { name: "Portfolio", url: `${SITE.domain}/portfolio` },
+          ]),
+        ),
+      },
     ],
   }),
   component: Portfolio,

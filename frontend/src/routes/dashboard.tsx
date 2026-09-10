@@ -32,7 +32,16 @@ import {
 import { ReviewsTab } from "@/components/dashboard/ReviewsTab";
 import { toast } from "sonner";
 
+import { PAGE_SEO } from "@/config/seo";
+
 export const Route = createFileRoute("/dashboard")({
+  head: () => ({
+    meta: [
+      { title: PAGE_SEO.dashboard.title },
+      { name: "robots", content: PAGE_SEO.dashboard.robots },
+    ],
+    links: [{ rel: "canonical", href: PAGE_SEO.dashboard.canonical }],
+  }),
   component: Dashboard,
 });
 

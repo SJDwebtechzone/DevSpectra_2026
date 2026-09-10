@@ -2,12 +2,31 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState, useRef } from "react";
 import { PageShell } from "@/components/site/PageShell";
 import { ArrowRight, MapPin, Mail, Phone, CheckCircle2, UploadCloud } from "lucide-react";
+import { buildPageMeta, buildBreadcrumbSchema, PAGE_SEO, SITE } from "@/config/seo";
 
 export const Route = createFileRoute("/careers")({
   head: () => ({
     meta: [
-      { title: "Careers — DevSpectra" },
-      { name: "description", content: "Begin your career at DevSpectra. Explore open positions and apply today." },
+      ...buildPageMeta({
+        title: PAGE_SEO.careers.title,
+        description: PAGE_SEO.careers.description,
+        canonical: PAGE_SEO.careers.canonical,
+        ogTitle: PAGE_SEO.careers.ogTitle,
+        ogDescription: PAGE_SEO.careers.ogDescription,
+        robots: PAGE_SEO.careers.robots,
+      }),
+    ],
+    links: [{ rel: "canonical", href: PAGE_SEO.careers.canonical }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify(
+          buildBreadcrumbSchema([
+            { name: "Home", url: SITE.domain },
+            { name: "Careers", url: `${SITE.domain}/careers` },
+          ]),
+        ),
+      },
     ],
   }),
   component: Careers,

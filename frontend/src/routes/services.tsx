@@ -83,32 +83,46 @@ const SpectraIcon = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
+import { buildPageMeta, buildBreadcrumbSchema, buildServiceSchema, PAGE_SEO, SITE } from "@/config/seo";
+
 export const Route = createFileRoute("/services")({
   head: () => ({
     meta: [
-      { title: "Services — DevSpectra" },
+      ...buildPageMeta({
+        title: PAGE_SEO.services.title,
+        description: PAGE_SEO.services.description,
+        canonical: PAGE_SEO.services.canonical,
+        ogTitle: PAGE_SEO.services.ogTitle,
+        ogDescription: PAGE_SEO.services.ogDescription,
+        robots: PAGE_SEO.services.robots,
+      }),
+    ],
+    links: [{ rel: "canonical", href: PAGE_SEO.services.canonical }],
+    scripts: [
       {
-        name: "description",
-        content:
-          "Web, mobile, UI/UX, digital marketing, SEO, AI and cloud — eight practices, one studio. Transparent pricing, senior engineers, end-to-end delivery.",
+        type: "application/ld+json",
+        children: JSON.stringify(
+          buildBreadcrumbSchema([
+            { name: "Home", url: SITE.domain },
+            { name: "Services", url: `${SITE.domain}/services` },
+          ]),
+        ),
       },
-      { property: "og:title", content: "Services — DevSpectra" },
       {
-        property: "og:description",
-        content:
-          "Eight practices, one studio. What we build, end to end — from first sketch to running production system.",
-      },
-      { property: "og:url", content: "/services" },
-      { name: "twitter:title", content: "Services — DevSpectra" },
-      {
-        name: "twitter:description",
-        content: "Web, mobile, AI, cloud. Transparent pricing, senior engineers.",
+        type: "application/ld+json",
+        children: JSON.stringify(
+          buildServiceSchema({
+            name: "Web Development & Digital Marketing Services",
+            description: PAGE_SEO.services.description,
+            url: PAGE_SEO.services.canonical,
+          }),
+        ),
       },
     ],
-    links: [{ rel: "canonical", href: "/services" }],
   }),
   component: Services,
 });
+
 
 function Services() {
   return (

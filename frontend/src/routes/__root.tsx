@@ -11,6 +11,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { buildOrganizationSchema, buildWebSiteSchema, SITE } from "../config/seo";
 
 function NotFoundComponent() {
   return (
@@ -21,12 +22,24 @@ function NotFoundComponent() {
         <p className="mt-2 text-sm text-muted-foreground">
           The page you're looking for doesn't exist or has been moved.
         </p>
-        <div className="mt-6">
+        <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Link
             to="/"
             className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
             Go home
+          </Link>
+          <Link
+            to="/services"
+            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+          >
+            Our services
+          </Link>
+          <Link
+            to="/contact"
+            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+          >
+            Contact us
           </Link>
         </div>
       </div>
@@ -77,13 +90,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { name: "author", content: "DevSpectra" },
+      { name: "author", content: SITE.name },
       { name: "theme-color", content: "#0A0A0A" },
-      { property: "og:site_name", content: "DevSpectra" },
+      { property: "og:site_name", content: SITE.name },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@devspectra" },
-      { name: "twitter:image", content: "/og-image.jpg" },
+      { name: "twitter:site", content: SITE.twitterHandle },
+      { name: "twitter:image", content: SITE.defaultOgImage },
     ],
     links: [
       { rel: "icon", href: "/favicon.png", type: "image/png" },
@@ -99,14 +112,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     scripts: [
       {
         type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Organization",
-          name: "DevSpectra",
-          url: "/",
-          description:
-            "A boutique software engineering studio building websites, mobile apps, AI and cloud products.",
-        }),
+        children: JSON.stringify(buildOrganizationSchema()),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify(buildWebSiteSchema()),
       },
     ],
   }),

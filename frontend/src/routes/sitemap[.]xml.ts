@@ -1,33 +1,38 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 
-// TODO: replace with your project URL once a project name or custom domain is set.
-const BASE_URL = "";
+const BASE_URL = "https://devspectra.in";
 
 interface SitemapEntry {
   path: string;
   changefreq?: "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never";
   priority?: string;
+  lastmod?: string;
 }
 
 export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
       GET: async () => {
+        // Only include public, canonical, indexable pages.
+        // Exclude: /dashboard, /login, and any private/admin pages.
         const entries: SitemapEntry[] = [
+          // ── Core pages ─────────────────────────────────────────────
           { path: "/", changefreq: "weekly", priority: "1.0" },
           { path: "/services", changefreq: "monthly", priority: "0.9" },
           { path: "/portfolio", changefreq: "monthly", priority: "0.9" },
-          { path: "/about", changefreq: "monthly", priority: "0.7" },
           { path: "/blog", changefreq: "weekly", priority: "0.8" },
           { path: "/careers", changefreq: "weekly", priority: "0.7" },
-          { path: "/contact", changefreq: "yearly", priority: "0.6" },
+          { path: "/contact", changefreq: "yearly", priority: "0.7" },
         ];
+
+        const today = new Date().toISOString().split("T")[0];
 
         const urls = entries.map((e) =>
           [
             `  <url>`,
             `    <loc>${BASE_URL}${e.path}</loc>`,
+            `    <lastmod>${today}</lastmod>`,
             e.changefreq ? `    <changefreq>${e.changefreq}</changefreq>` : null,
             e.priority ? `    <priority>${e.priority}</priority>` : null,
             `  </url>`,

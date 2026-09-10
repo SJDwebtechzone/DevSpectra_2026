@@ -1,13 +1,29 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageShell } from "@/components/site/PageShell";
+import { buildPageMeta, buildBreadcrumbSchema, PAGE_SEO, SITE } from "@/config/seo";
 
 export const Route = createFileRoute("/blog")({
   head: () => ({
     meta: [
-      { title: "Blog — DevSpectra" },
+      ...buildPageMeta({
+        title: PAGE_SEO.blog.title,
+        description: PAGE_SEO.blog.description,
+        canonical: PAGE_SEO.blog.canonical,
+        ogTitle: PAGE_SEO.blog.ogTitle,
+        ogDescription: PAGE_SEO.blog.ogDescription,
+        robots: PAGE_SEO.blog.robots,
+      }),
+    ],
+    links: [{ rel: "canonical", href: PAGE_SEO.blog.canonical }],
+    scripts: [
       {
-        name: "description",
-        content: "Engineering, design and AI notes from the DevSpectra studio — what we're learning while we build.",
+        type: "application/ld+json",
+        children: JSON.stringify(
+          buildBreadcrumbSchema([
+            { name: "Home", url: SITE.domain },
+            { name: "Blog", url: `${SITE.domain}/blog` },
+          ]),
+        ),
       },
     ],
   }),

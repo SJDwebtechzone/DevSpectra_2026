@@ -8,31 +8,41 @@ import { WhyChooseUs } from "@/components/WhyChooseUs";
 import { FAQ } from "@/components/FAQ";
 import { PartnerSection } from "@/components/PartnerSection";
 import { useState, useEffect, useRef } from "react";
+import { buildPageMeta, buildBreadcrumbSchema, PAGE_SEO, SITE } from "@/config/seo";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "DevSpectra — Software that feels inevitable" },
+      ...buildPageMeta({
+        title: PAGE_SEO.home.title,
+        description: PAGE_SEO.home.description,
+        canonical: PAGE_SEO.home.canonical,
+        ogTitle: PAGE_SEO.home.ogTitle,
+        ogDescription: PAGE_SEO.home.ogDescription,
+        robots: PAGE_SEO.home.robots,
+      }),
+    ],
+    links: [{ rel: "canonical", href: PAGE_SEO.home.canonical }],
+    scripts: [
       {
-        name: "description",
-        content:
-          "DevSpectra is a boutique engineering studio building websites, mobile apps, AI and cloud products for teams that care about craft.",
-      },
-      { property: "og:title", content: "DevSpectra — Software that feels inevitable" },
-      {
-        property: "og:description",
-        content:
-          "Boutique engineering studio for web, mobile, AI and cloud. Senior team, transparent process, work that ships and stays.",
-      },
-      { property: "og:url", content: "/" },
-      { name: "twitter:title", content: "DevSpectra — Software that feels inevitable" },
-      {
-        name: "twitter:description",
-        content:
-          "Boutique engineering studio for web, mobile, AI and cloud. Work that ships and stays.",
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          name: SITE.name,
+          url: SITE.domain,
+          image: SITE.defaultOgImage,
+          description: PAGE_SEO.home.description,
+          areaServed: [
+            { "@type": "City", name: "Chennai" },
+            { "@type": "City", name: "Kanchipuram" },
+            { "@type": "State", name: "Tamil Nadu" },
+          ],
+          // telephone and address are placeholders — add real verified data
+          // telephone: SITE.locations.chennai.telephone,
+        }),
       },
     ],
-    links: [{ rel: "canonical", href: "/" }],
   }),
   component: Home,
 });
