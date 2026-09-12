@@ -14,10 +14,15 @@ import { Project } from './projects/entities/project.entity';
 import { Contact } from './contacts/entities/contact.entity';
 import { ContactField } from './contacts/entities/contact-field.entity';
 import { OfficeLocation } from './contacts/entities/office-location.entity';
+import { TrustedClient } from './contacts/entities/trusted-client.entity';
+import { JobPosition } from './contacts/entities/job-position.entity';
+import { SocialLink } from './contacts/entities/social-link.entity';
 import { ReviewsModule } from './reviews/reviews.module';
 import { Review } from './reviews/entities/review.entity';
 import { GoogleReviewsModule } from './google-reviews/google-reviews.module';
 import { GoogleReview } from './google-reviews/entities/google-review.entity';
+import { BlogsModule } from './blogs/blogs.module';
+import { Blog } from './blogs/entities/blog.entity';
 
 @Module({
   imports: [
@@ -35,8 +40,8 @@ import { GoogleReview } from './google-reviews/entities/google-review.entity';
         username: configService.get<string>('database.user'),
         password: configService.get<string>('database.password'),
         database: configService.get<string>('database.name'),
-        entities: [User, Project, Contact, ContactField, OfficeLocation, Review, GoogleReview],
-        synchronize: false,
+        entities: [User, Project, Contact, ContactField, OfficeLocation, TrustedClient, JobPosition, Review, GoogleReview, Blog, SocialLink],
+        synchronize: configService.get<string>('nodeEnv') !== 'production',
         migrationsRun: false,
       }),
       inject: [ConfigService],
@@ -48,6 +53,7 @@ import { GoogleReview } from './google-reviews/entities/google-review.entity';
     ContactsModule,
     GoogleReviewsModule,
     ReviewsModule,
+    BlogsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

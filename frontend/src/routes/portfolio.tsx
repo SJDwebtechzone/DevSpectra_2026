@@ -223,7 +223,7 @@ function Portfolio() {
     const dynamicItems = dbProjects
       .filter((p) => {
         const status = (p.status || "published").toLowerCase();
-        if (status === "inactive" || status === "draft") return false;
+        if (status === "inactive" || status === "draft" || status === "ongoing" || p.isOngoing) return false;
 
         const cat = (p.category || "").toLowerCase();
         const secCat = section.category.toLowerCase();

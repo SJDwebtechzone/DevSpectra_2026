@@ -1,6 +1,7 @@
 import { useEffect, type ReactNode } from "react";
 import { Nav } from "./Nav";
 import { Footer } from "./Footer";
+import { FloatingActions } from "./FloatingActions";
 
 type Mode = "home" | "services" | "portfolio" | "about" | "blog" | "careers" | "contact";
 
@@ -26,6 +27,7 @@ export function PageShell({ mode, ctaLabel, ctaTo, children }: PageShellProps) {
       <Nav ctaLabel={ctaLabel} ctaTo={ctaTo} contactPage={mode === "contact"} />
       <main className={`pt-24 ${mode === "contact" ? "bg-[#eefcf6]" : ""}`}>{children}</main>
       <Footer />
+      <FloatingActions />
     </div>
   );
 }
