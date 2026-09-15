@@ -1,62 +1,36 @@
 import React, { useState, useEffect } from "react";
-import { ExternalLink } from "lucide-react";
 import { API_BASE_URL } from "@/lib/api";
 
 export function OngoingProjects() {
   const [ongoingProjects, setOngoingProjects] = useState<any[]>([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}/projects`)
+    fetch(`${API_BASE_URL}/projects?t=${Date.now()}`)
       .then((res) => (res.ok ? res.json() : []))
       .then((data) => {
-        if (Array.isArray(data) && data.length > 0) {
+        if (Array.isArray(data)) {
           const ongoing = data.filter(
             (p: any) =>
-              p.isOngoing === true ||
-              String(p.status).toLowerCase() === "ongoing",
+              (p.isOngoing === true ||
+                p.isOngoing === "true" ||
+                String(p.status).toLowerCase() === "ongoing") &&
+              (p.status || "published").toLowerCase() !== "inactive" &&
+              (p.status || "published").toLowerCase() !== "draft"
           );
-
-          if (ongoing.length > 0) {
-            setOngoingProjects(ongoing);
-          } else {
-            const active = data.filter(
-              (p: any) =>
-                p.status === "published" ||
-                p.status === "active" ||
-                !p.status,
-            );
-            setOngoingProjects(
-              active.length > 0 ? active.slice(0, 2) : data.slice(0, 2),
-            );
-          }
+          setOngoingProjects(ongoing);
         }
+        setIsLoaded(true);
       })
-      .catch((err) =>
-        console.error("Failed to fetch dynamic ongoing projects", err),
-      );
+      .catch((err) => {
+        console.error("Failed to fetch dynamic ongoing projects", err);
+        setIsLoaded(true);
+      });
   }, []);
 
-  const displayList =
-    ongoingProjects.length > 0
-      ? ongoingProjects
-      : [
-          {
-            id: "1",
-            title: "Silicon Vista.",
-            shortDescription: "Learning Platform.",
-            category: "Website",
-            thumbnail: "/portfolio/website-4.jpg",
-            liveUrl: "https://devspectra.com",
-          },
-          {
-            id: "2",
-            title: "DevSpectra.",
-            shortDescription: "Boutique Engineering Studio.",
-            category: "Website",
-            thumbnail: "/portfolio/website-2.jpg",
-            liveUrl: "https://devspectra.com",
-          },
-        ];
+  if (!isLoaded || ongoingProjects.length === 0) {
+    return null;
+  }
 
   return (
     <section className="py-10 md:py-12 bg-[#fafcff] relative z-10">
@@ -69,10 +43,14 @@ export function OngoingProjects() {
         </div>
 
         <div
-          className="flex flex-row gap-4 sm:gap-6 overflow-x-auto pb-4 snap-x snap-mandatory hide-scrollbar -mx-6 px-6 md:mx-0 md:px-0 md:grid md:grid-cols-2 md:overflow-visible md:pb-0 md:snap-none"
+          className={`flex flex-row gap-4 sm:gap-6 overflow-x-auto pb-4 snap-x snap-mandatory hide-scrollbar -mx-6 px-6 md:mx-0 md:px-0 md:overflow-visible md:pb-0 md:snap-none ${
+            ongoingProjects.length === 1
+              ? "md:flex md:justify-center"
+              : "md:grid md:grid-cols-2"
+          }`}
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
-          {displayList.map((project, idx) => {
+          {ongoingProjects.map((project, idx) => {
             const title = project.title || "Project";
             const subtitle =
               project.shortDescription || project.category || "In Development";
@@ -84,7 +62,9 @@ export function OngoingProjects() {
             return (
               <div
                 key={project.id || idx}
-                className="w-[210px] sm:w-[240px] shrink-0 snap-center md:w-auto md:shrink rounded-[1rem] md:rounded-[1.3rem] bg-[conic-gradient(from_210deg,#111827_0deg,#111827_48deg,#2563eb_62deg,#ef4444_78deg,#facc15_92deg,#f8fafc_112deg,#f8fafc_240deg,#111827_280deg,#111827_360deg)] p-[2px] shadow-[0_6px_16px_rgba(25,35,55,0.08)] transition-transform duration-500 hover:-translate-y-1"
+                className={`w-[210px] sm:w-[240px] shrink-0 snap-center ${
+                  ongoingProjects.length === 1 ? "md:w-[500px]" : "md:w-auto md:shrink"
+                } rounded-[1rem] md:rounded-[1.3rem] bg-[conic-gradient(from_210deg,#111827_0deg,#111827_48deg,#2563eb_62deg,#ef4444_78deg,#facc15_92deg,#f8fafc_112deg,#f8fafc_240deg,#111827_280deg,#111827_360deg)] p-[2px] shadow-[0_6px_16px_rgba(25,35,55,0.08)] transition-transform duration-500 hover:-translate-y-1`}
               >
                 <div className="bg-white rounded-[0.95rem] md:rounded-[1.2rem] overflow-hidden shadow-[0_3px_12px_rgb(0,0,0,0.03)] flex flex-col pt-3 md:pt-4 items-center text-center relative">
                   <div className="px-3 md:px-10 max-w-md mb-3 md:mb-6 flex-shrink-0">

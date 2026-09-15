@@ -1,10 +1,11 @@
 import { Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { FaFacebookF, FaInstagram, FaLinkedinIn, FaTwitter, FaYoutube } from "react-icons/fa";
 import { API_BASE_URL } from "@/lib/api";
+import { getSocialIcon, defaultSocialLinks } from "@/lib/socialIcons";
 
 export function Footer() {
   const [locations, setLocations] = useState<any[]>([]);
+  const [socialLinks, setSocialLinks] = useState<any[]>([]);
   const [activeLoc, setActiveLoc] = useState<any>({
     id: "default",
     name: "Chennai Office",
@@ -28,10 +29,24 @@ export function Footer() {
         }
       })
       .catch((err) => console.error("Failed to fetch footer locations", err));
+
+    fetch(`${API_BASE_URL}/contacts/social-links?t=${Date.now()}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setSocialLinks(data);
+        } else {
+          setSocialLinks(defaultSocialLinks);
+        }
+      })
+      .catch((err) => {
+        console.error("Failed to fetch footer social links", err);
+        setSocialLinks(defaultSocialLinks);
+      });
   }, []);
 
   return (
-    <footer className="relative bg-[#02081f] pt-24 pb-8 overflow-hidden">
+    <footer className="relative bg-[#02081f] pt-14 md:pt-16 pb-8 overflow-hidden">
       {/* Decorative Noise */}
       <div
         className="absolute inset-0 pointer-events-none opacity-5 mix-blend-overlay"
@@ -43,22 +58,22 @@ export function Footer() {
 
       <div className="container-page max-w-[1600px] mx-auto px-6 md:px-12 relative z-10">
         {/* Top Links Grid */}
-        <div className="grid grid-cols-2 gap-x-8 gap-y-12 mb-16 text-[15px] leading-loose md:mb-20 md:gap-y-16 lg:grid-cols-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10 mb-12 text-[15px] leading-loose md:mb-16">
           {/* Brand Column */}
-          <div className="col-span-2 flex flex-col items-start text-white lg:col-span-2">
+          <div className="col-span-1 sm:col-span-2 lg:col-span-4 flex flex-col items-start text-white">
             <img
               src="/devspectra.png"
               alt="DevSpectra"
               className="h-20 w-auto object-contain mb-6 -ml-2"
             />
-            <p className="text-base leading-relaxed text-gray-300 font-medium max-w-sm text-justify">
+            <p className="text-base leading-relaxed text-gray-300 font-medium max-w-md">
               Devspectra is a full-service digital agency specializing in cutting-edge web
               development, mobile applications, and scalable software solutions.
             </p>
           </div>
 
-          {/* Column 1 */}
-          <div className="flex flex-col text-gray-300 font-semibold">
+          {/* Column 1 - Services */}
+          <div className="col-span-1 lg:col-span-2 flex flex-col text-gray-300 font-semibold">
             <span className="mb-2 text-gray-500 font-mono text-sm md:text-base tracking-widest uppercase">
               SERVICES
             </span>
@@ -95,8 +110,8 @@ export function Footer() {
             </Link>
           </div>
 
-          {/* Column 2 */}
-          <div className="flex flex-col text-gray-300 font-semibold">
+          {/* Column 2 - Company */}
+          <div className="col-span-1 lg:col-span-2 flex flex-col text-gray-300 font-semibold">
             <span className="mb-2 text-gray-500 font-mono text-sm md:text-base tracking-widest uppercase">
               COMPANY
             </span>
@@ -121,7 +136,7 @@ export function Footer() {
           </div>
 
           {/* Column 3 - Map & All Office Locations */}
-          <div className="col-span-2 flex flex-col text-gray-300 font-semibold md:col-span-1">
+          <div className="col-span-1 sm:col-span-2 lg:col-span-4 flex flex-col text-gray-300 font-semibold">
             <span className="text-gray-500 font-mono text-sm md:text-base tracking-widest uppercase mb-2">
               OUR LOCATIONS {locations.length > 0 && `(${locations.length})`}
             </span>
@@ -215,27 +230,25 @@ export function Footer() {
 
         {/* Bottom Bar with Socials and Copyright */}
         <div className="flex flex-col justify-center items-center gap-6 mb-8 w-full">
-          {/* Social Icons */}
-          <div className="flex items-center gap-6 text-gray-400">
-            {[
-              { icon: FaFacebookF, label: "Facebook", href: "https://www.facebook.com/" },
-              { icon: FaTwitter, label: "X (Twitter)", href: "https://x.com/" },
-              { icon: FaLinkedinIn, label: "LinkedIn", href: "https://www.linkedin.com/" },
-              { icon: FaInstagram, label: "Instagram", href: "https://www.instagram.com/" },
-              { icon: FaYoutube, label: "YouTube", href: "https://www.youtube.com/" },
-            ].map(({ icon: Icon, label, href }) => (
-              <a
-                key={label}
-                href={href}
-                aria-label={label}
-                title={label}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="transition-all duration-300 hover:-translate-y-1 hover:text-white"
-              >
-                <Icon className="h-5 w-5" aria-hidden="true" />
-              </a>
-            ))}
+          <div className="flex items-center gap-6 text-gray-400 flex-wrap justify-center">
+            {socialLinks
+              .filter((link) => link.isActive !== false && link.isActive !== 0 && link.isActive !== "false")
+              .map((link) => {
+                const Icon = getSocialIcon(link.icon, link.platform, link.url);
+                return (
+                  <a
+                    key={link.id || link.platform}
+                    href={link.url}
+                    aria-label={link.platform}
+                    title={link.platform}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="transition-all duration-300 hover:-translate-y-1 hover:text-white"
+                  >
+                    <Icon className="h-5 w-5" aria-hidden="true" />
+                  </a>
+                );
+              })}
           </div>
 
           <p className="font-mono text-xs md:text-sm tracking-[0.1em] text-gray-500 uppercase text-center">

@@ -128,7 +128,41 @@ const SpectraButton = ({ children, href }: { children: React.ReactNode; href?: s
   );
 };
 
+import { useState, useEffect } from "react";
+import { Link } from "@tanstack/react-router";
+import { API_BASE_URL } from "@/lib/api";
+
 function Blog() {
+  const [blogs, setBlogs] = useState<any[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>("ALL");
+
+  useEffect(() => {
+    fetch(`${API_BASE_URL}/blogs`)
+      .then((res) => (res.ok ? res.json() : []))
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setBlogs(data);
+        }
+      })
+      .catch((err) => console.error("Failed to fetch blogs", err));
+  }, []);
+
+  const displayPosts = blogs.length > 0 ? blogs : [...featuredPosts, ...regularPosts];
+
+  const categories = Array.from(
+    new Set(["ALL", ...displayPosts.map((p) => (p.category || "BRANDING").toUpperCase())])
+  );
+
+  const filteredPosts =
+    selectedCategory === "ALL"
+      ? displayPosts
+      : displayPosts.filter(
+          (p) => (p.category || "").toUpperCase() === selectedCategory.toUpperCase()
+        );
+
+  const featured = filteredPosts.slice(0, 2);
+  const regular = filteredPosts.slice(2);
+
   return (
     <PageShell mode="blog" ctaLabel="Let's Talk">
       {/* Full-screen dotted background */}
@@ -143,79 +177,105 @@ function Blog() {
                 Blogs
               </h1>
               <p className="text-page-muted text-base md:text-lg">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+                Engineering, design, and digital growth articles from the DevSpectra studio.
               </p>
             </div>
-            <div className="flex flex-wrap gap-3 mb-1 items-center">
-              <SpectraButton>ALL</SpectraButton>
-              <button className="btn-pill btn-ghost text-xs uppercase tracking-widest font-semibold">
-                BRANDING
-              </button>
-              <button className="btn-pill btn-ghost text-xs uppercase tracking-widest font-semibold">
-                DESIGN
-              </button>
+            <div className="flex flex-wrap gap-2.5 mb-1 items-center">
+              {categories.map((cat) => {
+                const isSelected = selectedCategory === cat;
+                return isSelected ? (
+                  <div key={cat} onClick={() => setSelectedCategory(cat)}>
+                    <SpectraButton>{cat}</SpectraButton>
+                  </div>
+                ) : (
+                  <button
+                    key={cat}
+                    onClick={() => setSelectedCategory(cat)}
+                    className="btn-pill btn-ghost text-xs uppercase tracking-widest font-semibold px-4 py-2 cursor-pointer hover:bg-black/5"
+                  >
+                    {cat}
+                  </button>
+                );
+              })}
             </div>
           </header>
 
-          {/* Featured Posts (Row 1) */}
-          <div className="grid grid-cols-1 md:grid-cols-2">
-            {featuredPosts.map((post, index) => (
-              <div
-                key={post.id}
-                className={`p-6 md:p-8 lg:p-10 border-b border-page-border ${index === 0 ? "md:border-r" : ""}`}
-              >
-                <div className="aspect-[4/3] md:aspect-[16/10] mb-6 overflow-hidden rounded-xl bg-muted">
-                  <img
-                    src={post.image}
-                    alt={post.title}
-                    className="w-full h-full object-cover grayscale-[30%] transition-all duration-500 hover:scale-105 hover:grayscale-0"
-                  />
-                </div>
-                <div className="flex gap-2 mb-3">
-                  <span className="text-[10px] font-bold tracking-wider text-page-muted uppercase">
-                    {post.tags.join(", ")}
-                  </span>
-                </div>
-                <h2 className="text-2xl md:text-3xl font-medium leading-tight">{post.title}</h2>
-              </div>
-            ))}
-          </div>
-
-          {/* Regular Posts Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3">
-            {regularPosts.map((post, index) => {
-              const isRightColumn = (index + 1) % 3 === 0;
+          {/* Featured Posts (Horizontal Scroll on Mobile, 2-Col Grid on Desktop) */}
+          <div
+            className="flex flex-row gap-4 overflow-x-auto p-4 md:p-0 snap-x snap-mandatory hide-scrollbar md:grid md:grid-cols-2 md:gap-0 md:overflow-visible md:snap-none"
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+          >
+            {featured.map((post, index) => {
+              const targetId = post.slug || post.id;
+              const tagsList = Array.isArray(post.tags) ? post.tags : [post.category || "BRANDING"];
               return (
-                <div
-                  key={post.id}
-                  className={`p-6 md:p-8 border-b border-page-border ${!isRightColumn ? "md:border-r" : ""}`}
+                <Link
+                  key={post.id || index}
+                  to="/blog/$id"
+                  params={{ id: String(targetId) }}
+                  className={`w-[85vw] max-w-[320px] shrink-0 snap-center md:w-auto md:shrink md:max-w-none md:snap-none p-6 md:p-8 lg:p-10 border border-page-border md:border-t-0 md:border-l-0 md:border-r-0 md:border-b group block rounded-2xl md:rounded-none bg-white md:bg-transparent ${
+                    index === 0 ? "md:border-r" : ""
+                  }`}
                 >
-                  <div className="aspect-[4/3] mb-5 overflow-hidden rounded-xl bg-muted">
+                  <div className="aspect-[4/3] md:aspect-[16/10] mb-6 overflow-hidden rounded-xl bg-muted">
                     <img
-                      src={post.image}
+                      src={post.image || post.img || "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop"}
                       alt={post.title}
-                      className="w-full h-full object-cover grayscale-[30%] transition-all duration-500 hover:scale-105 hover:grayscale-0"
+                      className="w-full h-full object-cover grayscale-[30%] transition-all duration-500 group-hover:scale-105 group-hover:grayscale-0"
                     />
                   </div>
-                  <div className="flex gap-2 mb-2">
+                  <div className="flex gap-2 mb-3">
                     <span className="text-[10px] font-bold tracking-wider text-page-muted uppercase">
-                      {post.tags.join(", ")}
+                      {tagsList.join(", ")}
                     </span>
                   </div>
-                  <h3 className="text-lg md:text-xl font-medium leading-snug">{post.title}</h3>
-                </div>
+                  <h2 className="text-2xl md:text-3xl font-medium leading-tight group-hover:text-blue-600 transition-colors">
+                    {post.title}
+                  </h2>
+                  {post.excerpt && (
+                    <p className="text-sm text-gray-600 mt-2 line-clamp-2">{post.excerpt}</p>
+                  )}
+                </Link>
               );
             })}
           </div>
 
-          {/* Pagination */}
-          <div className="flex justify-between items-center p-6 md:p-8">
-            <button className="btn-pill btn-ghost text-xs uppercase tracking-widest font-semibold">
-              PREVIOUS
-            </button>
-            <button className="btn-pill btn-ghost text-xs uppercase tracking-widest font-semibold">
-              NEXT
-            </button>
+          {/* Regular Posts Grid (Horizontal Scroll on Mobile, 3-Col Grid on Desktop) */}
+          <div
+            className="flex flex-row gap-4 overflow-x-auto p-4 md:p-0 snap-x snap-mandatory hide-scrollbar md:grid md:grid-cols-3 md:gap-0 md:overflow-visible md:snap-none"
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+          >
+            {regular.map((post, index) => {
+              const isRightColumn = (index + 1) % 3 === 0;
+              const targetId = post.slug || post.id;
+              const tagsList = Array.isArray(post.tags) ? post.tags : [post.category || "BRANDING"];
+              return (
+                <Link
+                  key={post.id || index}
+                  to="/blog/$id"
+                  params={{ id: String(targetId) }}
+                  className={`w-[80vw] max-w-[280px] shrink-0 snap-center md:w-auto md:shrink md:max-w-none md:snap-none p-6 md:p-8 border border-page-border md:border-t-0 md:border-l-0 md:border-r-0 md:border-b group block rounded-2xl md:rounded-none bg-white md:bg-transparent ${
+                    !isRightColumn ? "md:border-r" : ""
+                  }`}
+                >
+                  <div className="aspect-[4/3] mb-5 overflow-hidden rounded-xl bg-muted">
+                    <img
+                      src={post.image || post.img || "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=800&auto=format&fit=crop"}
+                      alt={post.title}
+                      className="w-full h-full object-cover grayscale-[30%] transition-all duration-500 group-hover:scale-105 group-hover:grayscale-0"
+                    />
+                  </div>
+                  <div className="flex gap-2 mb-2">
+                    <span className="text-[10px] font-bold tracking-wider text-page-muted uppercase">
+                      {tagsList.join(", ")}
+                    </span>
+                  </div>
+                  <h3 className="text-lg md:text-xl font-medium leading-snug group-hover:text-blue-600 transition-colors line-clamp-2">
+                    {post.title}
+                  </h3>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </div>

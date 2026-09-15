@@ -167,27 +167,6 @@ export class ContactsController {
     return this.contactsService.findAll();
   }
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.SUPER_ADMIN, UserRole.ADMIN)
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.contactsService.findOne(id);
-  }
-
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.SUPER_ADMIN, UserRole.ADMIN)
-  @Patch(':id/read')
-  markAsRead(@Param('id') id: string) {
-    return this.contactsService.markAsRead(id);
-  }
-
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.SUPER_ADMIN, UserRole.ADMIN)
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.contactsService.remove(id);
-  }
-
   // --- Social Links Endpoints ---
 
   @Get('social-links')
@@ -221,5 +200,26 @@ export class ContactsController {
   @Delete('social-links/:id')
   deleteSocialLink(@Param('id') id: string) {
     return this.contactsService.deleteSocialLink(id);
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.SUPER_ADMIN, UserRole.ADMIN)
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.contactsService.findOne(id);
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.SUPER_ADMIN, UserRole.ADMIN)
+  @Patch(':id/read')
+  markAsRead(@Param('id') id: string) {
+    return this.contactsService.markAsRead(id);
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.SUPER_ADMIN, UserRole.ADMIN)
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.contactsService.remove(id);
   }
 }

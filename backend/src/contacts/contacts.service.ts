@@ -637,10 +637,23 @@ export class ContactsService implements OnModuleInit {
   }
 
   async getSocialLinks(includeInactive = false) {
-    if (includeInactive) {
-      return this.socialLinksRepository.find({ order: { order: 'ASC', createdAt: 'ASC' } });
+    const count = await this.socialLinksRepository.count();
+    if (count === 0) {
+      await this.seedDefaultSocialLinks();
     }
-    return this.socialLinksRepository.find({ where: { isActive: true }, order: { order: 'ASC', createdAt: 'ASC' } });
+    const allLinks = await this.socialLinksRepository.find({
+      order: { order: 'ASC', createdAt: 'ASC' },
+    });
+    if (includeInactive) {
+      return allLinks;
+    }
+    return allLinks.filter(
+      (link: any) =>
+        link.isActive !== false &&
+        link.isActive !== 0 &&
+        link.isActive !== 'false' &&
+        link.isActive !== '0',
+    );
   }
 
   async createSocialLink(data: Partial<SocialLink>) {

@@ -1,10 +1,10 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { createFileRoute, useNavigate, redirect } from "@tanstack/react-router";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Mail, Lock, ArrowRight, Loader2, Eye, EyeOff } from "lucide-react";
 import { setAuthSession, isAuthenticated } from "@/lib/auth";
 import { API_BASE_URL } from "@/lib/api";
-import { toast } from "sonner"; // Sonner is available in package.json
+import { toast } from "sonner";
 
 import { generateSEO } from "@/lib/seo";
 
@@ -21,18 +21,6 @@ export const Route = createFileRoute("/login")({
     };
   },
   component: Login,
-  beforeLoad: () => {
-    // If already authenticated, go to dashboard
-    if (isAuthenticated()) {
-      throw new Error("Already authenticated"); // Temporary hack, router might support redirect natively
-    }
-  },
-  loader: () => {
-    if (isAuthenticated()) {
-      return { redirect: "/dashboard" };
-    }
-    return {};
-  },
 });
 
 function Login() {
@@ -42,11 +30,11 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Check loader data for redirect
-  const { redirect } = Route.useLoaderData();
-  if (redirect) {
-    navigate({ to: redirect });
-  }
+  useEffect(() => {
+    if (isAuthenticated()) {
+      navigate({ to: "/dashboard" });
+    }
+  }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();

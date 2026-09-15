@@ -50,205 +50,69 @@ const formatExternalUrl = (url?: string) => {
   return `https://${trimmed}`;
 };
 
-const portfolioData = [
-  {
-    category: "Website",
-    items: [
-      {
-        title: "nskillindia",
-        meta: "Ed Tech Platform.",
-        submeta: "From ideation to launch in 12 wks.",
-        eyebrow: "NEW",
-        img: "/portfolio/website-1.jpg",
-        bg: "bg-black text-white",
-        liveUrl: "https://nskillindia.com",
-      },
-      {
-        title: "seatown",
-        meta: "The magic of the sea.",
-        submeta: "Built with Next.js & Postgres.",
-        eyebrow: "FEATURED",
-        img: "/portfolio/website-2.jpg",
-        bg: "bg-white text-black border border-gray-200",
-        liveUrl: "https://seatown.com",
-      },
-      {
-        title: "co-tea",
-        meta: "Coffee meets tea.",
-        submeta: "Custom Shopify Plus storefront.",
-        eyebrow: "E-COMMERCE",
-        img: "/portfolio/website-3.jpg",
-        bg: "bg-black text-white",
-        liveUrl: "https://co-tea.com",
-      },
-      {
-        title: "silicon vista",
-        meta: "Learning Platform.",
-        submeta: "Over 10k active daily users.",
-        eyebrow: "TRENDING",
-        img: "/portfolio/website-4.jpg",
-        bg: "bg-white text-black border border-gray-200",
-        liveUrl: "https://siliconvista.com",
-      },
-    ],
-  },
-  {
-    category: "Mobile",
-    items: [
-      {
-        title: "veerify",
-        meta: "Mobile App",
-        img: "/portfolio/mobile-1.jpg",
-        bg: "bg-black text-white",
-        liveUrl: "https://veerify.com",
-      },
-      {
-        title: "snapoo",
-        meta: "Mobile App",
-        img: "/portfolio/mobile-2.jpg",
-        bg: "bg-gray-100 text-black",
-        liveUrl: "https://snapoo.com",
-      },
-      {
-        title: "martial art",
-        meta: "Mobile App",
-        img: "/portfolio/mobile-3.jpg",
-        bg: "bg-zinc-900 text-white",
-        liveUrl: "https://martialart.com",
-      },
-    ],
-  },
-  {
-    category: "E-Commerce",
-    items: [
-      {
-        title: "SM-enterpricess",
-        meta: "E-Commerce Store",
-        img: "/portfolio/ecommerce-1.jpg",
-        bg: "bg-[#f5f5f7] text-black",
-        liveUrl: "https://smenterprises.com",
-      },
-      {
-        title: "cloth buy",
-        meta: "Fashion E-Commerce",
-        img: "/portfolio/ecommerce-2.jpg",
-        bg: "bg-[#1d1d1f] text-white",
-        liveUrl: "https://clothbuy.com",
-      },
-    ],
-  },
-  {
-    category: "UI/UX",
-    items: [
-      {
-        title: "Katalist",
-        meta: "UI/UX Design",
-        img: "/portfolio/uiux-1.jpg",
-        bg: "bg-gray-100 text-black",
-        liveUrl: "https://katalist.com",
-      },
-      {
-        title: "seatown",
-        meta: "UI/UX Design",
-        img: "/portfolio/uiux-2.jpg",
-        bg: "bg-black text-white",
-        liveUrl: "https://seatown.com",
-      },
-      {
-        title: "school website",
-        meta: "UI/UX Design",
-        img: "/portfolio/uiux-3.jpg",
-        bg: "bg-zinc-100 text-black",
-        liveUrl: "https://schoolwebsite.com",
-      },
-      {
-        title: "silicon vista",
-        meta: "UI/UX Design",
-        img: "/portfolio/uiux-4.jpg",
-        bg: "bg-gray-900 text-white",
-        liveUrl: "https://siliconvista.com",
-      },
-    ],
-  },
-  {
-    category: "Digital Marketing",
-    items: [
-      {
-        title: "SEO",
-        meta: "Marketing Campaign",
-        img: "/portfolio/digital-1.jpg",
-        bg: "bg-[#1d1d1f] text-white",
-        liveUrl: "https://seo-agency.com",
-      },
-      {
-        title: "Poster Making",
-        meta: "LinkedIn, Instagram, Facebook",
-        img: "/portfolio/digital-2.jpg",
-        bg: "bg-[#f5f5f7] text-black",
-        liveUrl: "https://postermaking.com",
-      },
-      {
-        title: "Reels",
-        meta: "Instagram Reels",
-        img: "/portfolio/digital-3.jpg",
-        bg: "bg-black text-white",
-        liveUrl: "https://reelsstudio.com",
-      },
-      {
-        title: "Content",
-        meta: "Content Strategy",
-        img: "/portfolio/digital-4.jpg",
-        bg: "bg-gray-100 text-black",
-        liveUrl: "https://contentagency.com",
-      },
-    ],
-  },
-];
-
 import { AuroraBackground } from "@/components/ui/aurora-background";
 import { API_BASE_URL } from "@/lib/api";
+
+const DEFAULT_CATEGORIES = [
+  "Website",
+  "Mobile",
+  "E-Commerce",
+  "UI/UX",
+  "Digital Marketing"
+];
 
 function Portfolio() {
   const [animationKey, setAnimationKey] = useState(0);
   const [dbProjects, setDbProjects] = useState<any[]>([]);
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}/projects`)
+    fetch(`${API_BASE_URL}/projects?t=${Date.now()}`)
       .then((res) => (res.ok ? res.json() : []))
       .then((data) => setDbProjects(data))
       .catch((err) => console.error("Failed to fetch dynamic projects", err));
   }, []);
 
-  const activePortfolioData = portfolioData.map((section) => {
-    const dynamicItems = dbProjects
-      .filter((p) => {
-        const status = (p.status || "published").toLowerCase();
-        if (status === "inactive" || status === "draft" || status === "ongoing" || p.isOngoing) return false;
-
-        const cat = (p.category || "").toLowerCase();
-        const secCat = section.category.toLowerCase();
-        if (secCat === "website" && cat.includes("website")) return true;
-        if (secCat === "mobile" && (cat.includes("mobile") || cat.includes("app"))) return true;
-        if (secCat === "e-commerce" && (cat.includes("e-commerce") || cat.includes("commerce"))) return true;
-        if (secCat === "ui/ux" && (cat.includes("ui") || cat.includes("ux") || cat.includes("design"))) return true;
-        if (secCat === "digital marketing" && (cat.includes("marketing") || cat.includes("digital"))) return true;
-        return false;
-      })
-      .map((p) => ({
-        title: p.title,
-        meta: p.description || p.category,
-        submeta: Array.isArray(p.technologies) ? p.technologies.join(", ") : p.technologies || "Built with modern tech",
-        eyebrow: "NEW",
-        img: p.thumbnail || "/portfolio/website-1.jpg",
-        bg: section.category === "Website" ? "bg-black text-white" : "bg-[#1d1d1f] text-white",
-        liveUrl: p.liveUrl || p.websiteUrl || (p.title ? `${p.title.toLowerCase().replace(/\s+/g, "")}.com` : "#"),
-      }));
-
-    return {
-      ...section,
-      items: [...dynamicItems, ...section.items],
-    };
+  const activeProjects = dbProjects.filter((p) => {
+    const status = (p.status || "published").toLowerCase();
+    return status !== "inactive" && status !== "draft";
   });
+
+  const categoriesMap = new Map<string, any[]>();
+  DEFAULT_CATEGORIES.forEach((cat) => categoriesMap.set(cat, []));
+
+  activeProjects.forEach((p) => {
+    const cat = (p.category || "").toLowerCase();
+    const item = {
+      id: p.id,
+      title: p.title,
+      meta: p.description || p.shortDescription || p.category,
+      submeta: Array.isArray(p.technologies) ? p.technologies.join(", ") : p.technologies || "Built with modern tech",
+      eyebrow: p.isOngoing ? "ONGOING" : "PUBLISHED",
+      img: p.thumbnail || p.img || "/portfolio/website-1.jpg",
+      bg: cat.includes("web") ? "bg-black text-white" : "bg-[#1d1d1f] text-white",
+      liveUrl: p.liveUrl || p.websiteUrl || (p.title ? `${p.title.toLowerCase().replace(/\s+/g, "")}.com` : "#"),
+    };
+
+    if (cat.includes("website") || cat.includes("web")) {
+      categoriesMap.get("Website")?.push(item);
+    } else if (cat.includes("mobile") || cat.includes("app")) {
+      categoriesMap.get("Mobile")?.push(item);
+    } else if (cat.includes("e-commerce") || cat.includes("commerce") || cat.includes("shop")) {
+      categoriesMap.get("E-Commerce")?.push(item);
+    } else if (cat.includes("ui") || cat.includes("ux") || cat.includes("design")) {
+      categoriesMap.get("UI/UX")?.push(item);
+    } else if (cat.includes("marketing") || cat.includes("digital") || cat.includes("seo")) {
+      categoriesMap.get("Digital Marketing")?.push(item);
+    } else {
+      const customName = p.category || "Other Projects";
+      if (!categoriesMap.has(customName)) categoriesMap.set(customName, []);
+      categoriesMap.get(customName)?.push(item);
+    }
+  });
+
+  const finalPortfolioData = Array.from(categoriesMap.entries())
+    .map(([category, items]) => ({ category, items }))
+    .filter((s) => s.items.length > 0);
 
   return (
     <PageShell mode="portfolio" ctaLabel="Start a Project">
@@ -423,7 +287,9 @@ function Portfolio() {
 
           {/* Category Rows */}
           <div className="space-y-24">
-            {activePortfolioData.map((section, sIdx) => (
+            {finalPortfolioData
+              .filter((section) => section.items.length > 0)
+              .map((section, sIdx) => (
               <div key={sIdx}>
                 <div className="flex items-center gap-4 mb-8">
                   <h2 className="text-3xl font-bold tracking-tight text-black">

@@ -1,6 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { API_BASE_URL } from "@/lib/api";
 
-const partners = [
+const defaultPartners = [
   { name: "Amazon Web Services", src: "/contact/amazonaws.svg" },
   { name: "Apple", src: "/contact/apple.svg" },
   { name: "Docker", src: "/contact/docker.svg" },
@@ -13,6 +14,20 @@ const partners = [
 
 export function PartnerSection() {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [partners, setPartners] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetch(`${API_BASE_URL}/contacts/clients`)
+      .then((res) => (res.ok ? res.json() : []))
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setPartners(data);
+        }
+      })
+      .catch((err) => console.error("Failed to fetch trusted clients", err));
+  }, []);
+
+  const displayPartners = partners.length > 0 ? partners : defaultPartners;
 
   useEffect(() => {
     let animationFrameId: number;
@@ -35,7 +50,7 @@ export function PartnerSection() {
 
     animationFrameId = requestAnimationFrame(scroll);
     return () => cancelAnimationFrame(animationFrameId);
-  }, []);
+  }, [displayPartners]);
 
   return (
     <section className="overflow-hidden border-b border-gray-100 bg-white py-10 sm:py-14">
@@ -47,7 +62,7 @@ export function PartnerSection() {
       </div>
       <div ref={scrollRef} className="w-full overflow-x-auto" style={{ scrollbarWidth: "none" }}>
         <div className="flex w-max gap-6 px-6 sm:gap-8 sm:px-10">
-          {[...partners, ...partners].map((partner, index) => (
+          {[...displayPartners, ...displayPartners].map((partner, index) => (
             <div
               key={`${partner.name}-${index}`}
               className="rounded-[1.1rem] bg-[conic-gradient(from_210deg,#111827_0deg,#111827_48deg,#2563eb_62deg,#ef4444_78deg,#facc15_92deg,#f8fafc_112deg,#f8fafc_240deg,#111827_280deg,#111827_360deg)] p-[2px] shadow-[0_10px_24px_rgba(25,35,55,0.12)]"

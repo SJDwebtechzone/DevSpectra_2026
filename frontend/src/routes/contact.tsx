@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { API_BASE_URL } from "@/lib/api";
+import { getSocialIcon, defaultSocialLinks } from "@/lib/socialIcons";
 
 import { generateSEO, generateLocalBusinessSchema, generateBreadcrumbSchema } from "@/lib/seo";
 
@@ -129,6 +130,7 @@ function Contact() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [locations, setLocations] = useState<any[]>([]);
   const [activeLocId, setActiveLocId] = useState<string>("");
+  const [socialLinks, setSocialLinks] = useState<any[]>([]);
 
   useEffect(() => {
     fetch(`${API_BASE_URL}/contacts/fields`)
@@ -148,6 +150,20 @@ function Contact() {
         }
       })
       .catch((err) => console.error("Failed to fetch office locations", err));
+
+    fetch(`${API_BASE_URL}/contacts/social-links?t=${Date.now()}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setSocialLinks(data);
+        } else {
+          setSocialLinks(defaultSocialLinks);
+        }
+      })
+      .catch((err) => {
+        console.error("Failed to fetch social links", err);
+        setSocialLinks(defaultSocialLinks);
+      });
   }, []);
 
   const safeLocations = Array.isArray(locations) ? locations : [];
@@ -158,7 +174,7 @@ function Contact() {
       name: "Chennai Headquarters",
       city: "Chennai, Tamil Nadu",
       address: "18, 2nd St, Vani Nagar, Jai Nagar, Valasaravakkam, Chennai, Tamil Nadu 600087",
-      phone: "+0123-456-789",
+      phone: "9600941222",
       hours: "Mon - Fri : 10:00 - 20:00 IST",
       status: "Open Now",
       embedUrl:
@@ -337,50 +353,116 @@ function Contact() {
               Something Great
             </h2>
 
-            <div className="mt-12 space-y-8 text-[#535353]">
-              <div>
-                <h3 className="mb-2 font-display text-xl font-semibold text-[#252525]">Address</h3>
-                <p className="max-w-md leading-relaxed">{primaryLoc.address}</p>
+            {/* Dynamic Branch Selector Pills */}
+            {safeLocations.length > 1 && (
+              <div className="mt-8 flex flex-wrap gap-2">
+                {safeLocations.map((loc) => {
+                  const isSelected = activeLocId === loc.id;
+                  return (
+                    <button
+                      key={loc.id}
+                      type="button"
+                      onClick={() => setActiveLocId(loc.id)}
+                      className={`px-4 py-2 rounded-full text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer border ${
+                        isSelected
+                          ? "bg-[#171717] text-white border-[#171717] shadow-md"
+                          : "bg-white text-gray-700 border-gray-300 hover:border-[#a58b60] hover:text-[#a58b60]"
+                      }`}
+                    >
+                      <MapPin size={14} className={isSelected ? "text-[#a58b60]" : "text-gray-400"} />
+                      <span>{loc.name}</span>
+                    </button>
+                  );
+                })}
               </div>
+            )}
+
+            <div className="mt-8 space-y-8 text-[#535353]">
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <h3 className="font-display text-xl font-semibold text-[#252525]">
+                    {activeLoc.name || "Office Address"}
+                  </h3>
+                  <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 border border-emerald-500/20">
+                    {activeLoc.status || "Open Now"}
+                  </span>
+                </div>
+                <p className="max-w-md leading-relaxed text-base">{activeLoc.address}</p>
+                {activeLoc.city && activeLoc.city !== activeLoc.name && (
+                  <p className="text-xs text-gray-500 mt-1 font-medium">{activeLoc.city}</p>
+                )}
+              </div>
+
               <div>
                 <h3 className="mb-2 font-display text-xl font-semibold text-[#252525]">Contact</h3>
-                <p>Phone : {primaryLoc.phone || "+0123-456-789"}</p>
+                <p className="font-medium text-gray-800">Phone : <span className="text-gray-900 font-bold">{activeLoc.phone || "9600941222"}</span></p>
                 <p className="mt-1 break-words">Email : connectwithdevspectra@gmail.com</p>
               </div>
+
               <div>
                 <h3 className="mb-2 font-display text-xl font-semibold text-[#252525]">
-                  Open Time
+                  Working Hours
                 </h3>
-                <p>{primaryLoc.hours || "Mon - Fri : 10:00 - 20:00 IST"}</p>
+                <p className="text-sm font-medium">{activeLoc.hours || "Mon - Fri : 10:00 - 20:00 IST"}</p>
               </div>
+
+              {/* All Other Branches List Summary */}
+              {safeLocations.length > 1 && (
+                <div className="pt-6 border-t border-gray-300/70">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-[#a58b60] mb-3">
+                    All Office Branches ({safeLocations.length})
+                  </h4>
+                  <div className="space-y-3">
+                    {safeLocations.map((loc) => (
+                      <div
+                        key={loc.id}
+                        onClick={() => setActiveLocId(loc.id)}
+                        className={`p-3.5 rounded-xl border transition-all cursor-pointer ${
+                          activeLocId === loc.id
+                            ? "bg-white border-[#a58b60] shadow-sm"
+                            : "bg-white/50 border-gray-200 hover:bg-white hover:border-gray-300"
+                        }`}
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="font-semibold text-sm text-gray-900">{loc.name}</span>
+                          <span className="text-[11px] font-mono text-[#a58b60]">{loc.phone || "9600941222"}</span>
+                        </div>
+                        <p className="text-xs text-gray-600 mt-1 line-clamp-1">{loc.address}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               <div>
                 <h3 className="mb-3 font-display text-xl font-semibold text-[#252525]">
                   Stay Connected
                 </h3>
-                <div className="flex gap-3">
-                  {[
-                    { icon: Facebook, href: "#", label: "Facebook" },
-                    { icon: Twitter, href: "#", label: "X (Twitter)" },
-                    { icon: Linkedin, href: "#", label: "LinkedIn" },
-                    { icon: Instagram, href: "#", label: "Instagram" },
-                    { icon: Youtube, href: "#", label: "YouTube" },
-                  ].map((social, index) => (
-                    <a
-                      key={index}
-                      href={social.href}
-                      aria-label={social.label}
-                      title={social.label}
-                      className="flex h-9 w-9 items-center justify-center rounded-full text-[#a58b60] transition-colors hover:bg-[#a58b60] hover:text-white"
-                    >
-                      <social.icon className="h-4 w-4" />
-                    </a>
-                  ))}
+                <div className="flex flex-wrap gap-3">
+                  {socialLinks
+                    .filter((link) => link.isActive !== false && link.isActive !== 0 && link.isActive !== "false")
+                    .map((link) => {
+                      const Icon = getSocialIcon(link.icon, link.platform, link.url);
+                      return (
+                        <a
+                          key={link.id || link.platform}
+                          href={link.url}
+                          aria-label={link.platform}
+                          title={link.platform}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300/80 bg-white text-[#a58b60] transition-all hover:bg-[#a58b60] hover:text-white hover:border-[#a58b60] hover:shadow-md"
+                        >
+                          <Icon className="h-4 w-4" />
+                        </a>
+                      );
+                    })}
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="bg-white p-7 shadow-[0_18px_55px_rgba(25,25,25,0.14)] sm:p-10 lg:mt-2 lg:p-12">
+          <div className="bg-white p-7 shadow-[0_18px_55px_rgba(25,25,25,0.14)] sm:p-10 lg:mt-2 lg:p-12 h-fit self-start">
             <h2 className="mb-8 font-display text-3xl font-semibold text-[#171717]">
               Send a message
             </h2>
