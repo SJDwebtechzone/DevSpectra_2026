@@ -174,8 +174,8 @@ function Contact() {
       name: "Chennai Headquarters",
       city: "Chennai, Tamil Nadu",
       address: "18, 2nd St, Vani Nagar, Jai Nagar, Valasaravakkam, Chennai, Tamil Nadu 600087",
-      phone: "9600941222",
-      hours: "Mon - Fri : 10:00 - 20:00 IST",
+      phone: "9600941222 / 7339041222",
+      hours: "Mon - Sat : 9:30 - 6:30",
       status: "Open Now",
       embedUrl:
         "https://maps.google.com/maps?q=18,+2nd+St,+Vani+Nagar,+Jai+Nagar,+Valasaravakkam,+Chennai,+Tamil+Nadu+600087&t=&z=15&ie=UTF8&iwloc=&output=embed",
@@ -395,15 +395,49 @@ function Contact() {
 
               <div>
                 <h3 className="mb-2 font-display text-xl font-semibold text-[#252525]">Contact</h3>
-                <p className="font-medium text-gray-800">Phone : <span className="text-gray-900 font-bold">{activeLoc.phone || "9600941222"}</span></p>
-                <p className="mt-1 break-words">Email : connectwithdevspectra@gmail.com</p>
+                <p className="font-medium text-gray-800">
+                  Phone :{" "}
+                  {activeLoc.phone && !activeLoc.phone.includes("9600941222") && !activeLoc.phone.includes("0123") ? (
+                    <a
+                      href={`tel:${activeLoc.phone.replace(/[^0-9+]/g, "")}`}
+                      className="text-gray-900 font-bold hover:text-blue-600 transition-colors"
+                    >
+                      {activeLoc.phone}
+                    </a>
+                  ) : (
+                    <>
+                      <a
+                        href="tel:9600941222"
+                        className="text-gray-900 font-bold hover:text-blue-600 transition-colors"
+                      >
+                        9600941222
+                      </a>
+                      <span className="mx-1.5 text-gray-400 font-normal">/</span>
+                      <a
+                        href="tel:7339041222"
+                        className="text-gray-900 font-bold hover:text-blue-600 transition-colors"
+                      >
+                        7339041222
+                      </a>
+                    </>
+                  )}
+                </p>
+                <p className="mt-1 break-words">
+                  Email :{" "}
+                  <a
+                    href="mailto:connect@devspectra.in"
+                    className="hover:text-blue-600 transition-colors"
+                  >
+                    connect@devspectra.in
+                  </a>
+                </p>
               </div>
 
               <div>
                 <h3 className="mb-2 font-display text-xl font-semibold text-[#252525]">
                   Working Hours
                 </h3>
-                <p className="text-sm font-medium">{activeLoc.hours || "Mon - Fri : 10:00 - 20:00 IST"}</p>
+                <p className="text-sm font-medium">{activeLoc.hours || "Mon - Sat : 9:30 - 6:30"}</p>
               </div>
 
               {/* All Other Branches List Summary */}
@@ -570,7 +604,7 @@ function Contact() {
                   </div>
                   <div className="flex items-center gap-2.5">
                     <Clock className="w-4 h-4 text-blue-400 shrink-0" />
-                    <span>{activeLoc.hours || "Mon - Fri : 10:00 - 20:00"}</span>
+                    <span>{activeLoc.hours || "Mon - Sat : 9:30 - 6:30"}</span>
                   </div>
                   <div className="flex items-center gap-2.5">
                     <Phone className="w-4 h-4 text-indigo-400 shrink-0" />

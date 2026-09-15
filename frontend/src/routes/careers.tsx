@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useRef } from "react";
 import { PageShell } from "@/components/site/PageShell";
-import { ArrowRight, MapPin, Mail, Phone, CheckCircle2, UploadCloud } from "lucide-react";
+import { ArrowRight, MapPin, Mail, Phone, CheckCircle2, UploadCloud, Clock } from "lucide-react";
 
 import { generateSEO } from "@/lib/seo";
 
@@ -418,10 +418,16 @@ function Careers() {
                       <MapPin />
                     </SpectraIcon>
                     <div>
-                      <h5 className="text-xs font-bold text-gray-950">Our Location</h5>
+                      <div className="flex items-center gap-2">
+                        <h5 className="text-xs font-bold text-gray-950">Chennai Headquarters</h5>
+                        <span className="text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 border border-emerald-500/20">
+                          Open Now
+                        </span>
+                      </div>
                       <p className="text-xs text-gray-500 mt-1 leading-snug">
-                        No. 58 A, East Madison Street, Baltimore, MD, USA 4508
+                        18, 2nd St, Vani Nagar, Jai Nagar, Valasaravakkam, Chennai, Tamil Nadu 600087
                       </p>
+                      <p className="text-[11px] text-gray-400 font-medium mt-0.5">Chennai, Tamil Nadu</p>
                     </div>
                   </div>
 
@@ -433,10 +439,10 @@ function Careers() {
                     <div>
                       <h5 className="text-xs font-bold text-gray-950">Email</h5>
                       <a
-                        href="mailto:info@devspectra.com"
+                        href="mailto:connect@devspectra.in"
                         className="text-xs text-gray-500 group-hover:text-blue-600 transition-colors mt-1 block font-medium"
                       >
-                        info@devspectra.com
+                        connect@devspectra.in
                       </a>
                     </div>
                   </div>
@@ -448,12 +454,34 @@ function Careers() {
                     </SpectraIcon>
                     <div>
                       <h5 className="text-xs font-bold text-gray-950">Phone Number</h5>
-                      <a
-                        href="tel:+15550192834"
-                        className="text-xs text-gray-500 group-hover:text-blue-600 transition-colors mt-1 block font-medium"
-                      >
-                        +000 - 123 - 456789
-                      </a>
+                      <div className="flex items-center gap-2 mt-1">
+                        <a
+                          href="tel:9600941222"
+                          className="text-xs text-gray-500 hover:text-blue-600 transition-colors font-medium"
+                        >
+                          9600941222
+                        </a>
+                        <span className="text-xs text-gray-300">/</span>
+                        <a
+                          href="tel:7339041222"
+                          className="text-xs text-gray-500 hover:text-blue-600 transition-colors font-medium"
+                        >
+                          7339041222
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Working Hours */}
+                  <div className="flex items-start gap-4 group cursor-pointer p-3.5 rounded-2xl border border-gray-100 hover:border-blue-200 hover:bg-blue-50/20 transition-all">
+                    <SpectraIcon>
+                      <Clock />
+                    </SpectraIcon>
+                    <div>
+                      <h5 className="text-xs font-bold text-gray-950">Working Hours</h5>
+                      <p className="text-xs text-gray-500 mt-1 font-medium">
+                        Mon - Sat : 9:30 - 6:30
+                      </p>
                     </div>
                   </div>
                 </div>

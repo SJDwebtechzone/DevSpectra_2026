@@ -244,7 +244,7 @@ function Dashboard() {
     city: "",
     address: "",
     phone: "+0123-456-789",
-    hours: "Mon - Fri : 10:00 - 20:00 IST",
+    hours: "Mon - Sat : 9:30 - 6:30",
     status: "Open Now",
     embedUrl: "",
     directUrl: "",
@@ -646,7 +646,7 @@ function Dashboard() {
         city: "",
         address: "",
         phone: "+0123-456-789",
-        hours: "Mon - Fri : 10:00 - 20:00 IST",
+        hours: "Mon - Sat : 9:30 - 6:30",
         status: "Open Now",
         embedUrl: "",
         directUrl: "",
@@ -2705,7 +2705,7 @@ function Dashboard() {
                         </p>
                         <p>
                           <span className="text-zinc-500">Hours:</span>{" "}
-                          {loc.hours || "Mon - Fri : 10:00 - 20:00"}
+                          {loc.hours || "Mon - Sat : 9:30 - 6:30"}
                         </p>
                       </div>
                     </div>
@@ -3809,7 +3809,7 @@ function Dashboard() {
                       onChange={(e) =>
                         setLocationFormData({ ...locationFormData, hours: e.target.value })
                       }
-                      placeholder="Mon - Fri : 10:00 - 20:00 IST"
+                      placeholder="Mon - Sat : 9:30 - 6:30"
                       className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors"
                     />
                   </div>

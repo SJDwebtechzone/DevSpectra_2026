@@ -260,7 +260,7 @@ export class ContactsService implements OnModuleInit {
 
   async sendContactEmail(createContactDto: CreateContactDto) {
     const { name, email, phone, service, subject, message, customData } = createContactDto;
-    const recipientEmail = process.env.CONTACT_RECEIVER_EMAIL || process.env.SMTP_USER || 'info@devspectra.com';
+    const recipientEmail = process.env.CONTACT_RECEIVER_EMAIL || process.env.SMTP_USER || 'connect@devspectra.in';
 
     // Format custom fields nicely for email
     let customFieldsHtml = '';
@@ -362,7 +362,7 @@ export class ContactsService implements OnModuleInit {
 
   async sendCareerApplicationEmail(createCareerDto: CreateCareerApplicationDto) {
     const { name, email, phone, role, message, fileName, fileBase64 } = createCareerDto;
-    const recipientEmail = process.env.CONTACT_RECEIVER_EMAIL || process.env.SMTP_USER || 'info@devspectra.com';
+    const recipientEmail = process.env.CONTACT_RECEIVER_EMAIL || process.env.SMTP_USER || 'connect@devspectra.in';
 
     const attachments: any[] = [];
     if (fileBase64 && fileName) {
