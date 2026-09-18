@@ -1,22 +1,12 @@
 import { Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { API_BASE_URL } from "@/lib/api";
-import { getSocialIcon, defaultSocialLinks } from "@/lib/socialIcons";
+import { getSocialIcon } from "@/lib/socialIcons";
 
 export function Footer() {
   const [locations, setLocations] = useState<any[]>([]);
   const [socialLinks, setSocialLinks] = useState<any[]>([]);
-  const [activeLoc, setActiveLoc] = useState<any>({
-    id: "default",
-    name: "Chennai Office",
-    city: "Chennai",
-    address: "18, 2nd St, Vani Nagar, Jai Nagar, Valasaravakkam, Chennai, Tamil Nadu 600087",
-    embedUrl:
-      "https://maps.google.com/maps?q=18,+2nd+St,+Vani+Nagar,+Jai+Nagar,+Valasaravakkam,+Chennai,+Tamil+Nadu 600087&t=&z=15&ie=UTF8&iwloc=&output=embed",
-    directUrl:
-      "https://maps.google.com/?q=18,+2nd+St,+Vani+Nagar,+Jai+Nagar,+Valasaravakkam,+Chennai,+Tamil+Nadu 600087",
-    isPrimary: true,
-  });
+  const [activeLoc, setActiveLoc] = useState<any | null>(null);
 
   useEffect(() => {
     fetch(`${API_BASE_URL}/contacts/locations`)
@@ -26,22 +16,25 @@ export function Footer() {
           setLocations(data);
           const primary = data.find((l: any) => l.isPrimary) || data[0];
           setActiveLoc(primary);
-        }
-      })
-      .catch((err) => console.error("Failed to fetch footer locations", err));
-
-    fetch(`${API_BASE_URL}/contacts/social-links?t=${Date.now()}`)
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data) => {
-        if (Array.isArray(data)) {
-          setSocialLinks(data);
         } else {
-          setSocialLinks(defaultSocialLinks);
+          setLocations([]);
+          setActiveLoc(null);
         }
       })
       .catch((err) => {
+        console.error("Failed to fetch footer locations", err);
+        setLocations([]);
+        setActiveLoc(null);
+      });
+
+    fetch(`${API_BASE_URL}/contacts/social-links?t=${Date.now()}`)
+      .then((res) => (res.ok ? res.json() : []))
+      .then((data) => {
+        setSocialLinks(Array.isArray(data) ? data : []);
+      })
+      .catch((err) => {
         console.error("Failed to fetch footer social links", err);
-        setSocialLinks(defaultSocialLinks);
+        setSocialLinks([]);
       });
   }, []);
 

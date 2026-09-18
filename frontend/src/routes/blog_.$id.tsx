@@ -32,99 +32,33 @@ interface BlogPost {
   isActive?: boolean;
 }
 
-const defaultBlogPosts: BlogPost[] = [
-  {
-    id: "1",
-    title: "Things to Look for When Comparing Branding Alternatives",
-    excerpt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.",
-    content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-
-Elit ullamcorper dignissim
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam. Dictum at tempor commodo ullamcorper a lacus vestibulum sed. Condimentum mattis pellentesque id nibh tortor id. Nisl condimentum id venenatis a condimentum. Nunc sed blandit libero volutpat sed. Tristique sollicitudin nibh sit amet commodo. Sit amet justo donec enim diam vulputate ut pharetra. Quis imperdiet massa tincidunt nunc pulvinar sapien et ligula ullamcorper. Massa vitae tortor condimentum lacinia quis vel. Hendrerit dolor magna eget est lorem ipsum dolor. Mollis aliquam ut porttitor leo a diam sollicitudin tempor id. Suspendisse interdum posuere lorem ipsum dolor sit amet consectetur.
-
-Hendrerit dolor magna
-Tristique sollicitudin nibh sit amet commodo. Sit amet justo donec enim diam vulputate ut pharetra. Quis imperdiet massa tincidunt nunc pulvinar sapien et ligula ullamcorper. Massa vitae tortor condimentum lacinia quis vel. Hendrerit dolor magna eget est lorem ipsum dolor. Mollis aliquam ut porttitor leo a diam sollicitudin tempor id. Suspendisse faucibus interdum posuere.
-
-Hendrerit dolor magna
-Tristique sollicitudin nibh sit amet commodo. Sit amet justo donec enim diam vulputate ut pharetra. Quis imperdiet massa tincidunt nunc pulvinar sapien et ligula ullamcorper. Massa vitae tortor condimentum lacinia quis vel. Hendrerit dolor magna eget est lorem ipsum dolor. Mollis aliquam ut porttitor leo a diam sollicitudin tempor id. Suspendisse faucibus interdum posuere.`,
-    image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop",
-    category: "DESIGN, BRANDING",
-    tags: ["BRANDING", "DESIGN"],
-    author: "Guy Hawkins",
-    readTime: "10 MIN",
-    createdAt: "16 JUNE 2022",
-  },
-  {
-    id: "2",
-    title: "5 Stand-out Features of Branding You Should Know",
-    excerpt: "Explore the standalone branding features that elevate digital products from ordinary to iconic.",
-    content: "Consistency, emotional resonance, visual typography, tone of voice, and interactive motion form the core pillars of iconic brand design.",
-    image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=1200&auto=format&fit=crop",
-    category: "BRANDING",
-    tags: ["BRANDING", "DESIGN"],
-    author: "Guy Hawkins",
-    readTime: "5 MIN",
-    createdAt: "18 JUNE 2022",
-  },
-  {
-    id: "3",
-    title: "Branding: What Real Customers Have To Say",
-    excerpt: "Real feedback and case insights from customers on how branding influences trust.",
-    content: "User feedback demonstrates that clear design hierarchy and modern aesthetics significantly boost user trust and retention.",
-    image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=800&auto=format&fit=crop",
-    category: "BRANDING",
-    tags: ["BRANDING", "DESIGN"],
-    author: "DevSpectra Team",
-    readTime: "3 MIN",
-    createdAt: "20 JUNE 2022",
-  },
-  {
-    id: "4",
-    title: "Branding: Pros and Cons They Don't Tell You",
-    excerpt: "An honest look into the investment, timeline, and trade-offs when executing a refresh.",
-    content: "While rebranding drives growth, it requires strategic alignment, asset audits, and careful migration of existing customer equity.",
-    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop",
-    category: "BRANDING",
-    tags: ["BRANDING", "DESIGN"],
-    author: "Guy Hawkins",
-    readTime: "6 MIN",
-    createdAt: "22 JUNE 2022",
-  },
-];
-
 function BlogDetail() {
   const { id } = Route.useParams();
   const [post, setPost] = useState<BlogPost | null>(null);
-  const [allPosts, setAllPosts] = useState<BlogPost[]>(defaultBlogPosts);
+  const [allPosts, setAllPosts] = useState<BlogPost[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Try to load cached posts or find default
-    if (typeof window !== "undefined") {
-      const cached = localStorage.getItem("devspectra_blog_posts");
-      if (cached) {
-        try {
-          const parsed = JSON.parse(cached);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            setAllPosts(parsed);
-            const found = parsed.find((b: any) => String(b.id) === String(id) || b.slug === id);
-            if (found) setPost(found);
-          }
-        } catch (e) {}
-      }
-    }
-
+    setIsLoading(true);
     // Fetch single post from backend API
     const fetchDetail = async () => {
       try {
         const res = await fetch(`${API_BASE_URL}/blogs/${id}`);
         if (res.ok) {
           const data = await res.json();
-          if (data) {
+          if (data && data.id) {
             setPost(data);
+          } else {
+            setPost(null);
           }
+        } else {
+          setPost(null);
         }
       } catch (err) {
-        console.warn("Backend API offline, using local detail fallback");
+        console.error("Failed to fetch blog post", err);
+        setPost(null);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -133,8 +67,8 @@ function BlogDetail() {
         const res = await fetch(`${API_BASE_URL}/blogs`);
         if (res.ok) {
           const data = await res.json();
-          if (Array.isArray(data) && data.length > 0) {
-            setAllPosts(data);
+          if (Array.isArray(data)) {
+            setAllPosts(data.filter((b: any) => b.isActive !== false));
           }
         }
       } catch (err) {}
@@ -144,15 +78,44 @@ function BlogDetail() {
     fetchAll();
   }, [id]);
 
-  // Fallback to initial post if matching id found or first post
-  const currentPost = post || allPosts.find((b) => String(b.id) === String(id)) || allPosts[0];
+  if (isLoading) {
+    return (
+      <PageShell mode="blog" ctaLabel="Let's Talk">
+        <div className="min-h-[60vh] flex flex-col items-center justify-center">
+          <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-4" />
+          <p className="text-gray-500 font-medium text-sm">Loading article...</p>
+        </div>
+      </PageShell>
+    );
+  }
 
-  // Related posts (excluding current post)
-  const relatedPosts = allPosts.filter((b) => String(b.id) !== String(currentPost.id)).slice(0, 3);
+  if (!post) {
+    return (
+      <PageShell mode="blog" ctaLabel="Let's Talk">
+        <div className="min-h-[60vh] flex flex-col items-center justify-center text-center px-6 py-20">
+          <div className="w-16 h-16 rounded-full bg-red-50 text-red-600 flex items-center justify-center text-2xl font-bold mb-4">
+            !
+          </div>
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">Article Not Found</h1>
+          <p className="text-gray-500 max-w-md mb-8 text-sm md:text-base">
+            The article you are looking for does not exist or may have been unpublished.
+          </p>
+          <Link
+            to="/blog"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-black text-white font-medium hover:bg-gray-800 transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" /> Back to Blog
+          </Link>
+        </div>
+      </PageShell>
+    );
+  }
 
+  const currentPost = post;
+  const relatedPosts = allPosts.filter((b) => String(b.id) !== String(currentPost.id) && b.slug !== currentPost.slug).slice(0, 3);
   const tagsFormatted = Array.isArray(currentPost.tags)
     ? currentPost.tags.join(", ")
-    : currentPost.category || "DESIGN, BRANDING";
+    : currentPost.category || "INSIGHTS";
 
   const formattedDate = currentPost.createdAt
     ? typeof currentPost.createdAt === "string" && currentPost.createdAt.includes("-")

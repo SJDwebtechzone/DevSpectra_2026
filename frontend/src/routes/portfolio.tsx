@@ -286,11 +286,17 @@ function Portfolio() {
           `}</style>
 
           {/* Category Rows */}
-          <div className="space-y-24">
-            {finalPortfolioData
-              .filter((section) => section.items.length > 0)
-              .map((section, sIdx) => (
-              <div key={sIdx}>
+          {finalPortfolioData.length === 0 ? (
+            <div className="py-24 text-center rounded-3xl border border-gray-200/60 bg-gray-50/50 backdrop-blur-sm">
+              <p className="text-xl font-semibold text-gray-800">No projects published yet</p>
+              <p className="text-gray-500 text-sm mt-1">Our latest works and case studies will appear here once published.</p>
+            </div>
+          ) : (
+            <div className="space-y-24">
+              {finalPortfolioData
+                .filter((section) => section.items.length > 0)
+                .map((section, sIdx) => (
+                <div key={sIdx}>
                 <div className="flex items-center gap-4 mb-8">
                   <h2 className="text-3xl font-bold tracking-tight text-black">
                     {section.category}
@@ -721,6 +727,7 @@ function Portfolio() {
               </div>
             ))}
           </div>
+          )}
         </div>
       </AuroraBackground>
     </PageShell>

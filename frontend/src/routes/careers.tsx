@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { PageShell } from "@/components/site/PageShell";
 import { ArrowRight, MapPin, Mail, Phone, CheckCircle2, UploadCloud, Clock } from "lucide-react";
-
+import { toast } from "sonner";
+import { API_BASE_URL } from "@/lib/api";
 import { generateSEO } from "@/lib/seo";
 
 export const Route = createFileRoute("/careers")({
@@ -26,49 +27,9 @@ interface JobPosition {
   title: string;
   location: string;
   type: string;
+  department?: string;
+  isActive?: boolean;
 }
-
-const openPositions: JobPosition[] = [
-  {
-    id: "marketing-expert",
-    title: "Marketing Expert",
-    location: "Remote - US/Canada",
-    type: "Full Time",
-  },
-  {
-    id: "graphic-designer",
-    title: "Graphic Designer",
-    location: "Remote - UK/Italy",
-    type: "Full Time",
-  },
-  {
-    id: "project-manager",
-    title: "Project Manager",
-    location: "Remote - Australia",
-    type: "Full Time",
-  },
-  { id: "seo-specialist", title: "SEO Specialist", location: "Remote - France", type: "Full Time" },
-  {
-    id: "senior-developer",
-    title: "Senior Developer",
-    location: "Remote - US/Canada",
-    type: "Full Time",
-  },
-  { id: "ui-designer", title: "UI Designer", location: "Remote - Canada", type: "Full Time" },
-  {
-    id: "digital-marketing-analyst",
-    title: "Digital Marketing Analyst",
-    location: "Remote - US/Canada",
-    type: "Full Time",
-  },
-  { id: "ui-ux-designer", title: "UI/UX Designer", location: "Remote - Canada", type: "Full Time" },
-  {
-    id: "full-stack-developer",
-    title: "Full Stack Developer",
-    location: "Remote - US/Canada",
-    type: "Full Time",
-  },
-];
 
 const LOGO_GRADIENT_H =
   "linear-gradient(90deg, #5B21B6 0%, #2563EB 20%, #00B4D8 40%, #10B981 60%, #F59E0B 80%, #EF4444 100%)";
@@ -200,11 +161,39 @@ function SpectraButton({
 }
 
 function Careers() {
-  const [selectedRole, setSelectedRole] = useState<string>("Marketing Expert");
+  const [jobs, setJobs] = useState<JobPosition[]>([]);
+  const [isLoadingJobs, setIsLoadingJobs] = useState(true);
+  const [selectedRole, setSelectedRole] = useState<string>("General Application");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [applySubmitted, setApplySubmitted] = useState(false);
   const [hoveredJob, setHoveredJob] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    fetch(`${API_BASE_URL}/contacts/jobs?t=${Date.now()}`)
+      .then((res) => (res.ok ? res.json() : []))
+      .then((data) => {
+        if (Array.isArray(data)) {
+          const activeJobs = data.filter((j: any) => j.isActive !== false);
+          setJobs(activeJobs);
+          if (activeJobs.length > 0) {
+            setSelectedRole(activeJobs[0].title);
+          }
+        }
+        setIsLoadingJobs(false);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch job positions", err);
+        setIsLoadingJobs(false);
+      });
+  }, []);
 
   const handleSelectRole = (title: string) => {
     setSelectedRole(title);
@@ -217,6 +206,50 @@ function Careers() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setUploadedFile(e.target.files[0]);
+    }
+  };
+
+  const handleSubmitApplication = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    try {
+      let fileBase64 = "";
+      if (uploadedFile) {
+        fileBase64 = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result as string);
+          reader.onerror = reject;
+          reader.readAsDataURL(uploadedFile);
+        });
+      }
+
+      const res = await fetch(`${API_BASE_URL}/contacts/career-apply`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          role: selectedRole || "General Application",
+          message: formData.message,
+          fileName: uploadedFile ? uploadedFile.name : undefined,
+          fileBase64: fileBase64 || undefined,
+        }),
+      });
+
+      if (res.ok) {
+        setApplySubmitted(true);
+        setFormData({ name: "", email: "", phone: "", message: "" });
+        setUploadedFile(null);
+        setTimeout(() => setApplySubmitted(false), 8000);
+      } else {
+        const errData = await res.json().catch(() => ({}));
+        toast.error(errData.message || "Failed to submit application.");
+      }
+    } catch (err: any) {
+      toast.error(err.message || "Error submitting application.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -267,7 +300,19 @@ function Careers() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
             {/* Left Column: Job Cards List with Spectra Look */}
             <div className="lg:col-span-8 space-y-4">
-              {openPositions.map((job) => {
+              {!isLoadingJobs && jobs.length === 0 && (
+                <div className="p-8 sm:p-12 rounded-2xl border border-dashed border-gray-200 bg-gray-50/60 text-center">
+                  <div className="w-12 h-12 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center mx-auto mb-3 font-bold">
+                    💼
+                  </div>
+                  <h3 className="text-lg font-bold text-gray-900 mb-1">No Active Openings Right Now</h3>
+                  <p className="text-xs sm:text-sm text-gray-500 max-w-md mx-auto mb-4">
+                    We are always looking for exceptional engineers, designers, and marketers. Submit a general application below!
+                  </p>
+                </div>
+              )}
+
+              {jobs.map((job) => {
                 const isHovered = hoveredJob === job.id;
                 return (
                   <div
@@ -390,7 +435,7 @@ function Careers() {
               })}
             </div>
 
-            {/* Right Column: Contact & Talent Team Card */}
+            {/* Right Column: Direct Inquiries Card */}
             <div className="lg:col-span-4">
               <div className="bg-white rounded-3xl border border-gray-200/80 p-6 sm:p-8 shadow-[0_4px_24px_rgba(0,0,0,0.04)] sticky top-28 space-y-6">
                 <div>
@@ -541,20 +586,15 @@ function Careers() {
                     </div>
                   </div>
                 ) : (
-                  <form
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      setApplySubmitted(true);
-                      setTimeout(() => setApplySubmitted(false), 6000);
-                    }}
-                    className="space-y-6"
-                  >
+                  <form onSubmit={handleSubmitApplication} className="space-y-6">
                     {/* Row 1: Name & Email */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       <div>
                         <input
                           type="text"
                           required
+                          value={formData.name}
+                          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                           placeholder="Your Name *"
                           className="w-full pb-2 pt-1 border-b border-gray-300 text-sm font-medium text-gray-900 bg-transparent outline-none focus:border-blue-600 transition-colors placeholder:text-gray-400"
                         />
@@ -563,6 +603,8 @@ function Careers() {
                         <input
                           type="email"
                           required
+                          value={formData.email}
+                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                           placeholder="Your Email *"
                           className="w-full pb-2 pt-1 border-b border-gray-300 text-sm font-medium text-gray-900 bg-transparent outline-none focus:border-blue-600 transition-colors placeholder:text-gray-400"
                         />
@@ -575,6 +617,8 @@ function Careers() {
                         <input
                           type="tel"
                           required
+                          value={formData.phone}
+                          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                           placeholder="Mobile Number *"
                           className="w-full pb-2 pt-1 border-b border-gray-300 text-sm font-medium text-gray-900 bg-transparent outline-none focus:border-blue-600 transition-colors placeholder:text-gray-400"
                         />
@@ -585,11 +629,22 @@ function Careers() {
                           onChange={(e) => setSelectedRole(e.target.value)}
                           className="w-full pb-2 pt-1 border-b border-gray-300 text-sm font-medium text-gray-900 bg-transparent outline-none focus:border-blue-600 transition-colors cursor-pointer appearance-none"
                         >
-                          {openPositions.map((job) => (
-                            <option key={job.id} value={job.title} className="text-gray-900">
-                              {job.title}
+                          {jobs.length > 0 ? (
+                            <>
+                              {jobs.map((job) => (
+                                <option key={job.id} value={job.title} className="text-gray-900">
+                                  {job.title} ({job.location})
+                                </option>
+                              ))}
+                              <option value="General Application" className="text-gray-900">
+                                General Application
+                              </option>
+                            </>
+                          ) : (
+                            <option value="General Application" className="text-gray-900">
+                              General Application
                             </option>
-                          ))}
+                          )}
                         </select>
                         <div className="absolute right-0 bottom-3 pointer-events-none text-gray-400">
                           <svg
@@ -613,7 +668,9 @@ function Careers() {
                     <div className="pt-2">
                       <textarea
                         rows={3}
-                        placeholder="Additional message"
+                        value={formData.message}
+                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                        placeholder="Additional message (Cover note, skills, portfolio links...)"
                         className="w-full pb-2 pt-1 border-b border-gray-300 text-sm font-medium text-gray-900 bg-transparent outline-none focus:border-blue-600 transition-colors placeholder:text-gray-400 resize-none"
                       />
                     </div>
@@ -679,23 +736,26 @@ function Careers() {
                               </div>
 
                               <span className="relative z-10 text-xs text-gray-600 truncate flex-1 font-medium">
-                                {uploadedFile ? uploadedFile.name : "Drag & Drop files here"}
+                                {uploadedFile ? uploadedFile.name : "Drag & Drop Resume / CV"}
                               </span>
 
                               <span className="relative z-10 text-[11px] font-semibold px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 shrink-0">
-                                {uploadedFile ? "1 of 5" : "0 of 5"}
+                                {uploadedFile ? "1 file" : "Optional"}
                               </span>
                             </div>
                           </div>
                         </div>
                         <p className="text-[11px] text-gray-400 mt-1.5 pl-1">
-                          *Upload your Portfolio in pdf, jpg, png, or doc format
+                          *Upload your CV / Portfolio in pdf, doc, docx, jpg, or png format
                         </p>
                       </div>
 
                       {/* Submit Button with Iconic Spectra Pill Styling */}
-                      <SpectraButton type="submit" className="h-[52px] w-full sm:w-[180px]">
-                        Submit
+                      <SpectraButton
+                        type="submit"
+                        className="h-[52px] w-full sm:w-[180px]"
+                      >
+                        {isSubmitting ? "Submitting..." : "Submit"}
                       </SpectraButton>
                     </div>
                   </form>

@@ -85,12 +85,21 @@ export function Nav({
 
             <div className="flex items-center gap-2">
               <div className="hidden rounded-full bg-[conic-gradient(from_210deg,#111827_0deg,#111827_48deg,#2563eb_62deg,#ef4444_78deg,#facc15_92deg,#f8fafc_112deg,#f8fafc_240deg,#111827_280deg,#111827_360deg)] p-[2px] shadow-[0_8px_18px_rgba(25,35,55,0.16)] sm:inline-flex">
-                <Link
-                  to={ctaTo}
-                  className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
-                >
-                  {ctaLabel}
-                </Link>
+                {ctaTo.startsWith("#") || ctaTo.startsWith("http") ? (
+                  <a
+                    href={ctaTo}
+                    className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
+                  >
+                    {ctaLabel}
+                  </a>
+                ) : (
+                  <Link
+                    to={ctaTo}
+                    className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
+                  >
+                    {ctaLabel}
+                  </Link>
+                )}
               </div>
               <button
                 type="button"
@@ -133,13 +142,23 @@ export function Nav({
               {l.label}
             </Link>
           ))}
-          <Link
-            to={ctaTo}
-            onClick={() => setOpen(false)}
-            className="btn-pill btn-accent mt-6 inline-flex items-center gap-2"
-          >
-            {ctaLabel}
-          </Link>
+          {ctaTo.startsWith("#") || ctaTo.startsWith("http") ? (
+            <a
+              href={ctaTo}
+              onClick={() => setOpen(false)}
+              className="btn-pill btn-accent mt-6 inline-flex items-center gap-2"
+            >
+              {ctaLabel}
+            </a>
+          ) : (
+            <Link
+              to={ctaTo}
+              onClick={() => setOpen(false)}
+              className="btn-pill btn-accent mt-6 inline-flex items-center gap-2"
+            >
+              {ctaLabel}
+            </Link>
+          )}
         </div>
       </div>
     </>

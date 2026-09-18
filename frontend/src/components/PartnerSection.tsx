@@ -1,35 +1,29 @@
 import { useEffect, useRef, useState } from "react";
 import { API_BASE_URL } from "@/lib/api";
 
-const defaultPartners = [
-  { name: "Amazon Web Services", src: "/contact/amazonaws.svg" },
-  { name: "Apple", src: "/contact/apple.svg" },
-  { name: "Docker", src: "/contact/docker.svg" },
-  { name: "Google", src: "/contact/google.svg" },
-  { name: "GitHub", src: "/contact/github.svg" },
-  { name: "React", src: "/contact/react.svg" },
-  { name: "MongoDB", src: "/contact/mongodb.svg" },
-  { name: "TypeScript", src: "/contact/typescript.svg" },
-];
-
 export function PartnerSection() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [partners, setPartners] = useState<any[]>([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}/contacts/clients`)
+    fetch(`${API_BASE_URL}/contacts/clients?t=${Date.now()}`)
       .then((res) => (res.ok ? res.json() : []))
       .then((data) => {
-        if (Array.isArray(data) && data.length > 0) {
-          setPartners(data);
+        if (Array.isArray(data)) {
+          const active = data.filter((c: any) => c.isActive !== false);
+          setPartners(active);
         }
+        setIsLoaded(true);
       })
-      .catch((err) => console.error("Failed to fetch trusted clients", err));
+      .catch((err) => {
+        console.error("Failed to fetch trusted clients", err);
+        setIsLoaded(true);
+      });
   }, []);
 
-  const displayPartners = partners.length > 0 ? partners : defaultPartners;
-
   useEffect(() => {
+    if (partners.length === 0) return;
     let animationFrameId: number;
     let lastTimestamp = 0;
     const scrollContainer = scrollRef.current;
@@ -50,7 +44,11 @@ export function PartnerSection() {
 
     animationFrameId = requestAnimationFrame(scroll);
     return () => cancelAnimationFrame(animationFrameId);
-  }, [displayPartners]);
+  }, [partners]);
+
+  if (!isLoaded || partners.length === 0) {
+    return null;
+  }
 
   return (
     <section className="overflow-hidden border-b border-gray-100 bg-white py-10 sm:py-14">
@@ -62,20 +60,27 @@ export function PartnerSection() {
       </div>
       <div ref={scrollRef} className="w-full overflow-x-auto" style={{ scrollbarWidth: "none" }}>
         <div className="flex w-max gap-6 px-6 sm:gap-8 sm:px-10">
-          {[...displayPartners, ...displayPartners].map((partner, index) => (
-            <div
-              key={`${partner.name}-${index}`}
-              className="rounded-[1.1rem] bg-[conic-gradient(from_210deg,#111827_0deg,#111827_48deg,#2563eb_62deg,#ef4444_78deg,#facc15_92deg,#f8fafc_112deg,#f8fafc_240deg,#111827_280deg,#111827_360deg)] p-[2px] shadow-[0_10px_24px_rgba(25,35,55,0.12)]"
-            >
-              <div className="flex h-24 w-40 shrink-0 items-center justify-center rounded-[1rem] bg-white p-5 sm:h-28 sm:w-48 sm:p-6">
-                <img
-                  src={partner.src}
-                  alt={partner.name}
-                  className="max-h-full max-w-full object-contain"
-                />
+          {[...partners, ...partners].map((partner, index) => {
+            const logoSrc = partner.logoUrl || partner.src || partner.logo;
+            return (
+              <div
+                key={`${partner.id || partner.name}-${index}`}
+                className="rounded-[1.1rem] bg-[conic-gradient(from_210deg,#111827_0deg,#111827_48deg,#2563eb_62deg,#ef4444_78deg,#facc15_92deg,#f8fafc_112deg,#f8fafc_240deg,#111827_280deg,#111827_360deg)] p-[2px] shadow-[0_10px_24px_rgba(25,35,55,0.12)]"
+              >
+                <div className="flex h-24 w-40 shrink-0 items-center justify-center rounded-[1rem] bg-white p-5 sm:h-28 sm:w-48 sm:p-6">
+                  {logoSrc ? (
+                    <img
+                      src={logoSrc}
+                      alt={partner.name}
+                      className="max-h-full max-w-full object-contain"
+                    />
+                  ) : (
+                    <span className="text-sm font-bold text-gray-800">{partner.name}</span>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

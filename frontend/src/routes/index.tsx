@@ -31,33 +31,39 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
+import { API_BASE_URL } from "@/lib/api";
+
 function Home() {
-  const reviewsData = {
-    averageRating: 5,
-    totalReviews: 5,
-    reviews: [
-      {
-        authorName: "AJENDRA GOD AJENDRA",
-        relativeTime: "2 months ago",
-        rating: 5,
-        text: "Very excellent service, nice speech Thank you Thank you very much 🙏",
-      },
-      {
-        authorName: "Vigneswari Arun",
-        relativeTime: "6 months ago",
-        rating: 5,
-        text: "I had a great experience working with this team. On time delivery and I'm very satisfied with the work. Thank you to the entire team and support and effort.",
-      },
-      {
-        authorName: "Vedarajan “Sekar” Sekar",
-        relativeTime: "7 months ago",
-        rating: 5,
-        text: "I Really Appreciate their Commitment towards their core in perfection in completing the project, We personally had a great time in sharing our knowledge to attain the Success in Developing the portal.....Thank you Team ",
-      },
-    ],
-  };
-  const loading = false;
+  const [reviewsData, setReviewsData] = useState<{
+    averageRating: number;
+    totalReviews: number;
+    reviews: any[];
+  }>({
+    averageRating: 0,
+    totalReviews: 0,
+    reviews: [],
+  });
+  const [loading, setLoading] = useState(true);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    fetch(`${API_BASE_URL}/reviews/google?t=${Date.now()}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data && Array.isArray(data.reviews)) {
+          setReviewsData({
+            averageRating: data.averageRating || 0,
+            totalReviews: data.totalReviews || data.reviews.length,
+            reviews: data.reviews,
+          });
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch google reviews", err);
+        setLoading(false);
+      });
+  }, []);
 
   useEffect(() => {
     let animationFrameId: number;
@@ -217,67 +223,89 @@ function Home() {
               </div>
 
               {/* Auto Scrolling Reviews Area */}
-              <div
-                ref={scrollRef}
-                className="w-full flex-1 overflow-x-auto overflow-y-hidden relative -mx-6 px-6 lg:mx-0 lg:px-0 py-4 scrollbar-hide"
-                style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-              >
-                <div className="flex gap-6 w-max pl-6 lg:pl-0">
-                  {/* Duplicate array for seamless infinite scroll */}
-                  {[...reviews, ...reviews, ...reviews, ...reviews].map(
-                    (review: any, i: number) => (
-                      <div
-                        key={i}
-                        className="shrink-0 rounded-[2.15rem] bg-[conic-gradient(from_210deg,#111827_0deg,#111827_48deg,#2563eb_62deg,#ef4444_78deg,#facc15_92deg,#f8fafc_112deg,#f8fafc_240deg,#111827_280deg,#111827_360deg)] p-[2px] shadow-[0_12px_30px_rgba(25,35,55,0.12)]"
-                      >
-                        <div className="h-full w-[300px] sm:w-[350px] rounded-[2rem] bg-white p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)] flex flex-col">
-                          <div className="flex items-center gap-4 mb-5">
-                            {review.authorPhoto ? (
-                              <img
-                                src={review.authorPhoto}
-                                alt={review.authorName || review.name}
-                                className="w-12 h-12 rounded-full shadow-sm"
-                              />
-                            ) : (
-                              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center font-bold text-gray-600 text-lg">
-                                {(review.authorName || review.name)?.charAt(0)}
+              {reviews.length > 0 ? (
+                <div
+                  ref={scrollRef}
+                  className="w-full flex-1 overflow-x-auto overflow-y-hidden relative -mx-6 px-6 lg:mx-0 lg:px-0 py-4 scrollbar-hide"
+                  style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+                >
+                  <div className="flex gap-6 w-max pl-6 lg:pl-0">
+                    {/* Duplicate array for seamless infinite scroll */}
+                    {[...reviews, ...reviews, ...reviews, ...reviews].map(
+                      (review: any, i: number) => (
+                        <div
+                          key={i}
+                          className="shrink-0 rounded-[2.15rem] bg-[conic-gradient(from_210deg,#111827_0deg,#111827_48deg,#2563eb_62deg,#ef4444_78deg,#facc15_92deg,#f8fafc_112deg,#f8fafc_240deg,#111827_280deg,#111827_360deg)] p-[2px] shadow-[0_12px_30px_rgba(25,35,55,0.12)]"
+                        >
+                          <div className="h-full w-[300px] sm:w-[350px] rounded-[2rem] bg-white p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)] flex flex-col">
+                            <div className="flex items-center gap-4 mb-5">
+                              {review.authorPhoto ? (
+                                <img
+                                  src={review.authorPhoto}
+                                  alt={review.authorName || review.name}
+                                  className="w-12 h-12 rounded-full shadow-sm"
+                                />
+                              ) : (
+                                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center font-bold text-gray-600 text-lg">
+                                  {(review.authorName || review.name)?.charAt(0)}
+                                </div>
+                              )}
+                              <div>
+                                <h4
+                                  className="font-bold text-base line-clamp-1"
+                                  style={{ color: "var(--color-page-text)" }}
+                                >
+                                  {review.authorName || review.name}
+                                </h4>
+                                <p
+                                  className="text-sm font-medium"
+                                  style={{ color: "var(--color-page-muted)" }}
+                                >
+                                  {review.relativeTime || review.time}
+                                </p>
                               </div>
-                            )}
-                            <div>
-                              <h4
-                                className="font-bold text-base line-clamp-1"
-                                style={{ color: "var(--color-page-text)" }}
-                              >
-                                {review.authorName || review.name}
-                              </h4>
-                              <p
-                                className="text-sm font-medium"
-                                style={{ color: "var(--color-page-muted)" }}
-                              >
-                                {review.relativeTime || review.time}
-                              </p>
                             </div>
+                            <div className="flex text-[#fbbc05] mb-4">
+                              {[1, 2, 3, 4, 5].map((star) => (
+                                <svg
+                                  key={star}
+                                  className={`w-5 h-5 ${star <= (review.rating || 5) ? "fill-current" : "fill-gray-300"}`}
+                                  viewBox="0 0 20 20"
+                                >
+                                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                </svg>
+                              ))}
+                            </div>
+                            <p className="text-base leading-relaxed text-gray-600 flex-1 overflow-y-auto">
+                              "{review.text}"
+                            </p>
                           </div>
-                          <div className="flex text-[#fbbc05] mb-4">
-                            {[1, 2, 3, 4, 5].map((star) => (
-                              <svg
-                                key={star}
-                                className={`w-5 h-5 ${star <= (review.rating || 5) ? "fill-current" : "fill-gray-300"}`}
-                                viewBox="0 0 20 20"
-                              >
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                              </svg>
-                            ))}
-                          </div>
-                          <p className="text-base leading-relaxed text-gray-600 flex-1 overflow-y-auto">
-                            "{review.text}"
-                          </p>
                         </div>
-                      </div>
-                    ),
-                  )}
+                      ),
+                    )}
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <div className="w-full flex-1 flex flex-col items-center justify-center p-10 rounded-[2rem] border border-dashed border-gray-200 bg-gray-50/50 text-center">
+                  <div className="w-12 h-12 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center mb-3">
+                    <span className="text-xl font-bold">★</span>
+                  </div>
+                  <h4 className="font-bold text-gray-900 text-lg mb-1">
+                    Verified Google Reviews
+                  </h4>
+                  <p className="text-sm text-gray-500 max-w-md mb-4">
+                    Have you partnered with DevSpectra? Share your feedback directly on our Google Business profile!
+                  </p>
+                  <a
+                    href="https://g.page/r/CffO_u1buA2YEBM/review"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-blue-600 hover:text-blue-700"
+                  >
+                    Leave a Google Review ↗
+                  </a>
+                </div>
+              )}
             </div>
           </div>
         </div>

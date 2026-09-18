@@ -22,7 +22,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { API_BASE_URL } from "@/lib/api";
-import { getSocialIcon, defaultSocialLinks } from "@/lib/socialIcons";
+import { getSocialIcon } from "@/lib/socialIcons";
 
 import { generateSEO, generateLocalBusinessSchema, generateBreadcrumbSchema } from "@/lib/seo";
 
@@ -152,17 +152,13 @@ function Contact() {
       .catch((err) => console.error("Failed to fetch office locations", err));
 
     fetch(`${API_BASE_URL}/contacts/social-links?t=${Date.now()}`)
-      .then((res) => (res.ok ? res.json() : null))
+      .then((res) => (res.ok ? res.json() : []))
       .then((data) => {
-        if (Array.isArray(data)) {
-          setSocialLinks(data);
-        } else {
-          setSocialLinks(defaultSocialLinks);
-        }
+        setSocialLinks(Array.isArray(data) ? data : []);
       })
       .catch((err) => {
         console.error("Failed to fetch social links", err);
-        setSocialLinks(defaultSocialLinks);
+        setSocialLinks([]);
       });
   }, []);
 
@@ -468,31 +464,33 @@ function Contact() {
                 </div>
               )}
 
-              <div>
-                <h3 className="mb-3 font-display text-xl font-semibold text-[#252525]">
-                  Stay Connected
-                </h3>
-                <div className="flex flex-wrap gap-3">
-                  {socialLinks
-                    .filter((link) => link.isActive !== false && link.isActive !== 0 && link.isActive !== "false")
-                    .map((link) => {
-                      const Icon = getSocialIcon(link.icon, link.platform, link.url);
-                      return (
-                        <a
-                          key={link.id || link.platform}
-                          href={link.url}
-                          aria-label={link.platform}
-                          title={link.platform}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300/80 bg-white text-[#a58b60] transition-all hover:bg-[#a58b60] hover:text-white hover:border-[#a58b60] hover:shadow-md"
-                        >
-                          <Icon className="h-4 w-4" />
-                        </a>
-                      );
-                    })}
+              {socialLinks.filter((link) => link.isActive !== false && link.isActive !== 0 && link.isActive !== "false").length > 0 && (
+                <div>
+                  <h3 className="mb-3 font-display text-xl font-semibold text-[#252525]">
+                    Stay Connected
+                  </h3>
+                  <div className="flex flex-wrap gap-3">
+                    {socialLinks
+                      .filter((link) => link.isActive !== false && link.isActive !== 0 && link.isActive !== "false")
+                      .map((link) => {
+                        const Icon = getSocialIcon(link.icon, link.platform, link.url);
+                        return (
+                          <a
+                            key={link.id || link.platform}
+                            href={link.url}
+                            aria-label={link.platform}
+                            title={link.platform}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300/80 bg-white text-[#a58b60] transition-all hover:bg-[#a58b60] hover:text-white hover:border-[#a58b60] hover:shadow-md"
+                          >
+                            <Icon className="h-4 w-4" />
+                          </a>
+                        );
+                      })}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
 

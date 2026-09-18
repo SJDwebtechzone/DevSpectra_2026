@@ -19,68 +19,6 @@ export const Route = createFileRoute("/blog")({
   component: Blog,
 });
 
-const featuredPosts = [
-  {
-    id: 1,
-    image:
-      "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop",
-    tags: ["BRANDING", "DESIGN"],
-    title: "Things to Look for When Comparing Branding Alternatives",
-  },
-  {
-    id: 2,
-    image:
-      "https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=1200&auto=format&fit=crop",
-    tags: ["BRANDING", "DESIGN"],
-    title: "5 Stand-out Features of Branding You Should Know",
-  },
-];
-
-const regularPosts = [
-  {
-    id: 3,
-    image:
-      "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=800&auto=format&fit=crop",
-    tags: ["BRANDING", "DESIGN"],
-    title: "Branding: What Real Customers Have To Say",
-  },
-  {
-    id: 4,
-    image:
-      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop",
-    tags: ["BRANDING", "DESIGN"],
-    title: "Branding: Pros and Cons They Don't Tell You",
-  },
-  {
-    id: 5,
-    image:
-      "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=800&auto=format&fit=crop",
-    tags: ["BRANDING", "DESIGN"],
-    title: "How to Spot the Best Branding for You: Signs and Features",
-  },
-  {
-    id: 6,
-    image:
-      "https://images.unsplash.com/photo-1522337660859-02fbefca4702?q=80&w=800&auto=format&fit=crop",
-    tags: ["BRANDING", "DESIGN"],
-    title: "How Much Should I Spend on Branding?",
-  },
-  {
-    id: 7,
-    image:
-      "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=800&auto=format&fit=crop",
-    tags: ["BRANDING", "DESIGN"],
-    title: "Rookie Mistakes You're Making With Your Branding",
-  },
-  {
-    id: 8,
-    image:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop",
-    tags: ["BRANDING", "DESIGN"],
-    title: "Real Branding Customer Reviews You Need to See",
-  },
-];
-
 const SpectraButton = ({ children, href }: { children: React.ReactNode; href?: string }) => {
   const Component = href ? "a" : "button";
   return (
@@ -134,29 +72,33 @@ import { API_BASE_URL } from "@/lib/api";
 
 function Blog() {
   const [blogs, setBlogs] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<string>("ALL");
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}/blogs`)
+    fetch(`${API_BASE_URL}/blogs?t=${Date.now()}`)
       .then((res) => (res.ok ? res.json() : []))
       .then((data) => {
-        if (Array.isArray(data) && data.length > 0) {
-          setBlogs(data);
+        if (Array.isArray(data)) {
+          const published = data.filter((b: any) => b.isActive !== false);
+          setBlogs(published);
         }
+        setIsLoading(false);
       })
-      .catch((err) => console.error("Failed to fetch blogs", err));
+      .catch((err) => {
+        console.error("Failed to fetch blogs", err);
+        setIsLoading(false);
+      });
   }, []);
 
-  const displayPosts = blogs.length > 0 ? blogs : [...featuredPosts, ...regularPosts];
-
   const categories = Array.from(
-    new Set(["ALL", ...displayPosts.map((p) => (p.category || "BRANDING").toUpperCase())])
+    new Set(["ALL", ...blogs.map((p) => (p.category || "TECH").toUpperCase())])
   );
 
   const filteredPosts =
     selectedCategory === "ALL"
-      ? displayPosts
-      : displayPosts.filter(
+      ? blogs
+      : blogs.filter(
           (p) => (p.category || "").toUpperCase() === selectedCategory.toUpperCase()
         );
 
@@ -180,103 +122,126 @@ function Blog() {
                 Engineering, design, and digital growth articles from the DevSpectra studio.
               </p>
             </div>
-            <div className="flex flex-wrap gap-2.5 mb-1 items-center">
-              {categories.map((cat) => {
-                const isSelected = selectedCategory === cat;
-                return isSelected ? (
-                  <div key={cat} onClick={() => setSelectedCategory(cat)}>
-                    <SpectraButton>{cat}</SpectraButton>
-                  </div>
-                ) : (
-                  <button
-                    key={cat}
-                    onClick={() => setSelectedCategory(cat)}
-                    className="btn-pill btn-ghost text-xs uppercase tracking-widest font-semibold px-4 py-2 cursor-pointer hover:bg-black/5"
+            {categories.length > 1 && (
+              <div className="flex flex-wrap gap-2.5 mb-1 items-center">
+                {categories.map((cat) => {
+                  const isSelected = selectedCategory === cat;
+                  return isSelected ? (
+                    <div key={cat} onClick={() => setSelectedCategory(cat)}>
+                      <SpectraButton>{cat}</SpectraButton>
+                    </div>
+                  ) : (
+                    <button
+                      key={cat}
+                      onClick={() => setSelectedCategory(cat)}
+                      className="btn-pill btn-ghost text-xs uppercase tracking-widest font-semibold px-4 py-2 cursor-pointer hover:bg-black/5"
+                    >
+                      {cat}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </header>
+
+          {/* Empty State */}
+          {!isLoading && filteredPosts.length === 0 && (
+            <div className="py-24 text-center px-6">
+              <div className="w-16 h-16 mx-auto rounded-full bg-blue-50 text-blue-600 flex items-center justify-center mb-4 text-2xl font-bold">
+                ✍️
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">No Articles Published Yet</h3>
+              <p className="text-gray-500 max-w-md mx-auto text-sm">
+                We are actively preparing new engineering and design deep-dives. Stay tuned!
+              </p>
+            </div>
+          )}
+
+          {/* Featured Posts (Horizontal Scroll on Mobile, 2-Col Grid on Desktop) */}
+          {featured.length > 0 && (
+            <div
+              className="flex flex-row gap-4 overflow-x-auto p-4 md:p-0 snap-x snap-mandatory hide-scrollbar md:grid md:grid-cols-2 md:gap-0 md:overflow-visible md:snap-none"
+              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            >
+              {featured.map((post, index) => {
+                const targetId = post.slug || post.id;
+                const tagsList = Array.isArray(post.tags)
+                  ? post.tags
+                  : [post.category || "INSIGHTS"];
+                return (
+                  <Link
+                    key={post.id || index}
+                    to="/blog/$id"
+                    params={{ id: String(targetId) }}
+                    className={`w-[85vw] max-w-[320px] shrink-0 snap-center md:w-auto md:shrink md:max-w-none md:snap-none p-6 md:p-8 lg:p-10 border border-page-border md:border-t-0 md:border-l-0 md:border-r-0 md:border-b group block rounded-2xl md:rounded-none bg-white md:bg-transparent ${
+                      index === 0 && featured.length > 1 ? "md:border-r" : ""
+                    }`}
                   >
-                    {cat}
-                  </button>
+                    <div className="aspect-[4/3] md:aspect-[16/10] mb-6 overflow-hidden rounded-xl bg-muted">
+                      <img
+                        src={post.image || post.coverImage || post.img || "/portfolio/website-1.jpg"}
+                        alt={post.title}
+                        className="w-full h-full object-cover grayscale-[30%] transition-all duration-500 group-hover:scale-105 group-hover:grayscale-0"
+                      />
+                    </div>
+                    <div className="flex gap-2 mb-3">
+                      <span className="text-[10px] font-bold tracking-wider text-page-muted uppercase">
+                        {tagsList.join(", ")}
+                      </span>
+                    </div>
+                    <h2 className="text-2xl md:text-3xl font-medium leading-tight group-hover:text-blue-600 transition-colors">
+                      {post.title}
+                    </h2>
+                    {post.excerpt && (
+                      <p className="text-sm text-gray-600 mt-2 line-clamp-2">{post.excerpt}</p>
+                    )}
+                  </Link>
                 );
               })}
             </div>
-          </header>
-
-          {/* Featured Posts (Horizontal Scroll on Mobile, 2-Col Grid on Desktop) */}
-          <div
-            className="flex flex-row gap-4 overflow-x-auto p-4 md:p-0 snap-x snap-mandatory hide-scrollbar md:grid md:grid-cols-2 md:gap-0 md:overflow-visible md:snap-none"
-            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-          >
-            {featured.map((post, index) => {
-              const targetId = post.slug || post.id;
-              const tagsList = Array.isArray(post.tags) ? post.tags : [post.category || "BRANDING"];
-              return (
-                <Link
-                  key={post.id || index}
-                  to="/blog/$id"
-                  params={{ id: String(targetId) }}
-                  className={`w-[85vw] max-w-[320px] shrink-0 snap-center md:w-auto md:shrink md:max-w-none md:snap-none p-6 md:p-8 lg:p-10 border border-page-border md:border-t-0 md:border-l-0 md:border-r-0 md:border-b group block rounded-2xl md:rounded-none bg-white md:bg-transparent ${
-                    index === 0 ? "md:border-r" : ""
-                  }`}
-                >
-                  <div className="aspect-[4/3] md:aspect-[16/10] mb-6 overflow-hidden rounded-xl bg-muted">
-                    <img
-                      src={post.image || post.img || "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop"}
-                      alt={post.title}
-                      className="w-full h-full object-cover grayscale-[30%] transition-all duration-500 group-hover:scale-105 group-hover:grayscale-0"
-                    />
-                  </div>
-                  <div className="flex gap-2 mb-3">
-                    <span className="text-[10px] font-bold tracking-wider text-page-muted uppercase">
-                      {tagsList.join(", ")}
-                    </span>
-                  </div>
-                  <h2 className="text-2xl md:text-3xl font-medium leading-tight group-hover:text-blue-600 transition-colors">
-                    {post.title}
-                  </h2>
-                  {post.excerpt && (
-                    <p className="text-sm text-gray-600 mt-2 line-clamp-2">{post.excerpt}</p>
-                  )}
-                </Link>
-              );
-            })}
-          </div>
+          )}
 
           {/* Regular Posts Grid (Horizontal Scroll on Mobile, 3-Col Grid on Desktop) */}
-          <div
-            className="flex flex-row gap-4 overflow-x-auto p-4 md:p-0 snap-x snap-mandatory hide-scrollbar md:grid md:grid-cols-3 md:gap-0 md:overflow-visible md:snap-none"
-            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-          >
-            {regular.map((post, index) => {
-              const isRightColumn = (index + 1) % 3 === 0;
-              const targetId = post.slug || post.id;
-              const tagsList = Array.isArray(post.tags) ? post.tags : [post.category || "BRANDING"];
-              return (
-                <Link
-                  key={post.id || index}
-                  to="/blog/$id"
-                  params={{ id: String(targetId) }}
-                  className={`w-[80vw] max-w-[280px] shrink-0 snap-center md:w-auto md:shrink md:max-w-none md:snap-none p-6 md:p-8 border border-page-border md:border-t-0 md:border-l-0 md:border-r-0 md:border-b group block rounded-2xl md:rounded-none bg-white md:bg-transparent ${
-                    !isRightColumn ? "md:border-r" : ""
-                  }`}
-                >
-                  <div className="aspect-[4/3] mb-5 overflow-hidden rounded-xl bg-muted">
-                    <img
-                      src={post.image || post.img || "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=800&auto=format&fit=crop"}
-                      alt={post.title}
-                      className="w-full h-full object-cover grayscale-[30%] transition-all duration-500 group-hover:scale-105 group-hover:grayscale-0"
-                    />
-                  </div>
-                  <div className="flex gap-2 mb-2">
-                    <span className="text-[10px] font-bold tracking-wider text-page-muted uppercase">
-                      {tagsList.join(", ")}
-                    </span>
-                  </div>
-                  <h3 className="text-lg md:text-xl font-medium leading-snug group-hover:text-blue-600 transition-colors line-clamp-2">
-                    {post.title}
-                  </h3>
-                </Link>
-              );
-            })}
-          </div>
+          {regular.length > 0 && (
+            <div
+              className="flex flex-row gap-4 overflow-x-auto p-4 md:p-0 snap-x snap-mandatory hide-scrollbar md:grid md:grid-cols-3 md:gap-0 md:overflow-visible md:snap-none"
+              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            >
+              {regular.map((post, index) => {
+                const isRightColumn = (index + 1) % 3 === 0;
+                const targetId = post.slug || post.id;
+                const tagsList = Array.isArray(post.tags)
+                  ? post.tags
+                  : [post.category || "INSIGHTS"];
+                return (
+                  <Link
+                    key={post.id || index}
+                    to="/blog/$id"
+                    params={{ id: String(targetId) }}
+                    className={`w-[80vw] max-w-[280px] shrink-0 snap-center md:w-auto md:shrink md:max-w-none md:snap-none p-6 md:p-8 border border-page-border md:border-t-0 md:border-l-0 md:border-r-0 md:border-b group block rounded-2xl md:rounded-none bg-white md:bg-transparent ${
+                      !isRightColumn ? "md:border-r" : ""
+                    }`}
+                  >
+                    <div className="aspect-[4/3] mb-5 overflow-hidden rounded-xl bg-muted">
+                      <img
+                        src={post.image || post.coverImage || post.img || "/portfolio/website-1.jpg"}
+                        alt={post.title}
+                        className="w-full h-full object-cover grayscale-[30%] transition-all duration-500 group-hover:scale-105 group-hover:grayscale-0"
+                      />
+                    </div>
+                    <div className="flex gap-2 mb-2">
+                      <span className="text-[10px] font-bold tracking-wider text-page-muted uppercase">
+                        {tagsList.join(", ")}
+                      </span>
+                    </div>
+                    <h3 className="text-lg md:text-xl font-medium leading-snug group-hover:text-blue-600 transition-colors line-clamp-2">
+                      {post.title}
+                    </h3>
+                  </Link>
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
     </PageShell>
