@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+﻿import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { PageShell } from "@/components/site/PageShell";
 import ContactHero from "@/components/ContactHero";
@@ -390,43 +390,45 @@ function Contact() {
               </div>
 
               <div>
-                <h3 className="mb-2 font-display text-xl font-semibold text-[#252525]">Contact</h3>
-                <p className="font-medium text-gray-800">
-                  Phone :{" "}
-                  {activeLoc.phone && !activeLoc.phone.includes("9600941222") && !activeLoc.phone.includes("0123") ? (
-                    <a
-                      href={`tel:${activeLoc.phone.replace(/[^0-9+]/g, "")}`}
-                      className="text-gray-900 font-bold hover:text-blue-600 transition-colors"
-                    >
-                      {activeLoc.phone}
-                    </a>
-                  ) : (
-                    <>
-                      <a
-                        href="tel:9600941222"
-                        className="text-gray-900 font-bold hover:text-blue-600 transition-colors"
-                      >
-                        9600941222
-                      </a>
-                      <span className="mx-1.5 text-gray-400 font-normal">/</span>
-                      <a
-                        href="tel:7339041222"
-                        className="text-gray-900 font-bold hover:text-blue-600 transition-colors"
-                      >
-                        7339041222
-                      </a>
-                    </>
-                  )}
-                </p>
-                <p className="mt-1 break-words">
-                  Email :{" "}
-                  <a
-                    href="mailto:connect@devspectra.in"
-                    className="hover:text-blue-600 transition-colors"
-                  >
-                    connect@devspectra.in
-                  </a>
-                </p>
+                <h3 className="mb-2 font-display text-xl font-semibold text-[#252525]">Contact</h3><p className="font-medium text-gray-800">
+  Phone :{" "}
+  {activeLoc.phone &&
+  !activeLoc.phone.includes("9600941222") &&
+  !activeLoc.phone.includes("0123") ? (
+    <a
+      href={`tel:${activeLoc.phone.replace(/[^0-9+]/g, "")}`}
+      className="text-gray-900 font-bold hover:text-blue-600 transition-colors"
+    >
+      {activeLoc.phone}
+    </a>
+  ) : (
+    <>
+      <a
+        href="tel:9600941222"
+        className="text-gray-900 font-bold hover:text-blue-600 transition-colors"
+      >
+        9600941222
+      </a>
+      <span className="mx-1.5 text-gray-400 font-normal">/</span>
+      <a
+        href="tel:7339041222"
+        className="text-gray-900 font-bold hover:text-blue-600 transition-colors"
+      >
+        7339041222
+      </a>
+    </>
+  )}
+</p>
+
+<p className="mt-1 break-words">
+  Email :{" "}
+  <a
+    href="mailto:connect@devspectra.in"
+    className="hover:text-blue-600 transition-colors"
+  >
+    connect@devspectra.in
+  </a>
+</p>
               </div>
 
               <div>
@@ -437,33 +439,6 @@ function Contact() {
               </div>
 
               {/* All Other Branches List Summary */}
-              {safeLocations.length > 1 && (
-                <div className="pt-6 border-t border-gray-300/70">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-[#a58b60] mb-3">
-                    All Office Branches ({safeLocations.length})
-                  </h4>
-                  <div className="space-y-3">
-                    {safeLocations.map((loc) => (
-                      <div
-                        key={loc.id}
-                        onClick={() => setActiveLocId(loc.id)}
-                        className={`p-3.5 rounded-xl border transition-all cursor-pointer ${
-                          activeLocId === loc.id
-                            ? "bg-white border-[#a58b60] shadow-sm"
-                            : "bg-white/50 border-gray-200 hover:bg-white hover:border-gray-300"
-                        }`}
-                      >
-                        <div className="flex items-center justify-between">
-                          <span className="font-semibold text-sm text-gray-900">{loc.name}</span>
-                          <span className="text-[11px] font-mono text-[#a58b60]">{loc.phone || "9600941222"}</span>
-                        </div>
-                        <p className="text-xs text-gray-600 mt-1 line-clamp-1">{loc.address}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
               {socialLinks.filter((link) => link.isActive !== false && link.isActive !== 0 && link.isActive !== "false").length > 0 && (
                 <div>
                   <h3 className="mb-3 font-display text-xl font-semibold text-[#252525]">
