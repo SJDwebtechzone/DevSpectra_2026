@@ -65,9 +65,9 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Quick Links Column - 2 Column Grid on Mobile (COMPANY on Left, SERVICES on Right) */}
-          <div className="col-span-1 sm:col-span-2 lg:col-span-4 grid grid-cols-2 gap-6 sm:gap-8">
-            {/* Column 1 - Company (Left) */}
+          {/* Column Links - COMPANY on Left, SERVICES on Right (Side-by-side on mobile) */}
+          <div className="col-span-1 sm:col-span-2 lg:col-span-4 grid grid-cols-2 gap-6 lg:gap-10">
+            {/* Left Column - Company */}
             <div className="flex flex-col text-gray-300 font-semibold">
               <span className="mb-2 text-gray-500 font-mono text-sm md:text-base tracking-widest uppercase">
                 COMPANY
@@ -92,7 +92,7 @@ export function Footer() {
               </Link>
             </div>
 
-            {/* Column 2 - Services (Right) */}
+            {/* Right Column - Services */}
             <div className="flex flex-col text-gray-300 font-semibold">
               <span className="mb-2 text-gray-500 font-mono text-sm md:text-base tracking-widest uppercase">
                 SERVICES

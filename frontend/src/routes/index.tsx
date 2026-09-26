@@ -126,7 +126,7 @@ function Home() {
       <section className="py-24 md:py-32 bg-white relative z-10 border-b border-gray-100 overflow-hidden">
         <div className="container-page max-w-7xl mx-auto px-6">
           <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
-            <div className="w-full lg:w-3/5 flex justify-center lg:justify-start">
+            <div className="w-full lg:w-3/5 flex justify-center lg:justify-start order-2 lg:order-1">
               <div className="w-full max-w-[720px] rounded-[2.5rem] border border-gray-200 bg-white p-3 shadow-[0_18px_45px_rgba(25,35,55,0.16),inset_0_1px_0_rgba(255,255,255,0.95)]">
                 <div className="rounded-[2rem] bg-[conic-gradient(from_210deg,#111827_0deg,#111827_48deg,#2563eb_62deg,#ef4444_78deg,#facc15_92deg,#f8fafc_112deg,#f8fafc_240deg,#111827_280deg,#111827_360deg)] p-[2px] shadow-[inset_0_1px_4px_rgba(148,163,184,0.18)]">
                   <div className="overflow-hidden rounded-[1.9rem] bg-gray-50 p-1">
@@ -143,7 +143,7 @@ function Home() {
                 </div>
               </div>
             </div>
-            <div className="w-full lg:w-2/5 text-left">
+            <div className="w-full lg:w-2/5 text-left order-1 lg:order-2">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tighter text-[#4A3628] mb-8 leading-[1.1]">
                 DIGITAL EXPERIENCES, <br />
                 <span className="font-serif italic font-normal tracking-normal text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500">
