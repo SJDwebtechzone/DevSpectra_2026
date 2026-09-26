@@ -65,67 +65,70 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Column 1 - Services */}
-          <div className="col-span-1 lg:col-span-2 flex flex-col text-gray-300 font-semibold">
-            <span className="mb-2 text-gray-500 font-mono text-sm md:text-base tracking-widest uppercase">
-              SERVICES
-            </span>
-            <Link
-              to="/services"
-              hash="web-development"
-              className="hover:text-white transition-colors"
-            >
-              Web Development
-            </Link>
-            <Link
-              to="/services"
-              hash="mobile-application"
-              className="hover:text-white transition-colors"
-            >
-              App Development
-            </Link>
-            <Link to="/services" hash="e-commerce" className="hover:text-white transition-colors">
-              E-Commerce
-            </Link>
-            <Link
-              to="/services"
-              hash="saas-products"
-              className="hover:text-white transition-colors"
-            >
-              SaaS Products
-            </Link>
-            <Link
-              to="/services"
-              hash="digital-marketing"
-              className="hover:text-white transition-colors"
-            >
-              Digital Marketing
-            </Link>
-          </div>
+          {/* Column - Navigation Links (COMPANY on Left, SERVICES on Right in 2-column mobile/desktop view) */}
+          <div className="col-span-1 sm:col-span-2 lg:col-span-4 grid grid-cols-2 gap-6 sm:gap-8">
+            {/* Column 1 - Company (Left) */}
+            <div className="flex flex-col text-gray-300 font-semibold">
+              <span className="mb-2 text-gray-500 font-mono text-sm md:text-base tracking-widest uppercase">
+                COMPANY
+              </span>
+              <Link to="/" className="hover:text-white transition-colors">
+                Home
+              </Link>
+              <Link to="/services" className="hover:text-white transition-colors">
+                Services
+              </Link>
+              <Link to="/portfolio" className="hover:text-white transition-colors">
+                Portfolio
+              </Link>
+              <Link to="/blog" className="hover:text-white transition-colors">
+                Blogs
+              </Link>
+              <Link to="/careers" className="hover:text-white transition-colors">
+                Careers
+              </Link>
+              <Link to="/contact" className="hover:text-white transition-colors">
+                Contact
+              </Link>
+            </div>
 
-          {/* Column 2 - Company */}
-          <div className="col-span-1 lg:col-span-2 flex flex-col text-gray-300 font-semibold">
-            <span className="mb-2 text-gray-500 font-mono text-sm md:text-base tracking-widest uppercase">
-              COMPANY
-            </span>
-            <Link to="/" className="hover:text-white transition-colors">
-              Home
-            </Link>
-            <Link to="/services" className="hover:text-white transition-colors">
-              Services
-            </Link>
-            <Link to="/portfolio" className="hover:text-white transition-colors">
-              Portfolio
-            </Link>
-            <Link to="/blog" className="hover:text-white transition-colors">
-              Blogs
-            </Link>
-            <Link to="/careers" className="hover:text-white transition-colors">
-              Careers
-            </Link>
-            <Link to="/contact" className="hover:text-white transition-colors">
-              Contact
-            </Link>
+            {/* Column 2 - Services (Right) */}
+            <div className="flex flex-col text-gray-300 font-semibold">
+              <span className="mb-2 text-gray-500 font-mono text-sm md:text-base tracking-widest uppercase">
+                SERVICES
+              </span>
+              <Link
+                to="/services"
+                hash="web-development"
+                className="hover:text-white transition-colors"
+              >
+                Web Development
+              </Link>
+              <Link
+                to="/services"
+                hash="mobile-application"
+                className="hover:text-white transition-colors"
+              >
+                App Development
+              </Link>
+              <Link to="/services" hash="e-commerce" className="hover:text-white transition-colors">
+                E-Commerce
+              </Link>
+              <Link
+                to="/services"
+                hash="saas-products"
+                className="hover:text-white transition-colors"
+              >
+                SaaS Products
+              </Link>
+              <Link
+                to="/services"
+                hash="digital-marketing"
+                className="hover:text-white transition-colors"
+              >
+                Digital Marketing
+              </Link>
+            </div>
           </div>
 
           {/* Column 3 - Map & All Office Locations */}
