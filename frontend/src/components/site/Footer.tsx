@@ -65,7 +65,7 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Column - Navigation Links (COMPANY on Left, SERVICES on Right in 2-column mobile/desktop view) */}
+          {/* Quick Links Column - 2 Column Grid on Mobile (COMPANY on Left, SERVICES on Right) */}
           <div className="col-span-1 sm:col-span-2 lg:col-span-4 grid grid-cols-2 gap-6 sm:gap-8">
             {/* Column 1 - Company (Left) */}
             <div className="flex flex-col text-gray-300 font-semibold">
