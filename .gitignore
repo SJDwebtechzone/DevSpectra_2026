@@ -1,0 +1,6 @@
+
+# Local backups
+frontend/.output-backup-*/
+frontend/.output_backup_*/
+frontend/src/routes/*.backup
+frontend/*.backup

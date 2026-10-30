@@ -41,7 +41,7 @@ import { Blog } from './blogs/entities/blog.entity';
         password: configService.get<string>('database.password'),
         database: configService.get<string>('database.name'),
         entities: [User, Project, Contact, ContactField, OfficeLocation, TrustedClient, JobPosition, Review, GoogleReview, Blog, SocialLink],
-        synchronize: configService.get<string>('nodeEnv') !== 'production',
+        synchronize: false,
         migrationsRun: false,
       }),
       inject: [ConfigService],

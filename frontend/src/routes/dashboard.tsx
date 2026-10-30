@@ -670,16 +670,17 @@ function Dashboard() {
     }
     try {
       const token = getAuthToken();
+      const { tagsStr, ...formData } = blogFormData;
       const payload = {
-        ...blogFormData,
+        ...formData,
         slug:
           blogFormData.slug ||
           blogFormData.title
             .toLowerCase()
             .replace(/[^a-z0-9]+/g, "-")
             .replace(/(^-|-$)+/g, ""),
-        tags: blogFormData.tagsStr
-          ? blogFormData.tagsStr.split(",").map((t) => t.trim()).filter(Boolean)
+        tags: tagsStr
+          ? tagsStr.split(",").map((t) => t.trim()).filter(Boolean)
           : [],
       };
       const res = await fetch(`${API_BASE_URL}/blogs`, {
@@ -740,10 +741,11 @@ function Dashboard() {
     if (!editingBlog) return;
     try {
       const token = getAuthToken();
+      const { tagsStr, ...formData } = editBlogFormData;
       const payload = {
-        ...editBlogFormData,
-        tags: editBlogFormData.tagsStr
-          ? editBlogFormData.tagsStr.split(",").map((t) => t.trim()).filter(Boolean)
+        ...formData,
+        tags: tagsStr
+          ? tagsStr.split(",").map((t) => t.trim()).filter(Boolean)
           : [],
       };
       const res = await fetch(`${API_BASE_URL}/blogs/${editingBlog.id}`, {
