@@ -22,10 +22,10 @@ export class CreateCareerApplicationDto {
   message?: string;
 
   @IsString()
-  @IsOptional()
-  fileName?: string;
+  @IsNotEmpty({ message: 'Resume or CV file is required' })
+  fileName: string;
 
   @IsString()
-  @IsOptional()
-  fileBase64?: string;
+  @IsNotEmpty({ message: 'Resume or CV file content is required' })
+  fileBase64: string;
 }

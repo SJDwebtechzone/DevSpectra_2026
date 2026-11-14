@@ -60,7 +60,7 @@ export function Footer() {
               className="h-20 w-auto object-contain mb-6 -ml-2"
             />
             <p className="text-base leading-relaxed text-gray-300 font-medium max-w-md">
-              Devspectra is a full-service digital agency specializing in cutting-edge web
+              DevSpectra is a full-service digital agency specializing in cutting-edge web
               development, mobile applications, and scalable software solutions.
             </p>
           </div>
@@ -247,8 +247,8 @@ export function Footer() {
               })}
           </div>
 
-          <p className="font-mono text-xs md:text-sm tracking-[0.1em] text-gray-500 uppercase text-center">
-            © 2026 DEVSPECTRA INC. ALL RIGHTS RESERVED.
+          <p className="font-mono text-xs md:text-sm tracking-[0.1em] text-gray-500 text-center">
+            © 2026 DevSpectra Inc. All Rights Reserved.
           </p>
         </div>
       </div>

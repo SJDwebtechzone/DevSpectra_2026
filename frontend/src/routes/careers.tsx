@@ -171,6 +171,7 @@ function Careers() {
     message: "",
   });
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [fileError, setFileError] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [applySubmitted, setApplySubmitted] = useState(false);
   const [hoveredJob, setHoveredJob] = useState<string | null>(null);
@@ -206,11 +207,17 @@ function Careers() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setUploadedFile(e.target.files[0]);
+      setFileError(false);
     }
   };
 
   const handleSubmitApplication = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!uploadedFile) {
+      setFileError(true);
+      toast.error("Please upload your CV / Resume (Required).");
+      return;
+    }
     setIsSubmitting(true);
     try {
       let fileBase64 = "";
@@ -627,7 +634,7 @@ function Careers() {
                         <select
                           value={selectedRole}
                           onChange={(e) => setSelectedRole(e.target.value)}
-                          className="w-full pb-2 pt-1 border-b border-gray-300 text-sm font-medium text-gray-900 bg-transparent outline-none focus:border-blue-600 transition-colors cursor-pointer appearance-none"
+                          className="w-full pb-2 pt-1 pr-8 border-b border-gray-300 text-sm font-medium text-gray-900 bg-transparent outline-none focus:border-blue-600 transition-colors cursor-pointer appearance-none"
                         >
                           {jobs.length > 0 ? (
                             <>
@@ -646,7 +653,7 @@ function Careers() {
                             </option>
                           )}
                         </select>
-                        <div className="absolute right-0 bottom-3 pointer-events-none text-gray-400">
+                        <div className="absolute right-1 bottom-3 pointer-events-none text-gray-400">
                           <svg
                             className="w-4 h-4"
                             fill="none"
@@ -695,8 +702,10 @@ function Careers() {
 
                           {/* Gradient Border Box */}
                           <div
-                            className="relative p-[1.5px] rounded-2xl transition-all duration-300"
-                            style={{ backgroundImage: LOGO_GRADIENT_H }}
+                            className={`relative p-[1.5px] rounded-2xl transition-all duration-300 ${
+                              fileError && !uploadedFile ? "ring-2 ring-red-500 ring-offset-2" : ""
+                            }`}
+                            style={{ backgroundImage: fileError && !uploadedFile ? undefined : LOGO_GRADIENT_H }}
                           >
                             <div className="relative bg-white rounded-2xl px-4 py-3 flex items-center gap-3 overflow-hidden shadow-sm">
                               {/* Wavy Background Pattern */}
@@ -736,17 +745,35 @@ function Careers() {
                               </div>
 
                               <span className="relative z-10 text-xs text-gray-600 truncate flex-1 font-medium">
-                                {uploadedFile ? uploadedFile.name : "Drag & Drop Resume / CV"}
+                                {uploadedFile ? (
+                                  uploadedFile.name
+                                ) : (
+                                  <span>
+                                    Drag & Drop Resume / CV <span className="text-red-500 font-bold">*</span>
+                                  </span>
+                                )}
                               </span>
 
-                              <span className="relative z-10 text-[11px] font-semibold px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 shrink-0">
-                                {uploadedFile ? "1 file" : "Optional"}
+                              <span
+                                className={`relative z-10 text-[11px] font-semibold px-2 py-0.5 rounded-full shrink-0 ${
+                                  uploadedFile
+                                    ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                                    : "bg-red-50 text-red-600 border border-red-200"
+                                }`}
+                              >
+                                {uploadedFile ? "1 file" : "Required *"}
                               </span>
                             </div>
                           </div>
                         </div>
-                        <p className="text-[11px] text-gray-400 mt-1.5 pl-1">
-                          *Upload your CV / Portfolio in pdf, doc, docx, jpg, or png format
+                        <p
+                          className={`text-[11px] mt-1.5 pl-1 transition-colors ${
+                            fileError && !uploadedFile
+                              ? "text-red-500 font-semibold"
+                              : "text-gray-500"
+                          }`}
+                        >
+                          * Upload your CV / Portfolio in pdf, doc, docx, jpg, or png format (Mandatory)
                         </p>
                       </div>
 
