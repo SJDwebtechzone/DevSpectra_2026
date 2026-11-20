@@ -66,37 +66,30 @@ function Home() {
   }, []);
 
   useEffect(() => {
+    if (reviewsData.reviews.length === 0) return;
     let animationFrameId: number;
-    const scrollContainer = scrollRef.current;
-    let isHovered = false;
-    let floatScrollLeft = 0;
     let lastTimestamp = 0;
-
+    const scrollContainer = scrollRef.current;
     if (!scrollContainer) return;
 
-    floatScrollLeft = scrollContainer.scrollLeft;
+    scrollContainer.scrollLeft = scrollContainer.scrollWidth / 2;
 
-    const scrollStep = (timestamp: number) => {
+    let isHovered = false;
+
+    const scroll = (timestamp: number) => {
       const elapsed = lastTimestamp ? Math.min(timestamp - lastTimestamp, 32) : 0;
       lastTimestamp = timestamp;
 
       if (!isHovered) {
-        floatScrollLeft += elapsed * 0.025;
-        scrollContainer.scrollLeft = floatScrollLeft;
-
-        // The reviews are repeated, so loop by one set without a visible jump.
-        const loopWidth = scrollContainer.scrollWidth / 4;
-        if (loopWidth > 0 && floatScrollLeft >= loopWidth) {
-          floatScrollLeft -= loopWidth;
-          scrollContainer.scrollLeft = floatScrollLeft;
+        scrollContainer.scrollLeft -= elapsed * 0.025;
+        if (scrollContainer.scrollLeft <= 0) {
+          scrollContainer.scrollLeft = scrollContainer.scrollWidth / 2;
         }
-      } else {
-        floatScrollLeft = scrollContainer.scrollLeft;
       }
-      animationFrameId = requestAnimationFrame(scrollStep);
+      animationFrameId = requestAnimationFrame(scroll);
     };
 
-    animationFrameId = requestAnimationFrame(scrollStep);
+    animationFrameId = requestAnimationFrame(scroll);
 
     const handleHover = () => (isHovered = true);
     const handleLeave = () => (isHovered = false);
@@ -113,7 +106,7 @@ function Home() {
       scrollContainer.removeEventListener("touchstart", handleHover);
       scrollContainer.removeEventListener("touchend", handleLeave);
     };
-  }, []);
+  }, [reviewsData.reviews]);
   const averageRating = reviewsData.averageRating;
   const totalReviews = reviewsData.totalReviews;
   const reviews = reviewsData.reviews;
@@ -230,8 +223,8 @@ function Home() {
                   style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
                 >
                   <div className="flex gap-6 w-max pl-6 lg:pl-0">
-                    {/* Duplicate array for seamless infinite scroll */}
-                    {[...reviews, ...reviews, ...reviews, ...reviews].map(
+                    {/* Duplicate array for seamless infinite scroll matching Trusted Clients */}
+                    {[...reviews, ...reviews].map(
                       (review: any, i: number) => (
                         <div
                           key={i}
