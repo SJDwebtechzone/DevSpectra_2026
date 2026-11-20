@@ -76,7 +76,7 @@ function Blog() {
   const [selectedCategory, setSelectedCategory] = useState<string>("ALL");
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}/blogs?t=${Date.now()}`)
+    fetch(`${API_BASE_URL}/blogs?t=${Date.now()}`, { cache: "no-store" })
       .then((res) => (res.ok ? res.json() : []))
       .then((data) => {
         if (Array.isArray(data)) {
@@ -102,8 +102,19 @@ function Blog() {
           (p) => (p.category || "").toUpperCase() === selectedCategory.toUpperCase()
         );
 
-  const featured = filteredPosts.slice(0, 2);
-  const regular = filteredPosts.slice(2);
+  // Only posts explicitly marked as featured in the dashboard
+  const allFeatured = filteredPosts.filter(
+    (p) => p.isFeatured === true || p.isFeatured === "true" || p.isFeatured === 1
+  );
+  const featured = allFeatured.slice(0, 2);
+
+  // All remaining posts (or all posts if none are marked featured) appear in the regular posts grid
+  const regular = filteredPosts.filter(
+    (p) =>
+      !featured.some(
+        (f) => (f.id && f.id === p.id) || (f.slug && f.slug === p.slug)
+      )
+  );
 
   return (
     <PageShell mode="blog" ctaLabel="Let's Talk">
@@ -157,10 +168,12 @@ function Blog() {
             </div>
           )}
 
-          {/* Featured Posts (Horizontal Scroll on Mobile, 2-Col Grid on Desktop) */}
+          {/* Featured Posts (Horizontal Scroll on Mobile, Grid on Desktop) */}
           {featured.length > 0 && (
             <div
-              className="flex flex-row gap-4 overflow-x-auto p-4 md:p-0 snap-x snap-mandatory hide-scrollbar md:grid md:grid-cols-2 md:gap-0 md:overflow-visible md:snap-none"
+              className={`flex flex-row gap-4 overflow-x-auto p-4 md:p-0 snap-x snap-mandatory hide-scrollbar md:grid ${
+                featured.length === 1 ? "md:grid-cols-1" : "md:grid-cols-2"
+              } md:gap-0 md:overflow-visible md:snap-none`}
               style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             >
               {featured.map((post, index) => {

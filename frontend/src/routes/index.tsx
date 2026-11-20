@@ -237,48 +237,64 @@ function Home() {
                           key={i}
                           className="shrink-0 rounded-[2.15rem] bg-[conic-gradient(from_210deg,#111827_0deg,#111827_48deg,#2563eb_62deg,#ef4444_78deg,#facc15_92deg,#f8fafc_112deg,#f8fafc_240deg,#111827_280deg,#111827_360deg)] p-[2px] shadow-[0_12px_30px_rgba(25,35,55,0.12)]"
                         >
-                          <div className="h-full w-[300px] sm:w-[350px] rounded-[2rem] bg-white p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)] flex flex-col">
-                            <div className="flex items-center gap-4 mb-5">
-                              {review.authorPhoto ? (
-                                <img
-                                  src={review.authorPhoto}
-                                  alt={review.authorName || review.name}
-                                  className="w-12 h-12 rounded-full shadow-sm"
-                                />
-                              ) : (
-                                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center font-bold text-gray-600 text-lg">
-                                  {(review.authorName || review.name)?.charAt(0)}
+                          <div className="h-[270px] w-[300px] sm:w-[350px] rounded-[2rem] bg-white p-6 sm:p-7 shadow-[0_4px_20px_rgb(0,0,0,0.03)] flex flex-col justify-between">
+                            <div>
+                              <div className="flex items-center gap-3.5 mb-3">
+                                {review.authorPhoto ? (
+                                  <img
+                                    src={review.authorPhoto}
+                                    alt={review.authorName || review.name}
+                                    className="w-11 h-11 rounded-full shadow-sm object-cover shrink-0"
+                                  />
+                                ) : (
+                                  <div className="w-11 h-11 rounded-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center font-bold text-gray-600 text-base shrink-0">
+                                    {(review.authorName || review.name)?.charAt(0)}
+                                  </div>
+                                )}
+                                <div className="min-w-0">
+                                  <h4
+                                    className="font-bold text-sm sm:text-base line-clamp-1 truncate"
+                                    style={{ color: "var(--color-page-text)" }}
+                                  >
+                                    {review.authorName || review.name}
+                                  </h4>
+                                  <p
+                                    className="text-xs font-medium"
+                                    style={{ color: "var(--color-page-muted)" }}
+                                  >
+                                    {review.relativeTime || review.time}
+                                  </p>
                                 </div>
-                              )}
-                              <div>
-                                <h4
-                                  className="font-bold text-base line-clamp-1"
-                                  style={{ color: "var(--color-page-text)" }}
-                                >
-                                  {review.authorName || review.name}
-                                </h4>
-                                <p
-                                  className="text-sm font-medium"
-                                  style={{ color: "var(--color-page-muted)" }}
-                                >
-                                  {review.relativeTime || review.time}
-                                </p>
                               </div>
+                              <div className="flex text-[#fbbc05] mb-3">
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                  <svg
+                                    key={star}
+                                    className={`w-4 h-4 ${star <= (review.rating || 5) ? "fill-current" : "fill-gray-300"}`}
+                                    viewBox="0 0 20 20"
+                                  >
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                  </svg>
+                                ))}
+                              </div>
+                              <p className="text-sm leading-relaxed text-gray-600 line-clamp-3">
+                                "{review.text}"
+                              </p>
                             </div>
-                            <div className="flex text-[#fbbc05] mb-4">
-                              {[1, 2, 3, 4, 5].map((star) => (
-                                <svg
-                                  key={star}
-                                  className={`w-5 h-5 ${star <= (review.rating || 5) ? "fill-current" : "fill-gray-300"}`}
-                                  viewBox="0 0 20 20"
-                                >
-                                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                </svg>
-                              ))}
+
+                            <div className="pt-2 border-t border-gray-100 flex items-center justify-between">
+                              <a
+                                href="https://g.page/r/CffO_u1buA2YEBM/review"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-600 hover:text-blue-700 transition-colors group cursor-pointer"
+                              >
+                                <span>Read more</span>
+                                <span className="text-[11px] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">
+                                  ↗
+                                </span>
+                              </a>
                             </div>
-                            <p className="text-base leading-relaxed text-gray-600 flex-1 overflow-y-auto">
-                              "{review.text}"
-                            </p>
                           </div>
                         </div>
                       ),
