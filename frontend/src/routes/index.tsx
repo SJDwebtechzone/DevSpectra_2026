@@ -72,8 +72,7 @@ function Home() {
     const scrollContainer = scrollRef.current;
     if (!scrollContainer) return;
 
-    scrollContainer.scrollLeft = scrollContainer.scrollWidth / 2;
-
+    let floatScrollLeft = 0;
     let isHovered = false;
 
     const scroll = (timestamp: number) => {
@@ -81,10 +80,13 @@ function Home() {
       lastTimestamp = timestamp;
 
       if (!isHovered) {
-        scrollContainer.scrollLeft -= elapsed * 0.025;
-        if (scrollContainer.scrollLeft <= 0) {
-          scrollContainer.scrollLeft = scrollContainer.scrollWidth / 2;
+        // Moves in the opposite direction of Trusted Clients
+        floatScrollLeft += elapsed * 0.025;
+        const halfWidth = scrollContainer.scrollWidth / 2;
+        if (halfWidth > 0 && floatScrollLeft >= halfWidth) {
+          floatScrollLeft -= halfWidth;
         }
+        scrollContainer.scrollLeft = floatScrollLeft;
       }
       animationFrameId = requestAnimationFrame(scroll);
     };
